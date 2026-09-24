@@ -1,0 +1,56 @@
+# --- Bí mật / cấu hình cục bộ (KHÔNG BAO GIỜ commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+kaggle.json
+access_token
+.secrets/
+secrets/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# --- Dữ liệu, model, artifact (lớn hoặc có thể chứa dữ liệu cá nhân) ---
+data/raw/
+data/interim/
+data/processed/
+data/exports/
+data/feedback/
+data/docs/
+artifacts/
+models/
+hf_cache/
+outputs/
+runs/
+wandb/
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.ckpt
+
+# Báo cáo đánh giá chạy thật có thể chứa nội dung hội thoại -> chỉ commit bản tóm tắt
+evaluation/results/
+
+# --- Hệ thống / IDE ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.log
+
+# --- Node ---
+node_modules/

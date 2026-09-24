@@ -1,0 +1,481 @@
+{
+  "searched_at": "2026-09-23T19:02:42.219428+00:00",
+  "queries": [
+    "school supplies object detection",
+    "stationery object detection yolo",
+    "classroom object detection yolo",
+    "book detection yolo",
+    "musical instruments detection yolo",
+    "musical instrument object detection",
+    "board game detection yolo",
+    "toys object detection yolo",
+    "vietnamese food detection",
+    "vietnamese food yolo",
+    "vietnamese banknote detection",
+    "vietnamese yolo dataset"
+  ],
+  "results": [
+    {
+      "ref": "prondeau/diceimages",
+      "url": "https://www.kaggle.com/datasets/prondeau/diceimages",
+      "title": "Images of Board Game Dice",
+      "subtitle": "Images of dice in various positions, colors etc",
+      "owner": "Paul",
+      "license": "CC0: Public Domain",
+      "total_bytes": 50113314,
+      "last_updated": "2020-02-04 18:24:40.360000",
+      "version": 2,
+      "downloads": 285,
+      "votes": 25,
+      "usability": 0.875,
+      "matched_queries": [
+        "board game detection yolo"
+      ]
+    },
+    {
+      "ref": "harshitkandoi7850/dataset-for-visual-plastic-type-recognition",
+      "url": "https://www.kaggle.com/datasets/harshitkandoi7850/dataset-for-visual-plastic-type-recognition",
+      "title": "Dataset for Visual Plastic Type Recognition",
+      "subtitle": "It has 3,000+ images of 6 plastic types, suitable for classification tasks.",
+      "owner": "Harshit Kandoi",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 946686045,
+      "last_updated": "2025-05-26 19:08:29.037000",
+      "version": 1,
+      "downloads": 1803,
+      "votes": 24,
+      "usability": 0.875,
+      "matched_queries": [
+        "toys object detection yolo"
+      ]
+    },
+    {
+      "ref": "nicolaasregnier/grape-grapes",
+      "url": "https://www.kaggle.com/datasets/nicolaasregnier/grape-grapes",
+      "title": "Grape Bunch Detect and Segment",
+      "subtitle": " YOLO and SAM grape detection and segmentation ",
+      "owner": "Nicolaas Regnier",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 2178470453,
+      "last_updated": "2023-07-11 19:33:35.903000",
+      "version": 27,
+      "downloads": 931,
+      "votes": 16,
+      "usability": 1,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "josephnelson/six-sided-dice-images-and-bounding-boxes",
+      "url": "https://www.kaggle.com/datasets/josephnelson/six-sided-dice-images-and-bounding-boxes",
+      "title": "Six Sided Dice Images and Bounding Boxes",
+      "subtitle": "Board game dice images and VOC XML bounding box annotations for object detection",
+      "owner": "joseph",
+      "license": "CC0: Public Domain",
+      "total_bytes": 407001432,
+      "last_updated": "2020-02-12 06:14:21.003000",
+      "version": 1,
+      "downloads": 8755,
+      "votes": 9,
+      "usability": 0.875,
+      "matched_queries": [
+        "board game detection yolo"
+      ]
+    },
+    {
+      "ref": "nguyenquyhcmus/vietnamese-traffic-signs",
+      "url": "https://www.kaggle.com/datasets/nguyenquyhcmus/vietnamese-traffic-signs",
+      "title": "Vietnamese Traffic Signs",
+      "subtitle": "Vietnamese Traffic Signs - Cropped for Classification (CNN Classification)",
+      "owner": "Nguyen Quy HCMUS",
+      "license": "MIT",
+      "total_bytes": 32283762,
+      "last_updated": "2025-11-19 16:35:25.340000",
+      "version": 1,
+      "downloads": 194,
+      "votes": 7,
+      "usability": 1,
+      "matched_queries": [
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "bomaich/vnlicenseplate",
+      "url": "https://www.kaggle.com/datasets/bomaich/vnlicenseplate",
+      "title": "VNLicensePlate_yolov7",
+      "subtitle": "1000 images/text files splitted in train/val/test for YoLo v7 training",
+      "owner": "Bảo Mai Chí",
+      "license": "Unknown",
+      "total_bytes": 248929934,
+      "last_updated": "2022-10-07 04:26:07.760000",
+      "version": 3,
+      "downloads": 1020,
+      "votes": 6,
+      "usability": 0.6875,
+      "matched_queries": [
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "birdy654/bee-detection-in-the-wild",
+      "url": "https://www.kaggle.com/datasets/birdy654/bee-detection-in-the-wild",
+      "title": "Bee Detection in the Wild",
+      "subtitle": "COCO annotated images of key pollinators for object detection",
+      "owner": "Jordan J. Bird",
+      "license": "MIT",
+      "total_bytes": 482494018,
+      "last_updated": "2024-01-25 11:47:07.947000",
+      "version": 1,
+      "downloads": 335,
+      "votes": 5,
+      "usability": 0.8125,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "tanhphp/vietnamese-license-plates",
+      "url": "https://www.kaggle.com/datasets/tanhphp/vietnamese-license-plates",
+      "title": "Vietnamese license plates",
+      "subtitle": "Bộ dữ liệu biển số giao thông tại Việt Nam được chú thích nhãn định dạng Yolo",
+      "owner": "Tô Anh Pháp",
+      "license": "Apache 2.0",
+      "total_bytes": 1100612441,
+      "last_updated": "2026-05-04 09:41:44.290000",
+      "version": 1,
+      "downloads": 109,
+      "votes": 5,
+      "usability": 0.8125,
+      "matched_queries": [
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "coreof/catan-board-images",
+      "url": "https://www.kaggle.com/datasets/coreof/catan-board-images",
+      "title": "Catan Board Images",
+      "subtitle": "Images of Catan board at different stages of the game",
+      "owner": "Luka Korov",
+      "license": "MIT",
+      "total_bytes": 365076814,
+      "last_updated": "2024-06-01 19:37:51.797000",
+      "version": 3,
+      "downloads": 30,
+      "votes": 4,
+      "usability": 0.875,
+      "matched_queries": [
+        "board game detection yolo"
+      ]
+    },
+    {
+      "ref": "ahmedezzat02/datazeft",
+      "url": "https://www.kaggle.com/datasets/ahmedezzat02/datazeft",
+      "title": "illegal-tools Dataset",
+      "subtitle": "illegal tools in Online Exams in universities and self-paced courses",
+      "owner": "Ahmed_Ezzat02",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 988485677,
+      "last_updated": "2024-05-05 16:20:55.357000",
+      "version": 1,
+      "downloads": 267,
+      "votes": 2,
+      "usability": 0.9375,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "kirisu/automated-proctoring-object-detection",
+      "url": "https://www.kaggle.com/datasets/kirisu/automated-proctoring-object-detection",
+      "title": "Automated-Proctoring-Object-Detection",
+      "subtitle": "",
+      "owner": "Kirisu",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 3571383946,
+      "last_updated": "2026-05-20 18:13:45.653000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 2,
+      "usability": 0.5625,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "mohaneddz/wheres-waldo",
+      "url": "https://www.kaggle.com/datasets/mohaneddz/wheres-waldo",
+      "title": "Where's Waldo?",
+      "subtitle": "Can your AI find Waldo? 68 hand-annotated, high-res puzzles ready for YOLOv12.",
+      "owner": "Mohaned Dz",
+      "license": "MIT",
+      "total_bytes": 255,
+      "last_updated": "2026-07-01 08:36:39.007000",
+      "version": 3,
+      "downloads": 59,
+      "votes": 2,
+      "usability": 0.875,
+      "matched_queries": [
+        "board game detection yolo"
+      ]
+    },
+    {
+      "ref": "thomasnguyen6868/vietfood68",
+      "url": "https://www.kaggle.com/datasets/thomasnguyen6868/vietfood68",
+      "title": "VietFood67",
+      "subtitle": "Vietnamese food images dataset with bounding boxes",
+      "owner": "Nam Nguyen",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 26192706122,
+      "last_updated": "2024-09-20 10:18:13.990000",
+      "version": 1,
+      "downloads": 619,
+      "votes": 2,
+      "usability": 0.6875,
+      "matched_queries": [
+        "vietnamese food detection",
+        "vietnamese food yolo",
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "karthikeyan100/kinder-joy-toys",
+      "url": "https://www.kaggle.com/datasets/karthikeyan100/kinder-joy-toys",
+      "title": "Kinder_Joy_Toys",
+      "subtitle": "A custom annotated Kinder Joy toy dataset for YOLO object detection and AI train",
+      "owner": "Karthikeyan",
+      "license": "MIT",
+      "total_bytes": 1432025764,
+      "last_updated": "2026-08-21 05:34:52.967000",
+      "version": 1,
+      "downloads": 7,
+      "votes": 1,
+      "usability": 0.75,
+      "matched_queries": [
+        "toys object detection yolo"
+      ]
+    },
+    {
+      "ref": "m4rcuseryx/vehide-dataset-preprocessed",
+      "url": "https://www.kaggle.com/datasets/m4rcuseryx/vehide-dataset-preprocessed",
+      "title": "VehiDE: Preprocessed Vehicle Damage Detection data",
+      "subtitle": "Preprocessed dataset for Automatic vehicle damage detection in Car insurance",
+      "owner": "Satyajeet Kumar",
+      "license": "Apache 2.0",
+      "total_bytes": 3300882526,
+      "last_updated": "2026-07-23 04:19:47.877000",
+      "version": 1,
+      "downloads": 56,
+      "votes": 1,
+      "usability": 0.875,
+      "matched_queries": [
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "minhduc2323/vietnam-money-cccd-yolo-dataset-full",
+      "url": "https://www.kaggle.com/datasets/minhduc2323/vietnam-money-cccd-yolo-dataset-full",
+      "title": "Vietnam Money CCCD YOLO Dataset Full",
+      "subtitle": "",
+      "owner": "MinhDuc2323",
+      "license": "Unknown",
+      "total_bytes": 1245219852,
+      "last_updated": "2026-09-19 07:08:03.087000",
+      "version": 2,
+      "downloads": 26,
+      "votes": 1,
+      "usability": 0.125,
+      "matched_queries": [
+        "vietnamese banknote detection",
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "nicolaasregnier/grape-fruit-zone-and-trunk",
+      "url": "https://www.kaggle.com/datasets/nicolaasregnier/grape-fruit-zone-and-trunk",
+      "title": "Grape Fruit Zone and Trunk",
+      "subtitle": "Dataset detecting the fruit zone of a vine",
+      "owner": "Nicolaas Regnier",
+      "license": "MIT",
+      "total_bytes": 393765244,
+      "last_updated": "2024-07-02 01:29:29.053000",
+      "version": 2,
+      "downloads": 95,
+      "votes": 1,
+      "usability": 1,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "sayaksamanta/indian-sign-language-prediction",
+      "url": "https://www.kaggle.com/datasets/sayaksamanta/indian-sign-language-prediction",
+      "title": "INDIAN SIGN LANGUAGE PREDICTION",
+      "subtitle": "This project uses two complementary Indian Sign Language (ISL) datasets ",
+      "owner": "Sayak Samanta",
+      "license": "MIT",
+      "total_bytes": 971040576,
+      "last_updated": "2026-09-02 11:09:05.477000",
+      "version": 3,
+      "downloads": 44,
+      "votes": 1,
+      "usability": 0.6875,
+      "matched_queries": [
+        "classroom object detection yolo"
+      ]
+    },
+    {
+      "ref": "abdullahsami10/stationary-dataset",
+      "url": "https://www.kaggle.com/datasets/abdullahsami10/stationary-dataset",
+      "title": "Stationary Dataset",
+      "subtitle": "Images and YOLO-format bounding box annotations for common stationery items.",
+      "owner": "AbdullahSami10",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 9143859,
+      "last_updated": "2026-05-04 08:05:30.907000",
+      "version": 1,
+      "downloads": 57,
+      "votes": 0,
+      "usability": 0.5625,
+      "matched_queries": [
+        "stationery object detection yolo"
+      ]
+    },
+    {
+      "ref": "atacanyaymac/okey-data",
+      "url": "https://www.kaggle.com/datasets/atacanyaymac/okey-data",
+      "title": "Okey & Rummikub",
+      "subtitle": "Okey & Rummikub tile arrangements",
+      "owner": "Ata Can Yaymacı",
+      "license": "Apache 2.0",
+      "total_bytes": 174293158,
+      "last_updated": "2026-07-14 19:11:36.470000",
+      "version": 3,
+      "downloads": 26,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "board game detection yolo"
+      ]
+    },
+    {
+      "ref": "brandonchoo/yolov8-obstacle-avoidance-in-a-library-environment",
+      "url": "https://www.kaggle.com/datasets/brandonchoo/yolov8-obstacle-avoidance-in-a-library-environment",
+      "title": "YOLOv8 Obstacle Avoidance in a Library Environment",
+      "subtitle": "Contains raw image files, YOLO annotations, and trained model weights.",
+      "owner": "Brandon Choo",
+      "license": "Other (specified in description)",
+      "total_bytes": 830636393,
+      "last_updated": "2023-12-13 07:10:31.610000",
+      "version": 2,
+      "downloads": 10,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "cctvdataset/cctv-exam-monitor-dataset",
+      "url": "https://www.kaggle.com/datasets/cctvdataset/cctv-exam-monitor-dataset",
+      "title": "CCTV Exam Monitor Dataset",
+      "subtitle": "",
+      "owner": "Jonathan Michael Campbell",
+      "license": "CC0: Public Domain",
+      "total_bytes": 627054407,
+      "last_updated": "2026-03-28 10:58:30.163000",
+      "version": 1,
+      "downloads": 196,
+      "votes": 0,
+      "usability": 0.4375,
+      "matched_queries": [
+        "classroom object detection yolo"
+      ]
+    },
+    {
+      "ref": "hienhoangtrong/vehicle",
+      "url": "https://www.kaggle.com/datasets/hienhoangtrong/vehicle",
+      "title": "Vietnamese Vehicle Dataset in Yolov5 format",
+      "subtitle": "Vehicle Detect Image with Yolo format",
+      "owner": "Hien Hoang Trong",
+      "license": "Unknown",
+      "total_bytes": 1468583336,
+      "last_updated": "2023-11-09 15:52:13.713000",
+      "version": 1,
+      "downloads": 30,
+      "votes": 0,
+      "usability": 0.1875,
+      "matched_queries": [
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "itisnithinsuresh/mobile-suspect-dataset",
+      "url": "https://www.kaggle.com/datasets/itisnithinsuresh/mobile-suspect-dataset",
+      "title": "Mobile Suspect dataset",
+      "subtitle": "",
+      "owner": "Nithin S",
+      "license": "Unknown",
+      "total_bytes": 74020961,
+      "last_updated": "2026-02-28 11:18:51.677000",
+      "version": 1,
+      "downloads": 32,
+      "votes": 0,
+      "usability": 0.3125,
+      "matched_queries": [
+        "classroom object detection yolo"
+      ]
+    },
+    {
+      "ref": "kimkhanhnguyen214/zaloai-trafficbuddy",
+      "url": "https://www.kaggle.com/datasets/kimkhanhnguyen214/zaloai-trafficbuddy",
+      "title": "ZaloAI TrafficBuddy Dataset",
+      "subtitle": "",
+      "owner": "kimkhanhnguyen214",
+      "license": "CC0: Public Domain",
+      "total_bytes": 9219774079,
+      "last_updated": "2025-11-09 12:22:19.793000",
+      "version": 1,
+      "downloads": 73,
+      "votes": 0,
+      "usability": 0.25,
+      "matched_queries": [
+        "vietnamese yolo dataset"
+      ]
+    },
+    {
+      "ref": "mohaliy2016/dataset-for-conformal-object-detection",
+      "url": "https://www.kaggle.com/datasets/mohaliy2016/dataset-for-conformal-object-detection",
+      "title": "Dataset for Conformal Object Detection",
+      "subtitle": "Guaranteed class-label for object detection: a multi-domain dataset",
+      "owner": "Mohammed Aliy",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 18375452284,
+      "last_updated": "2025-06-11 03:36:01.257000",
+      "version": 2,
+      "downloads": 22,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "book detection yolo"
+      ]
+    },
+    {
+      "ref": "valmirmacario/realmath-detection-subset",
+      "url": "https://www.kaggle.com/datasets/valmirmacario/realmath-detection-subset",
+      "title": "RealMath - Detection Subset",
+      "subtitle": "Child handwritten math detection in real school worksheets",
+      "owner": "VALMIR MACARIO",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 3150056721,
+      "last_updated": "2026-09-08 17:46:03.480000",
+      "version": 1,
+      "downloads": 1,
+      "votes": 0,
+      "usability": 0.875,
+      "matched_queries": [
+        "classroom object detection yolo"
+      ]
+    }
+  ]
+}

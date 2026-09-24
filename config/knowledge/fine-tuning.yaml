@@ -1,0 +1,13 @@
+# Đối chiếu tài liệu Hugging Face ngày 24/09/2026.
+entries:
+  - id: fine-tuning-basics
+    title: "Fine-tuning: huấn luyện tiếp mô hình đã được huấn luyện trước"
+    source: "https://huggingface.co/docs/transformers/training"
+    keywords: ["fine-tuning", "fine tuning", "finetuning", "fine-tune", "tinh chỉnh mô hình"]
+    content: >-
+      Fine-tuning là tiếp tục huấn luyện một mô hình đã được huấn luyện trước (pretrained) trên một tập dữ liệu
+      nhỏ hơn, chuyên cho một nhiệm vụ hoặc lĩnh vực. Điểm xuất phát là các trọng số đã học, không phải
+      trọng số ngẫu nhiên; vì vậy fine-tuning không phải huấn luyện mô hình từ đầu. Ví dụ, tinh chỉnh trên
+      dữ liệu lập trình giúp mô hình làm tốt hơn các tác vụ lập trình. So với pretraining từ đầu, fine-tuning
+      cần ít tài nguyên tính toán, dữ liệu và thời gian hơn. Quy trình gồm chuẩn bị dữ liệu, tokenize,
+      nạp checkpoint pretrained, cấu hình huấn luyện và chạy huấn luyện. Cần tách dữ liệu để đánh giá mô hình.

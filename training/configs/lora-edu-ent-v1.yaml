@@ -1,0 +1,25 @@
+# LoRA cho phong cách + hành vi có căn cứ (giáo dục / học tập / giải trí / AI). Dữ liệu tổng hợp, nhỏ -> ít bước,
+# early stopping theo val loss để tránh học thuộc.
+name: edu-ent-v1
+method: lora
+base_model: Qwen/Qwen3-4B-Instruct-2507
+base_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+dataset: training/datasets/edu_ent_sft_v1.yaml
+seed: 20260924
+max_seq_len: 3072
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  # tên module có thật trong Qwen3ForCausalLM (đã kiểm tra model.safetensors.index.json)
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+lr: 1.0e-4
+weight_decay: 0.0
+grad_accum: 8
+epochs: 3
+max_steps: 21
+warmup_ratio: 0.1
+eval_every_steps: 7
+early_stopping_patience: 1
+max_grad_norm: 1.0
+output_root: artifacts/adapters

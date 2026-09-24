@@ -1,0 +1,20 @@
+# Dữ liệu kiểm thử (không phải kiến thức thật đã kiểm duyệt).
+entries:
+  - id: lora
+    title: "LoRA (2021)"
+    source: "https://arxiv.org/abs/2106.09685"
+    keywords: ["lora", "low rank"]
+    content: "LoRA đóng băng trọng số gốc và chèn ma trận hạng thấp có thể huấn luyện vào từng lớp Transformer."
+  - id: dpo
+    title: "DPO (2023)"
+    source: "https://arxiv.org/abs/2305.18290"
+    keywords: ["dpo", "reward model"]
+    content: "DPO tối ưu trực tiếp theo dữ liệu sở thích bằng một hàm mất mát phân loại."
+  - id: no-source
+    title: "Mục thiếu nguồn"
+    keywords: ["thieu nguon"]
+    content: "Mục này phải bị bỏ qua khi nạp vì không có nguồn."
+  - id: lora
+    title: "Trùng id"
+    source: "https://example.org/dup"
+    content: "Mục trùng id phải bị bỏ qua."

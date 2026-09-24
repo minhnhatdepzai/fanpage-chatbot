@@ -1,0 +1,16 @@
+{
+  "name": "fanpage-chatbot-widget",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Khung chat nhúng website cho fanpage-chatbot (TypeScript, không phụ thuộc runtime)",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && esbuild src/widget.ts --bundle --minify --format=iife --target=es2020 --outfile=../../app/web/static/widget.js --legal-comments=none",
+    "test": "node --test \"test/**/*.test.ts\""
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2"
+  }
+}

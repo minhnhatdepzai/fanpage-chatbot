@@ -1,0 +1,71 @@
+# Claude soạn ngày 24/09/2026 sau khi rà hội thoại thật (bot từng bịa tên phim chiến tranh và khuyên sai về lỗi CUDA
+# out of memory). Mỗi mục chỉ tóm tắt đúng trang nguồn ở "source" (đã đối chiếu cùng ngày). Quản trị viên nên rà soát.
+entries:
+  - id: phim-mua-do
+    title: "Phim Mưa đỏ (2025)"
+    source: "https://vi.wikipedia.org/wiki/M%C6%B0a_%C4%91%E1%BB%8F_(phim)"
+    keywords: ["mưa đỏ", "phim chiến tranh", "phim về chiến tranh", "phim chiến tranh việt nam", "thành cổ quảng trị"]
+    content: >-
+      "Mưa đỏ" là phim điện ảnh năm 2025 do Đặng Thái Huyền đạo diễn, sản xuất bởi Điện ảnh Quân đội nhân dân, Galaxy
+      Studio và HKFilm. Phim lấy cảm hứng từ 81 ngày đêm chiến đấu bảo vệ Thành cổ Quảng Trị năm 1972, xoay quanh một
+      tiểu đội lính trẻ phần lớn là học sinh, sinh viên. Doanh thu 714 tỉ đồng (hơn 8,1 triệu vé), cao nhất lịch sử
+      phòng vé Việt Nam.
+
+  - id: phim-dao-pho-va-piano
+    title: "Phim Đào, phở và piano"
+    source: "https://vi.wikipedia.org/wiki/%C4%90%C3%A0o,_ph%E1%BB%9F_v%C3%A0_piano"
+    keywords: ["đào phở và piano", "đào, phở và piano", "phim chiến tranh", "phim về chiến tranh", "phim chiến tranh việt nam", "trận hà nội 1946"]
+    content: >-
+      "Đào, phở và piano" là phim chiến tranh Việt Nam năm 2023 do Phi Tiến Sơn đạo diễn, Công ty Cổ phần Phim truyện I
+      sản xuất (phim đặt hàng của Nhà nước). Phim kể về những ngày cuối cùng của Trận Hà Nội 1946, trước khi lực lượng
+      Việt Minh rút lên Việt Bắc. Diễn viên chính gồm Doãn Quốc Đam và Cao Thị Thùy Linh. Phim được chọn đại diện Việt
+      Nam tranh giải Oscar Phim quốc tế hay nhất lần thứ 97 nhưng không vào danh sách rút gọn.
+
+  - id: phim-mui-co-chay
+    title: "Phim Mùi cỏ cháy (2012)"
+    source: "https://vi.wikipedia.org/wiki/M%C3%B9i_c%E1%BB%8F_ch%C3%A1y"
+    keywords: ["mùi cỏ cháy", "phim chiến tranh", "phim về chiến tranh", "phim chiến tranh việt nam"]
+    content: >-
+      "Mùi cỏ cháy" là phim chính kịch - chiến tranh Việt Nam năm 2012 do Nguyễn Hữu Mười và Vũ Đình Thân đạo diễn,
+      kịch bản của nhà thơ Hoàng Nhuận Cầm. Phim kể về bốn sinh viên nhập ngũ năm 1971 và chiến đấu trong 81 ngày đêm ở
+      Thành cổ Quảng Trị năm 1972. Phim đoạt 4 giải Cánh diều vàng 2012 và được chọn đại diện Việt Nam dự Oscar lần
+      thứ 85 (không vào vòng cuối).
+
+  - id: phim-canh-dong-hoang
+    title: "Phim Cánh đồng hoang (1979)"
+    source: "https://vi.wikipedia.org/wiki/C%C3%A1nh_%C4%91%E1%BB%93ng_hoang"
+    keywords: ["cánh đồng hoang", "phim chiến tranh", "phim về chiến tranh", "phim chiến tranh việt nam", "phim việt nam kinh điển"]
+    content: >-
+      "Cánh đồng hoang" do Nguyễn Hồng Sến đạo diễn, Hãng phim Giải Phóng sản xuất, ra mắt ngày 30/4/1979. Bối cảnh vùng
+      Đồng Tháp Mười thời chiến tranh: một đôi vợ chồng sống giữa đồng nước, bí mật giúp du kích. Phim đoạt Bông sen vàng
+      Liên hoan phim Việt Nam và huy chương vàng Liên hoan phim quốc tế Moskva năm 1981. Nhạc phim của Trịnh Công Sơn.
+
+  - id: cuda-oom-checkpointing
+    title: "Lỗi CUDA out of memory: activation (gradient) checkpointing"
+    source: "https://docs.pytorch.org/docs/2.14/checkpoint.html"
+    keywords: ["out of memory", "cuda out of memory", "oom", "hết bộ nhớ gpu", "tràn vram", "hết vram", "gradient checkpointing", "activation checkpointing"]
+    content: >-
+      Theo tài liệu PyTorch, activation checkpointing là kỹ thuật "đổi tính toán lấy bộ nhớ": thay vì giữ mọi tensor
+      trung gian của lượt forward tới lúc backward, nó không lưu chúng mà tính lại khi cần gradient. Vì vậy muốn GIẢM bộ
+      nhớ GPU thì BẬT checkpointing (đổi lại huấn luyện chậm hơn do phải tính lại); tắt nó sẽ tốn bộ nhớ hơn. Cách gọi:
+      torch.utils.checkpoint.checkpoint(hàm, *đầu_vào, use_reentrant=False) - tài liệu yêu cầu truyền use_reentrant
+      rõ ràng và khuyên dùng use_reentrant=False.
+
+  - id: cuda-oom-amp-accumulation
+    title: "Giảm bộ nhớ khi huấn luyện: mixed precision và gradient accumulation"
+    source: "https://docs.pytorch.org/docs/2.14/notes/amp_examples.html"
+    keywords: ["out of memory", "cuda out of memory", "oom", "hết bộ nhớ gpu", "mixed precision", "gradient accumulation", "tích lũy gradient"]
+    content: >-
+      Theo tài liệu PyTorch: huấn luyện "automatic mixed precision" thường dùng torch.autocast cùng torch.amp.GradScaler.
+      Gradient accumulation cộng dồn gradient qua nhiều bước nhỏ để có batch hiệu dụng bằng batch_per_iter x
+      iters_to_accumulate - nghĩa là có thể giảm batch mỗi bước (đỡ tốn bộ nhớ) mà vẫn giữ batch hiệu dụng lớn.
+
+  - id: nvidia-geforce-rtx-50
+    title: "NVIDIA GeForce RTX 50 Series (RTX 5090, RTX 5080) và DLSS 4"
+    source: "https://nvidianews.nvidia.com/news/nvidia-blackwell-geforce-rtx-50-series-opens-new-world-of-ai-computer-graphics"
+    keywords: ["rtx 5080", "rtx 5090", "rtx 5070", "rtx 50", "geforce rtx 50", "nvidia 5080", "nvidia 5090", "dlss 4", "multi frame generation", "blackwell geforce"]
+    content: >-
+      Thông cáo báo chí của NVIDIA ngày 6/1/2025 công bố dòng card đồ họa GeForce RTX 50 Series (kiến trúc Blackwell).
+      GeForce RTX 5090 và RTX 5080 bán từ ngày 30/1/2025, giá khởi điểm lần lượt 1.999 USD và 999 USD (giá tại Mỹ lúc
+      công bố). DLSS 4 có Multi Frame Generation: dùng AI tạo thêm tới 3 khung hình cho mỗi khung hình được kết xuất
+      để tăng tốc độ khung hình.

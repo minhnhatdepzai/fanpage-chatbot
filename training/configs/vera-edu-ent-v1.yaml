@@ -1,0 +1,26 @@
+# VeRA trên cùng dữ liệu/điều kiện để so sánh với LoRA. VeRA chỉ học vector tỉ lệ -> cần lr cao hơn LoRA.
+# save_projection: true -> lưu ma trận chiếu ngẫu nhiên dùng chung vào adapter (nạp lại không phụ thuộc PRNG).
+name: edu-ent-v1
+method: vera
+base_model: Qwen/Qwen3-4B-Instruct-2507
+base_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+dataset: training/datasets/edu_ent_sft_v1.yaml
+seed: 20260924
+max_seq_len: 3072
+vera:
+  r: 256
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  projection_prng_key: 20260924
+  save_projection: true
+  vera_dropout: 0.05
+  d_initial: 0.1
+lr: 4.0e-3
+weight_decay: 0.0
+grad_accum: 8
+epochs: 3
+max_steps: 21
+warmup_ratio: 0.1
+eval_every_steps: 7
+early_stopping_patience: 1
+max_grad_norm: 1.0
+output_root: artifacts/adapters

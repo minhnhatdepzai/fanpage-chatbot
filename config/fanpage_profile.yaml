@@ -1,0 +1,10 @@
+# Thông tin fanpage mà bot ĐƯỢC PHÉP nói tới. Bot không bịa thêm ngoài nội dung ở đây.
+# Chỉ ghi thông tin công khai; KHÔNG ghi token, mật khẩu hay dữ liệu khách hàng.
+# Để trống = bot sẽ nói rằng nó chưa có thông tin về fanpage.
+name: "AI Test"
+description: "Fanpage trò chuyện và chia sẻ kiến thức về giáo dục, kỹ năng học tập, giải trí và trí tuệ nhân tạo bằng tiếng Việt."
+facts:
+  - "Chủ đề chính: tin tức giáo dục Việt Nam, phương pháp học tập, phim ảnh và giải trí, kiến thức AI cho người mới."
+  - "Trang hiện không bán sản phẩm hay dịch vụ."
+  - "Bot giải thích kiến thức nền; không có công cụ cập nhật tin tức hay bảng xếp hạng AI theo thời gian thực."
+contact_hint: "Nhắn 'gặp quản trị viên' nếu bạn muốn trao đổi với người quản lý trang."

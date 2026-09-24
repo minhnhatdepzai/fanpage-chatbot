@@ -1,0 +1,84 @@
+# Kho kiến thức có nguồn cho bot. Bot CHỈ khẳng định sự kiện/số liệu có ở đây hoặc trong fanpage_profile.yaml,
+# và tự gắn link nguồn khi trích dẫn. Mục thiếu "source" sẽ bị bỏ qua khi nạp.
+#
+# Bản nháp do Claude soạn ngày 23/09/2026, mỗi mục chỉ tóm tắt đúng nội dung phần tóm tắt (abstract) hoặc
+# model card của nguồn ghi ở "source" (đã đối chiếu qua arXiv API / model card tải về). Quản trị viên nên
+# rà soát lại trước khi dùng chính thức. Thêm mục mới: sao chép một khối bên dưới, ghi rõ nguồn.
+#
+# Kiểm tra truy xuất: uv run botctl knowledge search "lora là gì"
+entries:
+  - id: transformer-2017
+    title: "Transformer (bài báo 'Attention Is All You Need', 2017)"
+    source: "https://arxiv.org/abs/1706.03762"
+    keywords: ["transformer", "attention", "self-attention", "cơ chế chú ý", "attention is all you need"]
+    content: >-
+      Transformer là kiến trúc mạng nơ-ron được Vaswani và cộng sự giới thiệu năm 2017 trong bài báo
+      "Attention Is All You Need". Kiến trúc này chỉ dựa trên cơ chế attention, bỏ hẳn mạng hồi quy (RNN) và
+      tích chập (CNN). Trong thí nghiệm dịch máy của bài báo, Transformer cho chất lượng tốt hơn các mô hình
+      trước đó, dễ song song hóa hơn và tốn ít thời gian huấn luyện hơn đáng kể: đạt 28,4 BLEU trên WMT 2014
+      Anh-Đức và 41,8 BLEU trên WMT 2014 Anh-Pháp (huấn luyện 3,5 ngày trên 8 GPU).
+
+  - id: lora-2021
+    title: "LoRA - Low-Rank Adaptation (2021)"
+    source: "https://arxiv.org/abs/2106.09685"
+    keywords: ["lora", "low-rank adaptation", "low rank", "hạng thấp", "fine-tune tiết kiệm", "fine tuning tiết kiệm", "tinh chỉnh tiết kiệm", "peft", "adapter"]
+    content: >-
+      LoRA (Low-Rank Adaptation) do Edward J. Hu và cộng sự đề xuất năm 2021. LoRA đóng băng (giữ nguyên)
+      toàn bộ trọng số của mô hình đã huấn luyện trước và chèn thêm các ma trận phân rã hạng thấp có thể huấn
+      luyện vào từng lớp của kiến trúc Transformer, nhờ đó giảm mạnh số tham số cần huấn luyện. So với
+      fine-tune toàn bộ GPT-3 175B bằng Adam, bài báo báo cáo LoRA giảm số tham số huấn luyện khoảng 10.000 lần
+      và giảm bộ nhớ GPU cần dùng khoảng 3 lần. Chất lượng tương đương hoặc tốt hơn fine-tune toàn bộ trên
+      RoBERTa, DeBERTa, GPT-2 và GPT-3, và khác với các phương pháp adapter trước đó, LoRA không làm tăng độ
+      trễ khi suy luận.
+
+  - id: vera-2023
+    title: "VeRA - Vector-based Random Matrix Adaptation (2023)"
+    source: "https://arxiv.org/abs/2310.11454"
+    keywords: ["vera", "vector-based random matrix adaptation", "random matrix", "scaling vector"]
+    content: >-
+      VeRA (Vector-based Random Matrix Adaptation) do Dawid J. Kopiczko, Tijmen Blankevoort và Yuki M. Asano
+      đề xuất năm 2023. VeRA giảm số tham số huấn luyện đáng kể so với LoRA mà theo bài báo vẫn giữ được hiệu
+      năng tương đương. Cách làm: dùng MỘT cặp ma trận hạng thấp duy nhất dùng chung cho mọi lớp và chỉ học các
+      vector tỉ lệ (scaling vectors) nhỏ, thay vì học ma trận riêng cho từng lớp như LoRA. Bài báo thử nghiệm trên
+      GLUE, E2E, phân loại ảnh và instruction-tuning các mô hình ngôn ngữ 7B, 13B.
+
+  - id: qlora-2023
+    title: "QLoRA - fine-tune mô hình đã lượng tử hóa 4-bit (2023)"
+    source: "https://arxiv.org/abs/2305.14314"
+    keywords: ["qlora", "quantized", "lượng tử hóa", "lượng tử hoá", "4 bit", "4-bit", "4bit", "nf4", "normalfloat", "guanaco"]
+    content: >-
+      QLoRA do Tim Dettmers và cộng sự đề xuất năm 2023. QLoRA lan truyền gradient qua một mô hình ngôn ngữ đã
+      được lượng tử hóa 4-bit và đóng băng, vào các adapter LoRA. Nhờ vậy có thể fine-tune mô hình 65B tham số
+      trên một GPU 48GB mà vẫn giữ hiệu năng như fine-tune 16-bit đầy đủ. Các kỹ thuật chính: kiểu dữ liệu
+      4-bit NormalFloat (NF4), lượng tử hóa kép (double quantization) và paged optimizers để xử lý đột biến bộ nhớ.
+
+  - id: rag-2020
+    title: "RAG - Retrieval-Augmented Generation (2020)"
+    source: "https://arxiv.org/abs/2005.11401"
+    keywords: ["rag", "retrieval-augmented generation", "retrieval augmented", "retrieval", "tăng cường truy xuất", "truy xuất tăng cường"]
+    content: >-
+      RAG (Retrieval-Augmented Generation) được Patrick Lewis và cộng sự giới thiệu năm 2020. Mô hình RAG kết hợp
+      bộ nhớ tham số (một mô hình sinh seq2seq đã huấn luyện trước) với bộ nhớ phi tham số (một chỉ mục vector
+      dày của Wikipedia, truy cập bằng bộ truy xuất nơ-ron đã huấn luyện trước). Bài báo đạt kết quả tốt nhất
+      thời điểm đó trên ba tác vụ hỏi đáp miền mở, và với tác vụ sinh văn bản, RAG tạo ra câu trả lời cụ thể,
+      đa dạng và đúng sự thật hơn mô hình seq2seq chỉ dùng tham số.
+
+  - id: dpo-2023
+    title: "DPO - Direct Preference Optimization (2023)"
+    source: "https://arxiv.org/abs/2305.18290"
+    keywords: ["dpo", "direct preference optimization", "rlhf", "preference optimization", "reward model"]
+    content: >-
+      DPO (Direct Preference Optimization) do Rafael Rafailov và cộng sự đề xuất năm 2023. RLHF truyền thống phải
+      huấn luyện một reward model rồi dùng học tăng cường để tối ưu mô hình, vốn phức tạp và dễ mất ổn định. DPO
+      tham số hóa lại reward model để giải bài toán RLHF chỉ bằng một hàm mất mát phân loại đơn giản, không cần
+      lấy mẫu từ mô hình trong lúc fine-tune. Theo bài báo, DPO căn chỉnh theo sở thích con người tốt bằng hoặc
+      hơn các phương pháp hiện có, vượt RLHF dùng PPO ở khả năng điều khiển cảm xúc của văn bản sinh ra.
+
+  - id: bot-model
+    title: "Mô hình AI mà bot của trang đang dùng"
+    source: "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507"
+    keywords: ["model gì", "model nào", "mô hình gì", "mô hình nào", "model của bạn", "mô hình của bạn", "model của bot", "qwen", "qwen3"]
+    content: >-
+      Bot của trang chạy mô hình mã nguồn mở Qwen3-4B-Instruct-2507 (của nhóm Qwen) trên máy chủ riêng. Theo model
+      card: khoảng 4,0 tỉ tham số, 36 lớp, độ dài ngữ cảnh gốc 262.144 token, chỉ có chế độ không suy nghĩ
+      (non-thinking), giấy phép Apache-2.0.

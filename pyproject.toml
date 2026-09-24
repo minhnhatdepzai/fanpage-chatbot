@@ -1,0 +1,89 @@
+[project]
+name = "fanpage-chatbot"
+version = "0.1.0"
+description = "Chatbot AI tiếng Việt cho Facebook Fanpage Messenger (FastAPI + LangGraph + Langfuse + LoRA/VeRA)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.141",
+    "uvicorn[standard]>=0.53",
+    "sqlalchemy[asyncio]>=2.0.54",
+    "psycopg[binary,pool]>=3.3",
+    "alembic>=1.20",
+    "httpx>=0.28",
+    "pydantic>=2.13",
+    "pydantic-settings>=2.15",
+    "langchain-core>=1.6",
+    "langchain-openai>=1.6",
+    "langgraph>=1.2",
+    "langgraph-checkpoint-postgres>=3.1",
+    "langfuse>=4.15",
+    "typer>=0.27",
+    "pyyaml>=6.0",
+    "pypdfium2>=5.13.0",
+    "python-docx>=1.2.0",
+    "pillow>=12.3.0",
+]
+
+[project.optional-dependencies]
+# Huấn luyện / phục vụ model local (GPU). Không cài vào image API/worker.
+ml = [
+    "torch>=2.14",
+    "transformers>=5.17",
+    "peft>=0.21",
+    "datasets>=5.0",
+    "accelerate>=1.15",
+    "safetensors>=0.8",
+    "huggingface-hub>=1.32",
+    "easyocr==1.7.2",
+    "ultralytics==8.4.160",
+]
+# Tìm và tải dataset Kaggle.
+data = [
+    "kaggle>=2.2",
+]
+# Provider tùy chọn (chỉ dùng khi có API key tương ứng).
+anthropic = [
+    "langchain-anthropic>=1.7",
+]
+
+[project.scripts]
+botctl = "app.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1",
+    "pytest-asyncio>=1.4",
+    "respx>=0.23",
+    "ruff>=0.16",
+]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app", "serving", "training", "evaluation"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+testpaths = ["tests"]
+markers = [
+    "db: cần PostgreSQL thật (docker compose up -d postgres)",
+    "gpu: cần GPU và model đã tải",
+    "integration: gọi dịch vụ bên ngoài thật",
+]
+filterwarnings = ["ignore::DeprecationWarning:pydantic.*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "ASYNC", "S"]
+ignore = ["S101", "S311", "B008", "E501", "ASYNC109"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S108"]

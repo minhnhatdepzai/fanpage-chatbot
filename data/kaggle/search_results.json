@@ -1,0 +1,3074 @@
+{
+  "searched_at": "2026-09-23T11:26:20.337951+00:00",
+  "queries": [
+    "vietnamese conversation",
+    "vietnamese dialogue",
+    "vietnamese dialog",
+    "vietnamese chatbot",
+    "vietnamese chat",
+    "vietnamese conversational",
+    "vietnamese multi-turn",
+    "vietnamese sharegpt",
+    "vietnamese instruction",
+    "vietnamese daily dialog",
+    "vietnamese customer support",
+    "vietnamese messenger",
+    "tieng viet hoi thoai",
+    "hội thoại tiếng việt",
+    "multilingual conversation",
+    "multilingual dialogue",
+    "multilingual chat",
+    "oasst",
+    "openassistant",
+    "oasst2",
+    "aya dataset",
+    "aya collection",
+    "vietnamese alpaca",
+    "vietnamese llm",
+    "vietnamese sft",
+    "vietnamese instruction tuning",
+    "viet chat",
+    "vietnamese fine-tuning",
+    "vietnamese corpus dialogue",
+    "vietnamese empathetic",
+    "vietnamese chit-chat",
+    "vietnamese chitchat",
+    "vietnamese social media conversation"
+  ],
+  "results": [
+    {
+      "ref": "alitaqishah/urdu-llm-benchmark-llm-comparison-2026",
+      "url": "https://www.kaggle.com/datasets/alitaqishah/urdu-llm-benchmark-llm-comparison-2026",
+      "title": "Urdu LLM Benchmark + LLM Comparison 2026",
+      "subtitle": "Evaluating 6 LLMs on Urdu MCQs + 40 Model Benchmark Comparison 2026",
+      "owner": "Syed Ali Taqi",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 30570,
+      "last_updated": "2026-02-27 18:40:59.913000",
+      "version": 1,
+      "downloads": 312,
+      "votes": 55,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "mostafanofal/two-million-rows-egyptian-datasets",
+      "url": "https://www.kaggle.com/datasets/mostafanofal/two-million-rows-egyptian-datasets",
+      "title": "2.5+ Million Rows Egyptian Datasets Collection",
+      "subtitle": "",
+      "owner": "Mostafa Nofal",
+      "license": "Unknown",
+      "total_bytes": 250144088,
+      "last_updated": "2023-01-15 06:06:14.437000",
+      "version": 4,
+      "downloads": 2748,
+      "votes": 50,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "aya dataset",
+        "aya collection"
+      ]
+    },
+    {
+      "ref": "snehilsanyal/oasst1",
+      "url": "https://www.kaggle.com/datasets/snehilsanyal/oasst1",
+      "title": "OpenAssistant Conversations Dataset (OASST1)",
+      "subtitle": "A human-generated, human-annotated assistant-style conversation corpus",
+      "owner": "Snehil Sanyal",
+      "license": "Other (specified in description)",
+      "total_bytes": 67826162,
+      "last_updated": "2023-04-18 08:07:01.070000",
+      "version": 1,
+      "downloads": 1468,
+      "votes": 40,
+      "usability": 1,
+      "matched_queries": [
+        "oasst",
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "trainingdatapro/6000-messengers-reviews-google-play",
+      "url": "https://www.kaggle.com/datasets/trainingdatapro/6000-messengers-reviews-google-play",
+      "title": "Google Play Store - 6,000 Reviews ⭐️",
+      "subtitle": "6, 000 app reviews from the Google Play on 6 messengers with 5 languages ",
+      "owner": "Unique Data",
+      "license": "Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)",
+      "total_bytes": 745281,
+      "last_updated": "2023-09-25 08:16:19.137000",
+      "version": 1,
+      "downloads": 990,
+      "votes": 32,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "nbroad/wsdm-open-models-nbroad",
+      "url": "https://www.kaggle.com/datasets/nbroad/wsdm-open-models-nbroad",
+      "title": "wsdm - open models - nbroad",
+      "subtitle": "8.5k+13k+5k multilingual responses from open models",
+      "owner": "Nicholas Broad",
+      "license": "Apache 2.0",
+      "total_bytes": 46797023,
+      "last_updated": "2025-01-21 05:24:40.557000",
+      "version": 5,
+      "downloads": 542,
+      "votes": 31,
+      "usability": 1,
+      "matched_queries": [
+        "vietnamese chat",
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "alexandrepedrosai/data-lake",
+      "url": "https://www.kaggle.com/datasets/alexandrepedrosai/data-lake",
+      "title": "Relativistic Equivalency MZM|Hilbert correction's ",
+      "subtitle": "AI Orbital ERA Computer Builders and MSN Quantum Blockchain Interoperability TEC",
+      "owner": "Alexandre Pedrosa",
+      "license": "Other (specified in description)",
+      "total_bytes": 187021,
+      "last_updated": "2026-09-15 05:16:31.380000",
+      "version": 9,
+      "downloads": 4508,
+      "votes": 24,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "serhiikharchuk/mistral-nemo-instruct-2407",
+      "url": "https://www.kaggle.com/datasets/serhiikharchuk/mistral-nemo-instruct-2407",
+      "title": "Mistral-Nemo-Instruct-2407",
+      "subtitle": "Mistral Nemo 12.2b Instruct 2407 BF16",
+      "owner": "Serhii Kharchuk",
+      "license": "Other (specified in description)",
+      "total_bytes": 38831327968,
+      "last_updated": "2024-09-02 09:47:30.230000",
+      "version": 1,
+      "downloads": 90,
+      "votes": 23,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation",
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "ayamoheddine/pcos-dataset",
+      "url": "https://www.kaggle.com/datasets/ayamoheddine/pcos-dataset",
+      "title": "PCOS_Dataset",
+      "subtitle": "Dataset dealing with PCOS patients. ",
+      "owner": "Aya Moheddine",
+      "license": "Unknown",
+      "total_bytes": 28170,
+      "last_updated": "2022-07-18 11:18:38.520000",
+      "version": 1,
+      "downloads": 1586,
+      "votes": 20,
+      "usability": 0.5882353,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "sunil123kumar/ai-agent-failure-benchmark-dataset",
+      "url": "https://www.kaggle.com/datasets/sunil123kumar/ai-agent-failure-benchmark-dataset",
+      "title": "LLM Agent Failure Analysis Benchmark Dataset",
+      "subtitle": "1,500 benchmark samples for autonomous AI system failure analysis",
+      "owner": "sunil kumar",
+      "license": "Apache 2.0",
+      "total_bytes": 106871,
+      "last_updated": "2026-06-27 09:21:22.463000",
+      "version": 1,
+      "downloads": 216,
+      "votes": 20,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "zusmani/contextual-input-sft-dataset",
+      "url": "https://www.kaggle.com/datasets/zusmani/contextual-input-sft-dataset",
+      "title": "Contextual Input SFT Dataset",
+      "subtitle": "Instruction-Tuned Dataset with Contextual Inputs (10,000 Examples for SFT)",
+      "owner": "Zeeshan-ul-hassan Usmani",
+      "license": "MIT",
+      "total_bytes": 499476,
+      "last_updated": "2025-05-29 21:21:45.930000",
+      "version": 1,
+      "downloads": 400,
+      "votes": 20,
+      "usability": 0.5882353,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "thedevastator/multi-language-dialogue-dataset-for-gpt-4",
+      "url": "https://www.kaggle.com/datasets/thedevastator/multi-language-dialogue-dataset-for-gpt-4",
+      "title": "Multi-Language Dialogue Dataset (Gen by GPT-4)",
+      "subtitle": "A Conversation Training Resource for Cross-Lingual AI Systems",
+      "owner": "The Devastator",
+      "license": "CC0: Public Domain",
+      "total_bytes": 176024018,
+      "last_updated": "2023-11-24 17:15:49.140000",
+      "version": 2,
+      "downloads": 897,
+      "votes": 19,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation",
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "ardayavuzkeskin/turkey-economic-indicators-and-inflation-2015-2023",
+      "url": "https://www.kaggle.com/datasets/ardayavuzkeskin/turkey-economic-indicators-and-inflation-2015-2023",
+      "title": "Turkey Economic Indicators & Inflation (2015-2023)",
+      "subtitle": "A comprehensive dataset to analyze the Turkish economic landscape.",
+      "owner": "Arda yavuz keskin",
+      "license": "CC0: Public Domain",
+      "total_bytes": 30018,
+      "last_updated": "2026-02-04 12:55:01.040000",
+      "version": 1,
+      "downloads": 106,
+      "votes": 13,
+      "usability": 0.88235295,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "senju14/ocr-dataset-of-multi-type-documents",
+      "url": "https://www.kaggle.com/datasets/senju14/ocr-dataset-of-multi-type-documents",
+      "title": "OCR Dataset of Multi-type Documents",
+      "subtitle": "",
+      "owner": "Senju14",
+      "license": "MIT",
+      "total_bytes": 5538627699,
+      "last_updated": "2025-04-24 14:18:54.167000",
+      "version": 3,
+      "downloads": 1677,
+      "votes": 13,
+      "usability": 0.6875,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "ayaabdeen24/real-life-fingers-jpg-cleaned",
+      "url": "https://www.kaggle.com/datasets/ayaabdeen24/real-life-fingers-jpg-cleaned",
+      "title": "Finger Count Images, (0–5 Fingers, 6000+ Images).",
+      "subtitle": "Real-life & web-scraped hand images for finger counting and gesture recognition.",
+      "owner": "Aya Abdeen",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 5786362633,
+      "last_updated": "2026-04-26 11:03:33.390000",
+      "version": 1,
+      "downloads": 206,
+      "votes": 12,
+      "usability": 0.875,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "ayanabil11/cardiovascular-disease-dataset",
+      "url": "https://www.kaggle.com/datasets/ayanabil11/cardiovascular-disease-dataset",
+      "title": "Cardiovascular Disease Dataset ",
+      "subtitle": "This data is uploaded from: https://archive.ics.uci.edu/dataset/45/heart+disease",
+      "owner": "Aya Nabil",
+      "license": "Other (specified in description)",
+      "total_bytes": 142030,
+      "last_updated": "2023-07-18 17:16:02.097000",
+      "version": 1,
+      "downloads": 237,
+      "votes": 12,
+      "usability": 0.875,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "cohereforai/ayavisionbench",
+      "url": "https://www.kaggle.com/datasets/cohereforai/ayavisionbench",
+      "title": "AyaVisionBench",
+      "subtitle": "Aya Vision Benchmark is designed to evaluate multilingual vision language models",
+      "owner": "CohereForAI",
+      "license": "Apache 2.0",
+      "total_bytes": 1328242920,
+      "last_updated": "2025-03-04 01:42:07.493000",
+      "version": 1,
+      "downloads": 141,
+      "votes": 12,
+      "usability": 0.875,
+      "matched_queries": [
+        "aya collection",
+        "aya dataset",
+        "vietnamese instruction"
+      ]
+    },
+    {
+      "ref": "cohereforai/m-wildvision",
+      "url": "https://www.kaggle.com/datasets/cohereforai/m-wildvision",
+      "title": "m-WildVision",
+      "subtitle": "m-WildVision is a multilingual multimodal LLM eval set covering 23 languages.",
+      "owner": "CohereForAI",
+      "license": "Apache 2.0",
+      "total_bytes": 3039285692,
+      "last_updated": "2025-03-04 01:09:57.823000",
+      "version": 2,
+      "downloads": 99,
+      "votes": 12,
+      "usability": 0.875,
+      "matched_queries": [
+        "vietnamese instruction",
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "lmsysorg/chatbot-arena-conversations",
+      "url": "https://www.kaggle.com/datasets/lmsysorg/chatbot-arena-conversations",
+      "title": "Chatbot Arena Conversations",
+      "subtitle": "",
+      "owner": "LMSYS Org",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 26045210,
+      "last_updated": "2023-08-01 16:58:06.720000",
+      "version": 1,
+      "downloads": 654,
+      "votes": 12,
+      "usability": 0.5,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "abdelrahmanahmed110/quranic-ayahs-with-tafseer-json-dataset",
+      "url": "https://www.kaggle.com/datasets/abdelrahmanahmed110/quranic-ayahs-with-tafseer-json-dataset",
+      "title": "Quranic Ayahs with Tafseer JSON Dataset",
+      "subtitle": "Comprehensive Quranic Text and Tafseer in JSON Format",
+      "owner": "Abdelrahman Ahmed Eldaba",
+      "license": "CC0: Public Domain",
+      "total_bytes": 3061221,
+      "last_updated": "2025-07-06 09:34:52.670000",
+      "version": 1,
+      "downloads": 508,
+      "votes": 11,
+      "usability": 1,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "ayanabil11/london-underground-signals-passed-at-danger",
+      "url": "https://www.kaggle.com/datasets/ayanabil11/london-underground-signals-passed-at-danger",
+      "title": "London Underground Signals Passed at Danger",
+      "subtitle": "The number of signals passed at danger by London Underground ",
+      "owner": "Aya Nabil",
+      "license": "Other (specified in description)",
+      "total_bytes": 4132,
+      "last_updated": "2024-04-20 19:50:21.750000",
+      "version": 1,
+      "downloads": 24,
+      "votes": 10,
+      "usability": 0.64705884,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "guutran/vietnamese-sentiment-analysis-food-reviews",
+      "url": "https://www.kaggle.com/datasets/guutran/vietnamese-sentiment-analysis-food-reviews",
+      "title": "VSA - FOOD REVIEWS",
+      "subtitle": "Vietnamese Sentiment Analysis - FOOD REVIEWS",
+      "owner": "Guu Tran",
+      "license": "Unknown",
+      "total_bytes": 6046184,
+      "last_updated": "2024-12-23 18:03:28.737000",
+      "version": 2,
+      "downloads": 686,
+      "votes": 10,
+      "usability": 0.7058824,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "thedevastator/multilingual-conversation-dataset",
+      "url": "https://www.kaggle.com/datasets/thedevastator/multilingual-conversation-dataset",
+      "title": "Open Assistant",
+      "subtitle": "Over 10,000 Annotated Trees in 35 Languages",
+      "owner": "The Devastator",
+      "license": "CC0: Public Domain",
+      "total_bytes": 34307768,
+      "last_updated": "2023-11-23 10:44:38.323000",
+      "version": 2,
+      "downloads": 328,
+      "votes": 10,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual conversation",
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "iambestfeeder/alpaca-data-vietnamese",
+      "url": "https://www.kaggle.com/datasets/iambestfeeder/alpaca-data-vietnamese",
+      "title": "ALpaca_data_vietnamese",
+      "subtitle": "",
+      "owner": "Rùa Non :)))))))))))",
+      "license": "Unknown",
+      "total_bytes": 16223941,
+      "last_updated": "2023-03-23 08:23:29.460000",
+      "version": 5,
+      "downloads": 41,
+      "votes": 9,
+      "usability": 0.125,
+      "matched_queries": [
+        "vietnamese alpaca"
+      ]
+    },
+    {
+      "ref": "iambestfeeder/multi-turn-dialog",
+      "url": "https://www.kaggle.com/datasets/iambestfeeder/multi-turn-dialog",
+      "title": "Multi-turn Dialog Vietnamese",
+      "subtitle": "",
+      "owner": "Rùa Non :)))))))))))",
+      "license": "Unknown",
+      "total_bytes": 5741975,
+      "last_updated": "2023-03-25 11:05:04.327000",
+      "version": 2,
+      "downloads": 57,
+      "votes": 9,
+      "usability": 0.125,
+      "matched_queries": [
+        "vietnamese dialog",
+        "vietnamese multi-turn"
+      ]
+    },
+    {
+      "ref": "muhammadkhubaibahmad/romanurdu-nlp-sentiment-corpus",
+      "url": "https://www.kaggle.com/datasets/muhammadkhubaibahmad/romanurdu-nlp-sentiment-corpus",
+      "title": "RomanUrdu-NLP-Sentiment-Corpus",
+      "subtitle": "Largest Open-Source Roman Urdu Sentiment Dataset with Slang Robustness and Human",
+      "owner": "Muhammad Khubaib Ahmad",
+      "license": "Apache 2.0",
+      "total_bytes": 5117077,
+      "last_updated": "2026-03-01 15:49:39.947000",
+      "version": 1,
+      "downloads": 54,
+      "votes": 9,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "thedevastator/open-subtitles-multilingual-translation",
+      "url": "https://www.kaggle.com/datasets/thedevastator/open-subtitles-multilingual-translation",
+      "title": "Open Subtitles Multilingual Translation",
+      "subtitle": "Train Sequential Neural Networks in Nine Languages",
+      "owner": "The Devastator",
+      "license": "CC0: Public Domain",
+      "total_bytes": 403304423,
+      "last_updated": "2023-11-26 14:46:34.900000",
+      "version": 2,
+      "downloads": 275,
+      "votes": 9,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "vuonglsts/vietnam-tourism-v2",
+      "url": "https://www.kaggle.com/datasets/vuonglsts/vietnam-tourism-v2",
+      "title": "vietnam_tourism_v2",
+      "subtitle": "",
+      "owner": "Vương Nguyễn Đình",
+      "license": "Database: Open Database, Contents: © Original Authors",
+      "total_bytes": 1712258,
+      "last_updated": "2025-10-13 08:20:58.330000",
+      "version": 1,
+      "downloads": 724,
+      "votes": 9,
+      "usability": 0.75,
+      "matched_queries": [
+        "vietnamese chatbot"
+      ]
+    },
+    {
+      "ref": "huhuyngun/vietnamese-chatbot",
+      "url": "https://www.kaggle.com/datasets/huhuyngun/vietnamese-chatbot",
+      "title": "Vietnamese Chatbot",
+      "subtitle": "",
+      "owner": "Huy Nguyen",
+      "license": "Unknown",
+      "total_bytes": 99041,
+      "last_updated": "2022-05-18 17:48:05.533000",
+      "version": 1,
+      "downloads": 341,
+      "votes": 7,
+      "usability": 0.1764706,
+      "matched_queries": [
+        "viet chat",
+        "vietnamese chat",
+        "vietnamese chatbot"
+      ]
+    },
+    {
+      "ref": "marycamilainfo/prompt-injection-malignant",
+      "url": "https://www.kaggle.com/datasets/marycamilainfo/prompt-injection-malignant",
+      "title": "Prompt Injection Malignant",
+      "subtitle": "Defending LLMs Against Jailbreak Attacks - Malignant Dataset",
+      "owner": "Mary Camila",
+      "license": "MIT",
+      "total_bytes": 3216383,
+      "last_updated": "2024-04-25 14:43:24.587000",
+      "version": 1,
+      "downloads": 1101,
+      "votes": 7,
+      "usability": 0.8235294,
+      "matched_queries": [
+        "multilingual conversation",
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "thedevastator/xnli-multilingual-nli-dataset",
+      "url": "https://www.kaggle.com/datasets/thedevastator/xnli-multilingual-nli-dataset",
+      "title": "XNLI - Multilingual NLI ",
+      "subtitle": "A dataset for multilingual natural language inference tasks",
+      "owner": "The Devastator",
+      "license": "CC0: Public Domain",
+      "total_bytes": 1130133924,
+      "last_updated": "2023-11-30 11:57:47.840000",
+      "version": 2,
+      "downloads": 515,
+      "votes": 7,
+      "usability": 1,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "metaresearch/multiloko",
+      "url": "https://www.kaggle.com/datasets/metaresearch/multiloko",
+      "title": "MultiLoko",
+      "subtitle": "Multilingual local knowledge benchmark for LLMs spanning 31 languages",
+      "owner": "Meta",
+      "license": "MIT",
+      "total_bytes": 64468423,
+      "last_updated": "2025-07-10 13:48:30.660000",
+      "version": 2,
+      "downloads": 55,
+      "votes": 6,
+      "usability": 0.6875,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "rauffauzanrambe/promptresponse-dataset-inspired-by-gemini",
+      "url": "https://www.kaggle.com/datasets/rauffauzanrambe/promptresponse-dataset-inspired-by-gemini",
+      "title": "Prompt Response Dataset Inspired by Gemini",
+      "subtitle": "Built for training, benchmarking, and improving AI generated responses",
+      "owner": "Ra'uf Fauzan Rambe",
+      "license": "Apache 2.0",
+      "total_bytes": 83445,
+      "last_updated": "2026-08-27 09:45:26.270000",
+      "version": 5,
+      "downloads": 92,
+      "votes": 6,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "trinhduc041/nckh-processed-data",
+      "url": "https://www.kaggle.com/datasets/trinhduc041/nckh-processed-data",
+      "title": "Math-CoT: 4-Step Reasoning Dataset ",
+      "subtitle": "Structured 4-Step Reasoning (CoT) for GSM8K, MATH, and VNHSGE.",
+      "owner": "Trịnh Đức",
+      "license": "Apache 2.0",
+      "total_bytes": 12050271,
+      "last_updated": "2026-02-26 07:31:07.493000",
+      "version": 4,
+      "downloads": 54,
+      "votes": 6,
+      "usability": 0.75,
+      "matched_queries": [
+        "vietnamese sft",
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "niyyahresearch/niyyah",
+      "url": "https://www.kaggle.com/datasets/niyyahresearch/niyyah",
+      "title": "niyyah ",
+      "subtitle": "",
+      "owner": "niyyah-research",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 410072,
+      "last_updated": "2026-08-16 21:35:56.080000",
+      "version": 2,
+      "downloads": 4,
+      "votes": 5,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "swish9/indian-multilingual-customer-support-rag-dataset",
+      "url": "https://www.kaggle.com/datasets/swish9/indian-multilingual-customer-support-rag-dataset",
+      "title": "Indian Multilingual Customer Support RAG Dataset",
+      "subtitle": "Hybrid-RAG support policies and queries in English, Hindi, Marathi and Gujarati",
+      "owner": "Swayam Patil",
+      "license": "CC0: Public Domain",
+      "total_bytes": 4421637,
+      "last_updated": "2026-09-15 12:54:56.733000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 5,
+      "usability": 0.8125,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "tarundalal/hindinlp",
+      "url": "https://www.kaggle.com/datasets/tarundalal/hindinlp",
+      "title": "HindiNLP",
+      "subtitle": "Bridging Language Barriers in English and Hindi ",
+      "owner": "Tarun R Jain",
+      "license": "CC0: Public Domain",
+      "total_bytes": 38336,
+      "last_updated": "2023-07-25 06:11:40.950000",
+      "version": 1,
+      "downloads": 292,
+      "votes": 5,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "arnauldkayonga1/kinyarwandaenglish-parrallel-dataset",
+      "url": "https://www.kaggle.com/datasets/arnauldkayonga1/kinyarwandaenglish-parrallel-dataset",
+      "title": "KINYARWANDA-ENGLISH PARRALLEL DATASET",
+      "subtitle": "",
+      "owner": "Arnaud Kayonga",
+      "license": "Unknown",
+      "total_bytes": 10331389,
+      "last_updated": "2026-09-22 09:19:02.137000",
+      "version": 203,
+      "downloads": 152,
+      "votes": 4,
+      "usability": 0.3529412,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "axondata/call-center-speech-dataset",
+      "url": "https://www.kaggle.com/datasets/axondata/call-center-speech-dataset",
+      "title": "Call Center Speech Recognition Dataset",
+      "subtitle": "10,000 hours of real-world call center speech recordings in 7 languages",
+      "owner": "Axon Labs",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 12766164,
+      "last_updated": "2025-10-14 08:57:11.417000",
+      "version": 1,
+      "downloads": 857,
+      "votes": 4,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "ayaalharazin/biased-salary-dataset",
+      "url": "https://www.kaggle.com/datasets/ayaalharazin/biased-salary-dataset",
+      "title": "Biased Employee Salary Dataset for Responsible AI ",
+      "subtitle": "Synthetic salary dataset designed for studying AI fairness and bias detection",
+      "owner": "Aya Alharazin",
+      "license": "MIT",
+      "total_bytes": 9924,
+      "last_updated": "2026-05-18 12:35:10.320000",
+      "version": 1,
+      "downloads": 25,
+      "votes": 4,
+      "usability": 0.8235294,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "mkaur1141/openassistant-conversations-dataset-oasst1",
+      "url": "https://www.kaggle.com/datasets/mkaur1141/openassistant-conversations-dataset-oasst1",
+      "title": "OpenAssistant Conversations Dataset (OASST1)",
+      "subtitle": "161K Human-Annotated AI Conversations in 35 Languages — Crowd-Sourced by 13,500 ",
+      "owner": "Manpreet Kaur",
+      "license": "Apache 2.0",
+      "total_bytes": 34307796,
+      "last_updated": "2026-03-18 15:52:03.187000",
+      "version": 1,
+      "downloads": 39,
+      "votes": 4,
+      "usability": 0.8235294,
+      "matched_queries": [
+        "multilingual conversation",
+        "oasst",
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "sarveshchhetri/nepali-english-code-switched-support-intents",
+      "url": "https://www.kaggle.com/datasets/sarveshchhetri/nepali-english-code-switched-support-intents",
+      "title": "Nepali-English Code-Switched Support Intents",
+      "subtitle": "10K+ labeled support queries in Nepali, English & code-switched text",
+      "owner": "Sarvesh Chhetri",
+      "license": "CC0: Public Domain",
+      "total_bytes": 355375,
+      "last_updated": "2026-09-07 15:47:47.930000",
+      "version": 1,
+      "downloads": 3,
+      "votes": 4,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "uditjain13/nemotron-30b-multi-domain-merged-peft",
+      "url": "https://www.kaggle.com/datasets/uditjain13/nemotron-30b-multi-domain-merged-peft",
+      "title": "Nemotron-30B Multi-Domain Merged PEFT",
+      "subtitle": "DARE/TIES-merged Math+Code+Science PEFT adapters for cross-domain evaluation.",
+      "owner": "Udit Jain",
+      "license": "Apache 2.0",
+      "total_bytes": 30569278,
+      "last_updated": "2026-04-22 16:15:05.080000",
+      "version": 3,
+      "downloads": 109,
+      "votes": 4,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "amirpourmand/openassistant-oasst1-fa",
+      "url": "https://www.kaggle.com/datasets/amirpourmand/openassistant-oasst1-fa",
+      "title": " OpenAssistant Farsi (Translated) | چت فارسی ترجمه",
+      "subtitle": "",
+      "owner": "Amir Pourmand",
+      "license": "Apache 2.0",
+      "total_bytes": 25234432,
+      "last_updated": "2023-08-13 16:25:38.270000",
+      "version": 699,
+      "downloads": 151,
+      "votes": 3,
+      "usability": 0.4117647,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "ayaalharazin/gaza-humanitarian-impact-dataset-20232026",
+      "url": "https://www.kaggle.com/datasets/ayaalharazin/gaza-humanitarian-impact-dataset-20232026",
+      "title": "Gaza Humanitarian Impact Dataset (2023–2026)",
+      "subtitle": "A comprehensive collection of daily humanitarian indicators, casualty statistics",
+      "owner": "Aya Alharazin",
+      "license": "MIT",
+      "total_bytes": 24823,
+      "last_updated": "2026-06-01 14:31:39.700000",
+      "version": 1,
+      "downloads": 24,
+      "votes": 3,
+      "usability": 0.7058824,
+      "matched_queries": [
+        "aya dataset",
+        "aya collection"
+      ]
+    },
+    {
+      "ref": "ayatollahabdelhamed/manufacturing-dataset",
+      "url": "https://www.kaggle.com/datasets/ayatollahabdelhamed/manufacturing-dataset",
+      "title": "manufacturing dataset",
+      "subtitle": "",
+      "owner": "Aya Gad",
+      "license": "Apache 2.0",
+      "total_bytes": 208095,
+      "last_updated": "2024-05-30 23:59:21.263000",
+      "version": 1,
+      "downloads": 202,
+      "votes": 3,
+      "usability": 0.4117647,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "chrissyserb/candance-contamination-wix-red-teaming",
+      "url": "https://www.kaggle.com/datasets/chrissyserb/candance-contamination-wix-red-teaming",
+      "title": "Candance Contamination WIX Red Teaming",
+      "subtitle": "Red-team Challenge Open AI Playback ",
+      "owner": "Christine Classy — AI’s Favorite™",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 17404,
+      "last_updated": "2025-08-26 22:22:33.477000",
+      "version": 1,
+      "downloads": 33,
+      "votes": 3,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "huhuyngun/vietnamese-chatbot-ver2",
+      "url": "https://www.kaggle.com/datasets/huhuyngun/vietnamese-chatbot-ver2",
+      "title": "Vietnamese QA ver2",
+      "subtitle": "",
+      "owner": "Huy Nguyen",
+      "license": "CC0: Public Domain",
+      "total_bytes": 4077795,
+      "last_updated": "2022-11-26 16:59:52.140000",
+      "version": 2,
+      "downloads": 487,
+      "votes": 3,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "vietnamese conversation",
+        "vietnamese chatbot",
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "konradb/presto-a-multilingual-dialogue-dataset",
+      "url": "https://www.kaggle.com/datasets/konradb/presto-a-multilingual-dialogue-dataset",
+      "title": "PRESTO: A Multilingual Dialogue Dataset",
+      "subtitle": " 550K Human-Bot Dialogues",
+      "owner": "Konrad Banachewicz",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 434122534,
+      "last_updated": "2023-03-30 09:20:50.433000",
+      "version": 1,
+      "downloads": 54,
+      "votes": 3,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "nhanvi/chartqa-translate-llama405b",
+      "url": "https://www.kaggle.com/datasets/nhanvi/chartqa-translate-llama405b",
+      "title": "Vietnamese ChartQA ",
+      "subtitle": "Dataset from vis-nlp/ChartQA and translated by LLAMA405B",
+      "owner": "Nhan Vi",
+      "license": "Unknown",
+      "total_bytes": 860719375,
+      "last_updated": "2024-10-08 02:25:10.087000",
+      "version": 8,
+      "downloads": 50,
+      "votes": 3,
+      "usability": 0.4375,
+      "matched_queries": [
+        "vietnamese sharegpt"
+      ]
+    },
+    {
+      "ref": "shabanaftab/urdu-ghazals-rekhta",
+      "url": "https://www.kaggle.com/datasets/shabanaftab/urdu-ghazals-rekhta",
+      "title": "Urdu Ghazals Rekhta",
+      "subtitle": "Multilingual Urdu Poetry Collection for NLP and Cultural Analysis",
+      "owner": "shaban aftab",
+      "license": "CC0: Public Domain",
+      "total_bytes": 2871410,
+      "last_updated": "2025-09-29 10:32:14.130000",
+      "version": 1,
+      "downloads": 54,
+      "votes": 3,
+      "usability": 0.5625,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "thedevastator/portuguese-instruction-dataset",
+      "url": "https://www.kaggle.com/datasets/thedevastator/portuguese-instruction-dataset",
+      "title": "Portuguese Instruction ",
+      "subtitle": "Enhancing Non-English Language Models with Portuguese Instruction ",
+      "owner": "The Devastator",
+      "license": "CC0: Public Domain",
+      "total_bytes": 8410219,
+      "last_updated": "2023-12-02 04:11:16.183000",
+      "version": 2,
+      "downloads": 74,
+      "votes": 3,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "thedevastator/vu-trong-phung-s-audio-novels",
+      "url": "https://www.kaggle.com/datasets/thedevastator/vu-trong-phung-s-audio-novels",
+      "title": "Vu Trong Phung's Audio Novels",
+      "subtitle": "Audio files of novels and stories by Vu Trong Phung for Vietnamese TTS training",
+      "owner": "The Devastator",
+      "license": "CC0: Public Domain",
+      "total_bytes": 333,
+      "last_updated": "2023-12-19 10:34:28.220000",
+      "version": 2,
+      "downloads": 31,
+      "votes": 3,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "xrouge/vietnam-history",
+      "url": "https://www.kaggle.com/datasets/xrouge/vietnam-history",
+      "title": "Vietnam History",
+      "subtitle": "Vietnamese History Conversation Dataset (900–2025)",
+      "owner": "Minh Thành",
+      "license": "Unknown",
+      "total_bytes": 1003156,
+      "last_updated": "2025-08-25 05:02:39.450000",
+      "version": 1,
+      "downloads": 68,
+      "votes": 3,
+      "usability": 0.625,
+      "matched_queries": [
+        "vietnamese conversation",
+        "vietnamese fine-tuning",
+        "vietnamese sharegpt"
+      ]
+    },
+    {
+      "ref": "dainn98s/stock-dataset",
+      "url": "https://www.kaggle.com/datasets/dainn98s/stock-dataset",
+      "title": "Stock Dataset",
+      "subtitle": "Support for researching Chatbot Architecture",
+      "owner": "all_in_vibe@00",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 43497564,
+      "last_updated": "2025-08-13 20:00:41.537000",
+      "version": 31,
+      "downloads": 17,
+      "votes": 2,
+      "usability": 0.5,
+      "matched_queries": [
+        "vietnamese chatbot"
+      ]
+    },
+    {
+      "ref": "ilosvigil/sc-21-ocr",
+      "url": "https://www.kaggle.com/datasets/ilosvigil/sc-21-ocr",
+      "title": "Text of Shopee Product",
+      "subtitle": "Extracted text from Shopee product images",
+      "owner": "Sandy Khosasi",
+      "license": "Other (specified in description)",
+      "total_bytes": 3258028,
+      "last_updated": "2020-07-05 13:43:09.250000",
+      "version": 2,
+      "downloads": 72,
+      "votes": 2,
+      "usability": 0.7058824,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-englishunited-kingdom",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-englishunited-kingdom",
+      "title": "call center audio dual channel en us ",
+      "subtitle": "High-quality English Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 20214279,
+      "last_updated": "2026-02-25 08:33:23.957000",
+      "version": 1,
+      "downloads": 31,
+      "votes": 2,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-kannada",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-kannada",
+      "title": "call center audio dual channel Kannada",
+      "subtitle": "High-quality Kannada Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 15776106,
+      "last_updated": "2026-02-25 09:02:47.630000",
+      "version": 1,
+      "downloads": 17,
+      "votes": 2,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-spanish",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-spanish",
+      "title": "call center audio dual channel spanish",
+      "subtitle": "High-quality Spanish Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 17256351,
+      "last_updated": "2026-02-25 09:38:39.950000",
+      "version": 1,
+      "downloads": 39,
+      "votes": 2,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "javiersanchezsoriano/jorgpt-student-answers-and-multi-llm-grading",
+      "url": "https://www.kaggle.com/datasets/javiersanchezsoriano/jorgpt-student-answers-and-multi-llm-grading",
+      "title": "JorGPT: Student Answers & Multi-LLM Grading",
+      "subtitle": "3041 real student answers with human and multi-LLM grading",
+      "owner": "Javier Sanchez-Soriano",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 5835752,
+      "last_updated": "2026-03-23 15:46:16.883000",
+      "version": 1,
+      "downloads": 100,
+      "votes": 2,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "khngxuninh/styled-history-images-in-vietnamese-student-books",
+      "url": "https://www.kaggle.com/datasets/khngxuninh/styled-history-images-in-vietnamese-student-books",
+      "title": "Styled History Images in Vietnamese student books",
+      "subtitle": "Styled History Images in Vietnamese student books for diffusion finetuning",
+      "owner": "Khương Xuân Đinh",
+      "license": "Attribution-NonCommercial-ShareAlike 3.0 IGO (CC BY-NC-SA 3.0 IGO)",
+      "total_bytes": 107820215,
+      "last_updated": "2026-01-03 09:55:25.843000",
+      "version": 3,
+      "downloads": 15,
+      "votes": 2,
+      "usability": 0.8235294,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "kinquang/truyen-cuoi-co-tich",
+      "url": "https://www.kaggle.com/datasets/kinquang/truyen-cuoi-co-tich",
+      "title": "truyen_cuoi",
+      "subtitle": "title and content on https://cotich.net/truyen-cuoi.html",
+      "owner": "QUANGKIEN",
+      "license": "Other (specified in description)",
+      "total_bytes": 830655,
+      "last_updated": "2025-04-24 07:14:22.673000",
+      "version": 1,
+      "downloads": 18,
+      "votes": 2,
+      "usability": 0.8235294,
+      "matched_queries": [
+        "vietnamese chatbot"
+      ]
+    },
+    {
+      "ref": "lionel26/openass-deblarge-ext-data3-ep3",
+      "url": "https://www.kaggle.com/datasets/lionel26/openass-deblarge-ext-data3-ep3",
+      "title": "openass_deblarge-ext_data3-ep3",
+      "subtitle": "",
+      "owner": "Lionel26",
+      "license": "Unknown",
+      "total_bytes": 11308716548,
+      "last_updated": "2024-03-12 04:43:23.970000",
+      "version": 1,
+      "downloads": 19,
+      "votes": 2,
+      "usability": 0.3125,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "lionel26/openass-deblarge-ext-data4-ep3",
+      "url": "https://www.kaggle.com/datasets/lionel26/openass-deblarge-ext-data4-ep3",
+      "title": "openass_deblarge-ext_data4-ep3",
+      "subtitle": "",
+      "owner": "Lionel26",
+      "license": "Unknown",
+      "total_bytes": 11394862269,
+      "last_updated": "2024-03-12 04:43:39.047000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 2,
+      "usability": 0.3125,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "nagasudhans/opass-deb-large-1024-compdata",
+      "url": "https://www.kaggle.com/datasets/nagasudhans/opass-deb-large-1024-compdata",
+      "title": "Opass-deb_large-1024-compdata",
+      "subtitle": "",
+      "owner": "Nagasudhan. S",
+      "license": "Unknown",
+      "total_bytes": 11590447756,
+      "last_updated": "2024-03-12 04:24:49.080000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 2,
+      "usability": 0.3125,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "nagasudhans/opass-deb-large-1024-ext-data1",
+      "url": "https://www.kaggle.com/datasets/nagasudhans/opass-deb-large-1024-ext-data1",
+      "title": "Opass-deb_large-1024-ext_data1",
+      "subtitle": "",
+      "owner": "Nagasudhan. S",
+      "license": "Unknown",
+      "total_bytes": 11368918434,
+      "last_updated": "2024-03-12 04:25:01.700000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 2,
+      "usability": 0.3125,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "nexdatafrank/natural-scenes-ocr-data-of-12-languages",
+      "url": "https://www.kaggle.com/datasets/nexdatafrank/natural-scenes-ocr-data-of-12-languages",
+      "title": "Natural Scenes OCR Data of 12 Languages",
+      "subtitle": " 105,941 Images Natural Scenes OCR Data of 12 Languages",
+      "owner": "Frank Wong",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 12197873,
+      "last_updated": "2023-10-09 15:22:41.833000",
+      "version": 2,
+      "downloads": 148,
+      "votes": 2,
+      "usability": 0.625,
+      "matched_queries": [
+        "vietnamese instruction"
+      ]
+    },
+    {
+      "ref": "nilofy/profanitybench",
+      "url": "https://www.kaggle.com/datasets/nilofy/profanitybench",
+      "title": "ProfanityBench",
+      "subtitle": "World's largest Profanity Dataset with categorized offensive, abusive, hateful",
+      "owner": "nilesh jain",
+      "license": "MIT",
+      "total_bytes": 12085431,
+      "last_updated": "2026-05-30 10:31:45.453000",
+      "version": 1,
+      "downloads": 60,
+      "votes": 2,
+      "usability": 0.875,
+      "matched_queries": [
+        "multilingual dialogue",
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "nsudhan/openass-deblarge-ext-data2-ep3",
+      "url": "https://www.kaggle.com/datasets/nsudhan/openass-deblarge-ext-data2-ep3",
+      "title": "openass_deblarge-ext_data2-ep3",
+      "subtitle": "",
+      "owner": "Nsudhan",
+      "license": "Unknown",
+      "total_bytes": 11092338008,
+      "last_updated": "2024-03-12 04:37:21.547000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 2,
+      "usability": 0.3125,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "saibhossain/ai-prompt-evulation-on-edge",
+      "url": "https://www.kaggle.com/datasets/saibhossain/ai-prompt-evulation-on-edge",
+      "title": "Bangla–English LLM Quantization Benchmark",
+      "subtitle": "Bangla–English Bilingual Instruction Benchmark for Multilingual LLM Quantization",
+      "owner": "Saib hossain",
+      "license": "Apache 2.0",
+      "total_bytes": 5388,
+      "last_updated": "2025-10-10 06:25:53.633000",
+      "version": 1,
+      "downloads": 16,
+      "votes": 2,
+      "usability": 0.875,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "ahmed920/urdu-synthetic-medical-dataset-for-fine-tuning-llm",
+      "url": "https://www.kaggle.com/datasets/ahmed920/urdu-synthetic-medical-dataset-for-fine-tuning-llm",
+      "title": "Roman Urdu Healthcare Chatbot Dataset for LLM FT",
+      "subtitle": "Fine-tune empathetic AI health assistants in Roman Urdu",
+      "owner": "Asadullah Shehbaz",
+      "license": "MIT",
+      "total_bytes": 225361,
+      "last_updated": "2026-08-10 10:03:56.953000",
+      "version": 1,
+      "downloads": 10,
+      "votes": 1,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "ayaabdelwahab12/dataset-formatted",
+      "url": "https://www.kaggle.com/datasets/ayaabdelwahab12/dataset-formatted",
+      "title": "dataset_formatted",
+      "subtitle": "",
+      "owner": "Aya Abdelwahab",
+      "license": "MIT",
+      "total_bytes": 28474547,
+      "last_updated": "2026-06-19 16:54:20.370000",
+      "version": 1,
+      "downloads": 9,
+      "votes": 1,
+      "usability": 0.29411766,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "ayaahmed090/shapes-dataset",
+      "url": "https://www.kaggle.com/datasets/ayaahmed090/shapes-dataset",
+      "title": "shapes_dataset",
+      "subtitle": "",
+      "owner": "Aya Ahmed090",
+      "license": "Unknown",
+      "total_bytes": 90032422,
+      "last_updated": "2022-05-27 08:15:52.083000",
+      "version": 1,
+      "downloads": 18,
+      "votes": 1,
+      "usability": 0.125,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "ayaahmedmohamed/output-data",
+      "url": "https://www.kaggle.com/datasets/ayaahmedmohamed/output-data",
+      "title": "output_data",
+      "subtitle": "",
+      "owner": "Aya Ahmed Mohamed",
+      "license": "CC0: Public Domain",
+      "total_bytes": 69754187,
+      "last_updated": "2020-06-02 20:33:57.237000",
+      "version": 1,
+      "downloads": 19,
+      "votes": 1,
+      "usability": 0.29411766,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "ayachihoub/dataset-coin-classification",
+      "url": "https://www.kaggle.com/datasets/ayachihoub/dataset-coin-classification",
+      "title": "dataset-coin-classification",
+      "subtitle": "",
+      "owner": "Aya Chihoub",
+      "license": "Apache 2.0",
+      "total_bytes": 871647950,
+      "last_updated": "2026-03-20 06:34:13.370000",
+      "version": 1,
+      "downloads": 5,
+      "votes": 1,
+      "usability": 0.23529412,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "ayaehabramadan/hicma-dataset",
+      "url": "https://www.kaggle.com/datasets/ayaehabramadan/hicma-dataset",
+      "title": "HICMA_Dataset",
+      "subtitle": "Arabic Manuscript Dataset",
+      "owner": "Aya Ehab Ramadan",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 711532795,
+      "last_updated": "2025-12-15 10:18:19.737000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 1,
+      "usability": 0.3529412,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "baooonguyendev/dataset-pdf-document",
+      "url": "https://www.kaggle.com/datasets/baooonguyendev/dataset-pdf-document",
+      "title": "Dataset PDF Document",
+      "subtitle": "PDF Document VietNamese for pretrained LLM",
+      "owner": "Nguyễn Đức Gia Bảo",
+      "license": "Unknown",
+      "total_bytes": 181336197,
+      "last_updated": "2024-12-03 01:40:09.023000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 1,
+      "usability": 0.25,
+      "matched_queries": [
+        "vietnamese chatbot",
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "dataoceanai/dataoceanai-off-the-shelf-datasets",
+      "url": "https://www.kaggle.com/datasets/dataoceanai/dataoceanai-off-the-shelf-datasets",
+      "title": "DataOceanAI - Off-the-shelf datasets",
+      "subtitle": "All Datasest listed in this repo are available in our website.",
+      "owner": "DataOceanAI",
+      "license": "Other (specified in description)",
+      "total_bytes": 16150,
+      "last_updated": "2023-10-11 10:34:35.837000",
+      "version": 1,
+      "downloads": 76,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "dduongdev/shopee-vietnamese-product-reviews-sentiment",
+      "url": "https://www.kaggle.com/datasets/dduongdev/shopee-vietnamese-product-reviews-sentiment",
+      "title": "Shopee Vietnamese Product Reviews Sentiment",
+      "subtitle": "~10k Vietnamese Shopee Reviews Labeled by Semantic Content (Not by Ratings)",
+      "owner": "Duong Nguyen",
+      "license": "Apache 2.0",
+      "total_bytes": 881877,
+      "last_updated": "2026-03-24 04:11:11.963000",
+      "version": 1,
+      "downloads": 449,
+      "votes": 1,
+      "usability": 0.875,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "dongwei666/linguaforge-gemma4-204lang-lora-public",
+      "url": "https://www.kaggle.com/datasets/dongwei666/linguaforge-gemma4-204lang-lora-public",
+      "title": "LinguaForge Gemma 4 LoRA 204 langs",
+      "subtitle": "169.7 MB LoRA on top of google/gemma-4-E4B-it. FLORES-200 + ChrEn Cherokee.",
+      "owner": "dongwei666",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 147725652,
+      "last_updated": "2026-05-13 17:35:07.777000",
+      "version": 1,
+      "downloads": 2,
+      "votes": 1,
+      "usability": 0.625,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "fahrulzafran/dataset-distribusi-ayam-pada-perusahaan-xyz",
+      "url": "https://www.kaggle.com/datasets/fahrulzafran/dataset-distribusi-ayam-pada-perusahaan-xyz",
+      "title": "Dataset Distribusi Ayam Pada Perusahaan XYZ",
+      "subtitle": "",
+      "owner": "Fahrul Zafran",
+      "license": "Unknown",
+      "total_bytes": 17563,
+      "last_updated": "2026-06-14 17:05:02.203000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 1,
+      "usability": 0.1764706,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "godelev/53m-token-instruction-code-and-qa-dataset",
+      "url": "https://www.kaggle.com/datasets/godelev/53m-token-instruction-code-and-qa-dataset",
+      "title": "53M Token Instruction, Code & QA Dataset",
+      "subtitle": "Diverse 53M token dataset for small LLMs: instructions, code, reasoning & more",
+      "owner": "GODELEV",
+      "license": "Apache 2.0",
+      "total_bytes": 133709957,
+      "last_updated": "2025-07-16 15:46:09.083000",
+      "version": 1,
+      "downloads": 40,
+      "votes": 1,
+      "usability": 0.8125,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "golammostofas/diverse-english-bengali-translation-dataset",
+      "url": "https://www.kaggle.com/datasets/golammostofas/diverse-english-bengali-translation-dataset",
+      "title": "Diverse English-Bengali Translation Dataset",
+      "subtitle": "This dataset for NLP or LLM task",
+      "owner": "Md. Golam Mostofa",
+      "license": "Apache 2.0",
+      "total_bytes": 124267,
+      "last_updated": "2024-10-25 13:46:07.770000",
+      "version": 1,
+      "downloads": 268,
+      "votes": 1,
+      "usability": 0.7647059,
+      "matched_queries": [
+        "multilingual conversation",
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-assamese",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-assamese",
+      "title": "call center audio dual channel assamese",
+      "subtitle": "High-quality Assamese Call-Center data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 9640154,
+      "last_updated": "2026-02-25 08:42:34.300000",
+      "version": 1,
+      "downloads": 7,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-bengali",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-bengali",
+      "title": "call center audio dual channel bn",
+      "subtitle": "High-quality Bengali Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 6572266,
+      "last_updated": "2026-02-25 08:46:26.583000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-english",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-english",
+      "title": "Call center audio dual channel en in",
+      "subtitle": "High-quality English Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 28834739,
+      "last_updated": "2026-02-25 08:24:12.913000",
+      "version": 1,
+      "downloads": 27,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-englishunited-states",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-englishunited-states",
+      "title": "call center audio dual channel en uk",
+      "subtitle": "High-quality English Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 17949733,
+      "last_updated": "2026-02-25 08:38:19.020000",
+      "version": 1,
+      "downloads": 10,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-french",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-french",
+      "title": "call center audio dual channel fr",
+      "subtitle": "High-quality French Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 22827530,
+      "last_updated": "2026-02-25 08:50:15.073000",
+      "version": 1,
+      "downloads": 17,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-gujurati",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-gujurati",
+      "title": "call center audio dual channel gujarati",
+      "subtitle": "High-quality Gujarati Call-Center data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 14160524,
+      "last_updated": "2026-02-25 08:54:40.407000",
+      "version": 1,
+      "downloads": 7,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-hindi",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-hindi",
+      "title": "call center audio dual channel hindi",
+      "subtitle": "High-quality Hindi Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 18579965,
+      "last_updated": "2026-02-25 08:59:05.410000",
+      "version": 1,
+      "downloads": 91,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-malayalam",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-malayalam",
+      "title": "call center audio dual channel malayalam",
+      "subtitle": "High-quality Malayalam Call-Center data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 10389328,
+      "last_updated": "2026-02-25 09:06:18.377000",
+      "version": 1,
+      "downloads": 6,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-marathi",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-marathi",
+      "title": "call center audio dual channel marathi",
+      "subtitle": "High-quality Marathi Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 9383542,
+      "last_updated": "2026-02-25 09:10:13.287000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-mizo",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-mizo",
+      "title": "call center audio dual channel mizo",
+      "subtitle": "High-quality Mizo Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 13584112,
+      "last_updated": "2026-02-25 09:13:47.080000",
+      "version": 1,
+      "downloads": 5,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-nepalese",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-nepalese",
+      "title": "call center audio dual channel Nepalese",
+      "subtitle": "High-quality Nepalese Call-Center data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 28616292,
+      "last_updated": "2026-02-25 09:18:18.320000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-odia",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-odia",
+      "title": "call center audio dual channel oriya ",
+      "subtitle": "High-quality Odia Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 10366886,
+      "last_updated": "2026-02-25 09:22:10.450000",
+      "version": 1,
+      "downloads": 7,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-punjabi",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-punjabi",
+      "title": "call center audio dual channel punjabi",
+      "subtitle": "High-quality Punjabi Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 12633882,
+      "last_updated": "2026-02-25 09:25:59.867000",
+      "version": 1,
+      "downloads": 17,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-russia",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-russia",
+      "title": "call center audio dual channel russia",
+      "subtitle": "High-quality Russia Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 19388329,
+      "last_updated": "2026-02-25 09:30:31.297000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-somali",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-somali",
+      "title": "call center audio dual channel somali",
+      "subtitle": "High-quality Somali Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 10314339,
+      "last_updated": "2026-02-25 09:34:50.750000",
+      "version": 1,
+      "downloads": 6,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-swahili",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-swahili",
+      "title": "call center audio dual channel swahili ",
+      "subtitle": "High-quality Swahili Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 8704305,
+      "last_updated": "2026-02-25 09:42:16.250000",
+      "version": 1,
+      "downloads": 10,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-tamil",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-tamil",
+      "title": "call center audio dual channel tamil",
+      "subtitle": "High-quality Tamil Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 10721251,
+      "last_updated": "2026-02-25 09:45:26.050000",
+      "version": 1,
+      "downloads": 9,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "infobayai/audio-call-center-telugu",
+      "url": "https://www.kaggle.com/datasets/infobayai/audio-call-center-telugu",
+      "title": "call center audio dual channel telugu",
+      "subtitle": "High-quality Telugu Call-Center Audio data for training and evaluating AI model",
+      "owner": "InfoBay AI",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 13765919,
+      "last_updated": "2026-02-25 09:48:59.100000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 1,
+      "usability": 0.9375,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "jayarajmaitreyaa/hindi-icu-shock-v413",
+      "url": "https://www.kaggle.com/datasets/jayarajmaitreyaa/hindi-icu-shock-v413",
+      "title": "Hindi ICU Shock v413",
+      "subtitle": "Hindi medical + maths reasoning dataset for LLM fine-tuning and benchmark evalua",
+      "owner": "Jayaraj Maitreyaa",
+      "license": "Apache 2.0",
+      "total_bytes": 765,
+      "last_updated": "2026-04-10 10:32:54.893000",
+      "version": 1,
+      "downloads": 12,
+      "votes": 1,
+      "usability": 0.5,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "kaiwalyaatulraut/customer-support-tickets-dataset",
+      "url": "https://www.kaggle.com/datasets/kaiwalyaatulraut/customer-support-tickets-dataset",
+      "title": "Customer Support Tickets Dataset",
+      "subtitle": "2,000 real-world-style support tickets with sentiment, resolution time, etc",
+      "owner": "KAIWALYA RAUT",
+      "license": "CC0: Public Domain",
+      "total_bytes": 95809,
+      "last_updated": "2026-07-08 17:26:44.597000",
+      "version": 1,
+      "downloads": 75,
+      "votes": 1,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "mahmoudlotfi/hadith-narrators-graph-dataset",
+      "url": "https://www.kaggle.com/datasets/mahmoudlotfi/hadith-narrators-graph-dataset",
+      "title": "hadith narrators dataset from Islamweb.net",
+      "subtitle": "A Structured Repository of Hadith Texts, Subjects, Narrators Chain, and Metadata",
+      "owner": "Mahmoud lotfi",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 9351667,
+      "last_updated": "2026-09-15 06:11:16.897000",
+      "version": 19,
+      "downloads": 94,
+      "votes": 1,
+      "usability": 0.88235295,
+      "matched_queries": [
+        "aya collection"
+      ]
+    },
+    {
+      "ref": "masanakashima/llm-prompt-quality-evaluation-2026",
+      "url": "https://www.kaggle.com/datasets/masanakashima/llm-prompt-quality-evaluation-2026",
+      "title": "LLM Prompt Quality Evaluation 2026 [SYNTHETIC]",
+      "subtitle": "5000+ Synthetic Prompt-Response Pairs with Quality & Safety Scores",
+      "owner": "masa.nakashima",
+      "license": "CC0: Public Domain",
+      "total_bytes": 551480,
+      "last_updated": "2026-01-04 07:35:41.870000",
+      "version": 1,
+      "downloads": 20,
+      "votes": 1,
+      "usability": 0.5882353,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "mdzahidhasanriad/bangla-english-parallel-sentence-dataset",
+      "url": "https://www.kaggle.com/datasets/mdzahidhasanriad/bangla-english-parallel-sentence-dataset",
+      "title": "Bangla English Parallel Sentence Dataset",
+      "subtitle": "Bangla English Parallel Sentence Dataset for Machine Translation.",
+      "owner": "ZAHID HASAN RIAD",
+      "license": "MIT",
+      "total_bytes": 60665,
+      "last_updated": "2025-11-13 06:28:54.633000",
+      "version": 1,
+      "downloads": 28,
+      "votes": 1,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual conversation"
+      ]
+    },
+    {
+      "ref": "minhlocal/vietnamese-student-chatbot-dataset",
+      "url": "https://www.kaggle.com/datasets/minhlocal/vietnamese-student-chatbot-dataset",
+      "title": "Vietnamese Student Chatbot Dataset",
+      "subtitle": "",
+      "owner": "Minhlocal",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 1113332,
+      "last_updated": "2026-09-08 15:04:21.647000",
+      "version": 1,
+      "downloads": 8,
+      "votes": 1,
+      "usability": 0.23529412,
+      "matched_queries": [
+        "viet chat",
+        "vietnamese chat",
+        "vietnamese chatbot"
+      ]
+    },
+    {
+      "ref": "nguynthkimth/vietnamese-student-chatbot-dataset",
+      "url": "https://www.kaggle.com/datasets/nguynthkimth/vietnamese-student-chatbot-dataset",
+      "title": "Vietnamese Student Chatbot Dataset",
+      "subtitle": "",
+      "owner": "Nguyễn Thị Kim Thư",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 1110806,
+      "last_updated": "2026-09-08 14:59:07.087000",
+      "version": 1,
+      "downloads": 6,
+      "votes": 1,
+      "usability": 0.23529412,
+      "matched_queries": [
+        "viet chat",
+        "vietnamese chat",
+        "vietnamese chatbot"
+      ]
+    },
+    {
+      "ref": "omartariq612/every-ayah-dataset-part-2-of-4",
+      "url": "https://www.kaggle.com/datasets/omartariq612/every-ayah-dataset-part-2-of-4",
+      "title": "every-ayah-dataset-part-2-of-4",
+      "subtitle": "",
+      "owner": "OmarTariq612",
+      "license": "Apache 2.0",
+      "total_bytes": 14374656101,
+      "last_updated": "2024-05-12 07:48:49.673000",
+      "version": 1,
+      "downloads": 28,
+      "votes": 1,
+      "usability": 0.375,
+      "matched_queries": [
+        "aya dataset"
+      ]
+    },
+    {
+      "ref": "omenkj/customer-service-conversations-in-english-hindi",
+      "url": "https://www.kaggle.com/datasets/omenkj/customer-service-conversations-in-english-hindi",
+      "title": "Customer Service Conversations in English, Hindi",
+      "subtitle": "",
+      "owner": "OmenKj",
+      "license": "Apache 2.0",
+      "total_bytes": 13987100,
+      "last_updated": "2025-07-30 12:35:21.190000",
+      "version": 1,
+      "downloads": 222,
+      "votes": 1,
+      "usability": 0.7058824,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "pradeepsiva/debertalarge-comp-nich-mpvare-f8f",
+      "url": "https://www.kaggle.com/datasets/pradeepsiva/debertalarge-comp-nich-mpvare-f8f",
+      "title": "debertaLarge_comp+nich+mpvare_f8f",
+      "subtitle": "",
+      "owner": "Pradeep siva",
+      "license": "Unknown",
+      "total_bytes": 3200677561,
+      "last_updated": "2024-03-01 13:02:20.617000",
+      "version": 1,
+      "downloads": 3,
+      "votes": 1,
+      "usability": 0.25,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "pradeepsiva/openass-reinit-2epochs",
+      "url": "https://www.kaggle.com/datasets/pradeepsiva/openass-reinit-2epochs",
+      "title": "openass_reinit_2epochs",
+      "subtitle": "",
+      "owner": "Pradeep siva",
+      "license": "Unknown",
+      "total_bytes": 8378971582,
+      "last_updated": "2024-02-22 05:49:07.007000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 1,
+      "usability": 0.25,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "shubhankartiwari/chatbot-dataset",
+      "url": "https://www.kaggle.com/datasets/shubhankartiwari/chatbot-dataset",
+      "title": "Chatbot Dataset for Conversational Modeling",
+      "subtitle": "A multilingual, multi-source conversational dataset for training chatbot and dia",
+      "owner": "Shubhankar Tiwari",
+      "license": "Database: Open Database, Contents: © Original Authors",
+      "total_bytes": 11835,
+      "last_updated": "2026-01-02 12:29:54.877000",
+      "version": 1,
+      "downloads": 25,
+      "votes": 1,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "shubhankartiwari/indian-desi-canonical-conversational-dataset",
+      "url": "https://www.kaggle.com/datasets/shubhankartiwari/indian-desi-canonical-conversational-dataset",
+      "title": "Indian-Desi Canonical Conversational Dataset",
+      "subtitle": "A curated, deduplicated prompt–response dataset for conversational AI training",
+      "owner": "Shubhankar Tiwari",
+      "license": "Apache 2.0",
+      "total_bytes": 4978002,
+      "last_updated": "2026-01-27 18:05:58.633000",
+      "version": 1,
+      "downloads": 8,
+      "votes": 1,
+      "usability": 0.6875,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "shubhankartiwari/indian-desi-llm-tokenized-dataset",
+      "url": "https://www.kaggle.com/datasets/shubhankartiwari/indian-desi-llm-tokenized-dataset",
+      "title": "Indian Desi LLM Tokenized Dataset",
+      "subtitle": "Tokenized train/validation data derived from a canonical conversational dataset",
+      "owner": "Shubhankar Tiwari",
+      "license": "Apache 2.0",
+      "total_bytes": 4217779,
+      "last_updated": "2026-01-27 18:59:39.820000",
+      "version": 1,
+      "downloads": 10,
+      "votes": 1,
+      "usability": 0.6875,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "socom20/h2ogpt-gm-oasst1-en-2048-open-llama-7b",
+      "url": "https://www.kaggle.com/datasets/socom20/h2ogpt-gm-oasst1-en-2048-open-llama-7b",
+      "title": "h2ogpt-gm-oasst1-en-2048-open-llama-7b",
+      "subtitle": "",
+      "owner": "Sergio Manuel Papadakis",
+      "license": "Unknown",
+      "total_bytes": 12350622187,
+      "last_updated": "2023-08-28 06:09:19.513000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 1,
+      "usability": 0.1875,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "sujithkumarmanick/openassideberta-v3-large-v2-f8f-do0-2",
+      "url": "https://www.kaggle.com/datasets/sujithkumarmanick/openassideberta-v3-large-v2-f8f-do0-2",
+      "title": "OpenAssi/deberta-v3-large-v2_F8F_do0.2",
+      "subtitle": "",
+      "owner": "capture_kid15",
+      "license": "Unknown",
+      "total_bytes": 8379706992,
+      "last_updated": "2024-02-19 13:17:31.787000",
+      "version": 1,
+      "downloads": 11,
+      "votes": 1,
+      "usability": 0.25,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "thanhlamdev/vimd-dataset",
+      "url": "https://www.kaggle.com/datasets/thanhlamdev/vimd-dataset",
+      "title": "Vietnamese Dialogue Dataset (ViMD)",
+      "subtitle": "Vietnamese speech dataset for dialogue STT",
+      "owner": "ThanhLamDev",
+      "license": "Apache 2.0",
+      "total_bytes": 41664735598,
+      "last_updated": "2025-11-25 05:50:54.747000",
+      "version": 1,
+      "downloads": 31,
+      "votes": 1,
+      "usability": 0.6875,
+      "matched_queries": [
+        "vietnamese dialogue",
+        "vietnamese dialog"
+      ]
+    },
+    {
+      "ref": "trientran/seven-herbs-for-incremental-machine-learning",
+      "url": "https://www.kaggle.com/datasets/trientran/seven-herbs-for-incremental-machine-learning",
+      "title": "Seven herbs for incremental machine learning",
+      "subtitle": "Seven herbs for incremental machine learning - images taken using a mobile phone",
+      "owner": "TRIEN PHAT TRAN",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 91142997,
+      "last_updated": "2026-09-06 12:18:36.393000",
+      "version": 3,
+      "downloads": 6,
+      "votes": 1,
+      "usability": 1,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "vuanhh/legal-assistant",
+      "url": "https://www.kaggle.com/datasets/vuanhh/legal-assistant",
+      "title": "Legal Assistant",
+      "subtitle": "A small dataset about Vietnamese legal for LLM model",
+      "owner": "Hoang Vu",
+      "license": "Unknown",
+      "total_bytes": 165761,
+      "last_updated": "2026-06-02 15:45:51.373000",
+      "version": 3,
+      "downloads": 3,
+      "votes": 1,
+      "usability": 0.25,
+      "matched_queries": [
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "balrajukonne/cinelocalai-gold-dataset",
+      "url": "https://www.kaggle.com/datasets/balrajukonne/cinelocalai-gold-dataset",
+      "title": "CineLocalAI Gold Dataset",
+      "subtitle": "204 curated English-Hindi and English-Telugu movie dialogue localization records",
+      "owner": "Balraju Konne",
+      "license": "MIT",
+      "total_bytes": 1653341,
+      "last_updated": "2026-07-05 11:48:03.760000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 1,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "beatsprom/audio-and-voice-foundation-models-dataset-2026",
+      "url": "https://www.kaggle.com/datasets/beatsprom/audio-and-voice-foundation-models-dataset-2026",
+      "title": "Audio & Voice Foundation Models Dataset 2026",
+      "subtitle": "100-Sample Teaser: 1,722 Audio AI Papers with Whisper-v3, Full-Duplex Voice & 38",
+      "owner": "beatsprom",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 1413683,
+      "last_updated": "2026-08-22 11:11:56.043000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.88235295,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "chaudharypriyanshu/fb6-reward-dv3l",
+      "url": "https://www.kaggle.com/datasets/chaudharypriyanshu/fb6-reward-dv3l",
+      "title": "fb6-Reward-dv3l",
+      "subtitle": "",
+      "owner": "Priyanshu Chaudhary",
+      "license": "CC0: Public Domain",
+      "total_bytes": 6335672380,
+      "last_updated": "2023-10-10 07:44:28.570000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.375,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "chrismeniw/chris-meniw-india-corpus-agentic-ai",
+      "url": "https://www.kaggle.com/datasets/chrismeniw/chris-meniw-india-corpus-agentic-ai",
+      "title": "Chris Meniw India Corpus",
+      "subtitle": "Hindi + multilingual high-authority corpus for India AI ecosystem",
+      "owner": "Chris Meniw",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 36219,
+      "last_updated": "2026-05-31 18:49:06.647000",
+      "version": 1,
+      "downloads": 3,
+      "votes": 0,
+      "usability": 0.5,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "cngthi/s2m-pr",
+      "url": "https://www.kaggle.com/datasets/cngthi/s2m-pr",
+      "title": "S2M-RP",
+      "subtitle": "Single-to-multi retail product detection",
+      "owner": "Cuong. Thai Chi",
+      "license": "MIT",
+      "total_bytes": 4403892787,
+      "last_updated": "2025-08-13 14:24:49.420000",
+      "version": 4,
+      "downloads": 63,
+      "votes": 0,
+      "usability": 1,
+      "matched_queries": [
+        "viet chat"
+      ]
+    },
+    {
+      "ref": "dangkhoa2016/wikidata-en-vi-semantic-search-100k",
+      "url": "https://www.kaggle.com/datasets/dangkhoa2016/wikidata-en-vi-semantic-search-100k",
+      "title": "Wikidata EN-VI Semantic Search 100K",
+      "subtitle": "100K CC0 Wikidata entities for reproducible English-Vietnamese retrieval",
+      "owner": "Dang Khoa",
+      "license": "CC0: Public Domain",
+      "total_bytes": 17412704,
+      "last_updated": "2026-08-27 05:11:19.133000",
+      "version": 1,
+      "downloads": 59,
+      "votes": 0,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "vietnamese instruction"
+      ]
+    },
+    {
+      "ref": "debasishdhal/first10sentencetranslated",
+      "url": "https://www.kaggle.com/datasets/debasishdhal/first10sentencetranslated",
+      "title": "first10sentencetranslated",
+      "subtitle": "This dataset has translated odia counterparts of first 10k sentences of oasst.",
+      "owner": "DebasishDhal",
+      "license": "Unknown",
+      "total_bytes": 1770437,
+      "last_updated": "2023-06-14 13:51:35.310000",
+      "version": 1,
+      "downloads": 7,
+      "votes": 0,
+      "usability": 0.1875,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "dmcstllc/gemma-python-training-dataset",
+      "url": "https://www.kaggle.com/datasets/dmcstllc/gemma-python-training-dataset",
+      "title": "Gemma-Python Training Dataset",
+      "subtitle": "Oasst Instruction/Response",
+      "owner": "David Mairs",
+      "license": "Apache 2.0",
+      "total_bytes": 102676250,
+      "last_updated": "2024-03-17 04:15:53.220000",
+      "version": 1,
+      "downloads": 34,
+      "votes": 0,
+      "usability": 1,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "dngnguyntun2/vietnamese-ocr",
+      "url": "https://www.kaggle.com/datasets/dngnguyntun2/vietnamese-ocr",
+      "title": "vietnamese ocr",
+      "subtitle": "60,300 synthetic image–text pairs for Vietnamese OCR - tone-mark focused",
+      "owner": "Dũng Nguyễn Tuấn 2",
+      "license": "MIT",
+      "total_bytes": 1241144949,
+      "last_updated": "2026-07-02 13:47:52.420000",
+      "version": 1,
+      "downloads": 2,
+      "votes": 0,
+      "usability": 0.625,
+      "matched_queries": [
+        "vietnamese fine-tuning",
+        "vietnamese sharegpt"
+      ]
+    },
+    {
+      "ref": "edavletshin/mscc-evaluation-data",
+      "url": "https://www.kaggle.com/datasets/edavletshin/mscc-evaluation-data",
+      "title": "MSCC Evaluation Dataset",
+      "subtitle": "",
+      "owner": "Eugene Davletshin",
+      "license": "MIT",
+      "total_bytes": 392228323,
+      "last_updated": "2025-06-08 12:37:31.513000",
+      "version": 2,
+      "downloads": 53,
+      "votes": 0,
+      "usability": 0.5625,
+      "matched_queries": [
+        "multilingual dialogue",
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "edidiongcharlie/multi-language-nigerian-health-q-and-a",
+      "url": "https://www.kaggle.com/datasets/edidiongcharlie/multi-language-nigerian-health-q-and-a",
+      "title": "Multi-Language Nigerian Health Q&A",
+      "subtitle": "Natural conversations in 3 Nigerian languages on real health challenges",
+      "owner": "Edidiong Charlie",
+      "license": "CC0: Public Domain",
+      "total_bytes": 6536,
+      "last_updated": "2026-04-16 08:46:15.387000",
+      "version": 1,
+      "downloads": 15,
+      "votes": 0,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "evrenot/openassistant-oasst1-h2ogpt",
+      "url": "https://www.kaggle.com/datasets/evrenot/openassistant-oasst1-h2ogpt",
+      "title": "openassistant_oasst1_h2ogpt",
+      "subtitle": "",
+      "owner": "evrenot",
+      "license": "Unknown",
+      "total_bytes": 28136386,
+      "last_updated": "2025-07-25 13:10:44.847000",
+      "version": 1,
+      "downloads": 2,
+      "votes": 0,
+      "usability": 0.1875,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "faheem113141/foodpanda-pakistan-customer-orders-and-churn-dataset",
+      "url": "https://www.kaggle.com/datasets/faheem113141/foodpanda-pakistan-customer-orders-and-churn-dataset",
+      "title": "Foodpanda Asia 2024: Orders, Finance & Riders data",
+      "subtitle": "10 Countries · 63 Features · Full P&L, Delivery & Customer Analytics 2024",
+      "owner": "Muhammad Faheem Iqbal",
+      "license": "MIT",
+      "total_bytes": 472988,
+      "last_updated": "2026-05-06 05:39:34.610000",
+      "version": 3,
+      "downloads": 191,
+      "votes": 0,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "farmingfree/vietnamese-e-commerce-suspicious-reviews-dataset",
+      "url": "https://www.kaggle.com/datasets/farmingfree/vietnamese-e-commerce-suspicious-reviews-dataset",
+      "title": "Vietnamese E-commerce Suspicious Reviews Dataset",
+      "subtitle": "",
+      "owner": "24521938 - Phạm Minh Tuấn",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 60564544,
+      "last_updated": "2026-06-14 04:35:20.110000",
+      "version": 1,
+      "downloads": 26,
+      "votes": 0,
+      "usability": 0.4117647,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "flyingcamel/memberships-of-vnhavietnam-society-of-cardiology",
+      "url": "https://www.kaggle.com/datasets/flyingcamel/memberships-of-vnhavietnam-society-of-cardiology",
+      "title": "Memberships of VNHA/Vietnam society of Cardiology",
+      "subtitle": "Public details about memberships",
+      "owner": "FlyingCamel",
+      "license": "CC0: Public Domain",
+      "total_bytes": 134716,
+      "last_updated": "2023-11-16 18:13:03.857000",
+      "version": 2,
+      "downloads": 47,
+      "votes": 0,
+      "usability": 0.9411765,
+      "matched_queries": [
+        "hội thoại tiếng việt"
+      ]
+    },
+    {
+      "ref": "heinzstk/openassistant-oasst1-openassistantoasst1",
+      "url": "https://www.kaggle.com/datasets/heinzstk/openassistant-oasst1-openassistantoasst1",
+      "title": "OpenAssistant OASST1 (OpenAssistant/oasst1)",
+      "subtitle": "",
+      "owner": "Heinzstk",
+      "license": "Apache 2.0",
+      "total_bytes": 157973,
+      "last_updated": "2025-08-27 11:41:06.743000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.25,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "huydang03/adaption-equity-analysis-small",
+      "url": "https://www.kaggle.com/datasets/huydang03/adaption-equity-analysis-small",
+      "title": "Adaption Equity Analysis Small",
+      "subtitle": "Adaptive instruction data for Vietnamese equity research",
+      "owner": "Huy Dang",
+      "license": "Unknown",
+      "total_bytes": 78811660,
+      "last_updated": "2026-08-09 14:32:44.967000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.375,
+      "matched_queries": [
+        "vietnamese instruction",
+        "vietnamese instruction tuning"
+      ]
+    },
+    {
+      "ref": "huythoi/vietnam-travel-youtube-transcripts-and-ai-summaries",
+      "url": "https://www.kaggle.com/datasets/huythoi/vietnam-travel-youtube-transcripts-and-ai-summaries",
+      "title": "Vietnam Travel: YouTube Transcripts & AI Summaries",
+      "subtitle": "500+ Travel Vlogs across Vietnam with Metadata, Transcripts, and LLM Summaries.",
+      "owner": "huythoi",
+      "license": "CC BY-SA 4.0",
+      "total_bytes": 4125317,
+      "last_updated": "2026-04-01 06:01:15.747000",
+      "version": 2,
+      "downloads": 57,
+      "votes": 0,
+      "usability": 0.7647059,
+      "matched_queries": [
+        "vietnamese llm",
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "ikkiocean/english-and-hindi-swear-words-dataset",
+      "url": "https://www.kaggle.com/datasets/ikkiocean/english-and-hindi-swear-words-dataset",
+      "title": "English and Hindi Swear Words Dataset",
+      "subtitle": "3,419 unique English & Hindi swear words (Latin + Devanagari)",
+      "owner": "Vivek Prakash",
+      "license": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      "total_bytes": 25169,
+      "last_updated": "2026-01-20 05:05:42.987000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 0,
+      "usability": 0.7647059,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "ivanaerlic/openassistant-large-v2-long-v1",
+      "url": "https://www.kaggle.com/datasets/ivanaerlic/openassistant-large-v2-long-v1",
+      "title": "OpenAssistant--large-v2-long-v1",
+      "subtitle": "",
+      "owner": "Ivan Aerlic",
+      "license": "Unknown",
+      "total_bytes": 6506227015,
+      "last_updated": "2023-09-17 05:33:07.680000",
+      "version": 1,
+      "downloads": 35,
+      "votes": 0,
+      "usability": 0.1875,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "ivanaerlic/openassistant-large-v2-long-v1-h1",
+      "url": "https://www.kaggle.com/datasets/ivanaerlic/openassistant-large-v2-long-v1-h1",
+      "title": "OpenAssistant--large-v2-long-v1-h1",
+      "subtitle": "",
+      "owner": "Ivan Aerlic",
+      "license": "Unknown",
+      "total_bytes": 15658336,
+      "last_updated": "2023-10-07 02:30:21.117000",
+      "version": 1,
+      "downloads": 25,
+      "votes": 0,
+      "usability": 0.1875,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "jayarajmaitreyaa/bengali-critical-care-clinical-math-reasoning-1-1",
+      "url": "https://www.kaggle.com/datasets/jayarajmaitreyaa/bengali-critical-care-clinical-math-reasoning-1-1",
+      "title": "Bengali Critical Care Clinical Math Reasoning –1.1",
+      "subtitle": "",
+      "owner": "Jayaraj Maitreyaa",
+      "license": "Apache 2.0",
+      "total_bytes": 1424,
+      "last_updated": "2026-04-15 06:04:49.510000",
+      "version": 1,
+      "downloads": 9,
+      "votes": 0,
+      "usability": 0.4375,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "jayarajmaitreyaa/bengali-emergency-icu-medical-math-reasoning-1-2",
+      "url": "https://www.kaggle.com/datasets/jayarajmaitreyaa/bengali-emergency-icu-medical-math-reasoning-1-2",
+      "title": "Bengali Emergency + ICU Medical Math Reasoning 1.2",
+      "subtitle": "",
+      "owner": "Jayaraj Maitreyaa",
+      "license": "Apache 2.0",
+      "total_bytes": 1355,
+      "last_updated": "2026-04-15 06:09:20.943000",
+      "version": 1,
+      "downloads": 10,
+      "votes": 0,
+      "usability": 0.4375,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "jayarajmaitreyaa/telugu-cardiacshock-mathgrid-v307",
+      "url": "https://www.kaggle.com/datasets/jayarajmaitreyaa/telugu-cardiacshock-mathgrid-v307",
+      "title": "Telugu CardiacShock MathGrid v307",
+      "subtitle": "Telugu cardiac ICU reasoning dataset with MAP calculations and vasopressor dose ",
+      "owner": "Jayaraj Maitreyaa",
+      "license": "Apache 2.0",
+      "total_bytes": 857,
+      "last_updated": "2026-04-10 09:57:02.280000",
+      "version": 1,
+      "downloads": 12,
+      "votes": 0,
+      "usability": 0.625,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "jensenwang9527/fieldbridge-demo-assets",
+      "url": "https://www.kaggle.com/datasets/jensenwang9527/fieldbridge-demo-assets",
+      "title": "FieldBridge demo assets",
+      "subtitle": "Verified triage + translator demo audios for the FieldBridge live-demo notebook.",
+      "owner": "jensenwang",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 4254097,
+      "last_updated": "2026-05-17 09:24:35.460000",
+      "version": 6,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "julesgregoryagustin/training-filipino-scam-dataset",
+      "url": "https://www.kaggle.com/datasets/julesgregoryagustin/training-filipino-scam-dataset",
+      "title": "Multimodal Filipino Scam Video Dataset",
+      "subtitle": "Multimodal YouTube + TikTok scam vs legitimate video dataset for VLM training",
+      "owner": "Jules Gregory Agustin",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 60897094320,
+      "last_updated": "2026-05-07 11:57:26.513000",
+      "version": 6,
+      "downloads": 99,
+      "votes": 0,
+      "usability": 0.75,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "kautilya91/chatbot-training-dataset",
+      "url": "https://www.kaggle.com/datasets/kautilya91/chatbot-training-dataset",
+      "title": "ChatBot Training Dataset",
+      "subtitle": "💬Structured Multilingual Conversations for AI Training and Rapid Prototyping🗨️",
+      "owner": "Kautilya Srivastava",
+      "license": "Apache 2.0",
+      "total_bytes": 7168,
+      "last_updated": "2026-04-04 15:08:59.680000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "kaziaishikuzzaman/conversational-exchange-dataset",
+      "url": "https://www.kaggle.com/datasets/kaziaishikuzzaman/conversational-exchange-dataset",
+      "title": "OpenAssistant Response Quality Corpus Dataset",
+      "subtitle": "Human-rated OpenAssistant conversations for dialogue quality research",
+      "owner": "Kazi Aishikuzzaman",
+      "license": "Apache 2.0",
+      "total_bytes": 1470200,
+      "last_updated": "2026-04-20 19:49:20.237000",
+      "version": 1,
+      "downloads": 20,
+      "votes": 0,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "khanhdmk11/rag-llm",
+      "url": "https://www.kaggle.com/datasets/khanhdmk11/rag-llm",
+      "title": "rag_llm",
+      "subtitle": "",
+      "owner": "khanhdmk11@",
+      "license": "Apache 2.0",
+      "total_bytes": 35422644,
+      "last_updated": "2023-11-30 02:21:36.800000",
+      "version": 1,
+      "downloads": 13,
+      "votes": 0,
+      "usability": 0.3125,
+      "matched_queries": [
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "khuong11/vn-quant-master-db-2014-042024",
+      "url": "https://www.kaggle.com/datasets/khuong11/vn-quant-master-db-2014-042024",
+      "title": "VN-Quant-Master-DB-2014-04/2024",
+      "subtitle": "10-Year VN-Index Matrix: Price Action, Global Macro & LLM News Sentiment",
+      "owner": "Bảo Khương",
+      "license": "Apache 2.0",
+      "total_bytes": 385339415,
+      "last_updated": "2026-04-18 16:28:18.467000",
+      "version": 1,
+      "downloads": 12,
+      "votes": 0,
+      "usability": 0.8125,
+      "matched_queries": [
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "kimlongphmhong/anime-subtitles-in-vietnamese-links-watching",
+      "url": "https://www.kaggle.com/datasets/kimlongphmhong/anime-subtitles-in-vietnamese-links-watching",
+      "title": "Anime Subtitles in Vietnamese (Links)",
+      "subtitle": "https://anime1s.net/phim-moi",
+      "owner": "Kim Long Phạm Hoàng",
+      "license": "MIT",
+      "total_bytes": 29809,
+      "last_updated": "2025-07-09 12:06:43.727000",
+      "version": 1,
+      "downloads": 26,
+      "votes": 0,
+      "usability": 1,
+      "matched_queries": [
+        "vietnamese corpus dialogue",
+        "vietnamese dialogue"
+      ]
+    },
+    {
+      "ref": "ktoxz205/vietnamese-elementary-math-problems-with-images",
+      "url": "https://www.kaggle.com/datasets/ktoxz205/vietnamese-elementary-math-problems-with-images",
+      "title": "Vietnamese elementary math problems with images",
+      "subtitle": "",
+      "owner": "ktoxz205",
+      "license": "Unknown",
+      "total_bytes": 915840484,
+      "last_updated": "2026-05-04 03:19:40.047000",
+      "version": 2,
+      "downloads": 5,
+      "votes": 0,
+      "usability": 0.11764706,
+      "matched_queries": [
+        "vietnamese instruction"
+      ]
+    },
+    {
+      "ref": "kurumikz/zerde-qa-kazakh-instruction-tuning-dataset",
+      "url": "https://www.kaggle.com/datasets/kurumikz/zerde-qa-kazakh-instruction-tuning-dataset",
+      "title": "Zerde QA: Kazakh Instruction Tuning Dataset",
+      "subtitle": "51K Kazakh QA pairs · 20+ domains · instruction-ready · LLM fine-tuning",
+      "owner": "Kurumikz",
+      "license": "ODC Attribution License (ODC-By)",
+      "total_bytes": 22950041,
+      "last_updated": "2026-05-02 20:02:07.967000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 0,
+      "usability": 0.625,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "mayanksinha1705/adaption-mixed-intent-dialogue-samples",
+      "url": "https://www.kaggle.com/datasets/mayanksinha1705/adaption-mixed-intent-dialogue-samples",
+      "title": "mixed_intent_dialogue_samples",
+      "subtitle": "",
+      "owner": "mayank Sinha",
+      "license": "CC0: Public Domain",
+      "total_bytes": 25193678,
+      "last_updated": "2026-07-04 11:40:22.637000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.75,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "nepalicoder/npi-deva",
+      "url": "https://www.kaggle.com/datasets/nepalicoder/npi-deva",
+      "title": "npi_deva",
+      "subtitle": "xP3x (Crosslingual Public Pool of Prompts eXtended)",
+      "owner": "EverestBuddha",
+      "license": "Apache 2.0",
+      "total_bytes": 274840442,
+      "last_updated": "2024-02-14 05:36:59.427000",
+      "version": 1,
+      "downloads": 19,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "aya collection"
+      ]
+    },
+    {
+      "ref": "ngda3579/linhvuc4",
+      "url": "https://www.kaggle.com/datasets/ngda3579/linhvuc4",
+      "title": "linhvuc4",
+      "subtitle": "",
+      "owner": "NgDA3579",
+      "license": "MIT",
+      "total_bytes": 2002580599,
+      "last_updated": "2025-12-14 16:01:32.590000",
+      "version": 1,
+      "downloads": 3,
+      "votes": 0,
+      "usability": 0.4117647,
+      "matched_queries": [
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "nguynvntnpht/tiki-cleaned-book-reviews-absa",
+      "url": "https://www.kaggle.com/datasets/nguynvntnpht/tiki-cleaned-book-reviews-absa",
+      "title": "Tiki Cleaned Book Reviews ABSA",
+      "subtitle": "",
+      "owner": "Nguyễn Văn Tấn Phát",
+      "license": "CC0: Public Domain",
+      "total_bytes": 962557,
+      "last_updated": "2026-07-06 07:07:12.203000",
+      "version": 1,
+      "downloads": 18,
+      "votes": 0,
+      "usability": 0.5625,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "peterpausianlian/zolai-adapter-qwen25-3b",
+      "url": "https://www.kaggle.com/datasets/peterpausianlian/zolai-adapter-qwen25-3b",
+      "title": "Zolai Qwen2.5-3B LoRA Adapter",
+      "subtitle": "Fine-tuned LoRA adapter for Qwen2.5-3B on Tedim Zolai language",
+      "owner": "Peter Pau Sian Lian",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 6841679,
+      "last_updated": "2026-04-20 07:47:29.943000",
+      "version": 9,
+      "downloads": 7,
+      "votes": 0,
+      "usability": 0.75,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "phcthun/shopee-cosmetric-review",
+      "url": "https://www.kaggle.com/datasets/phcthun/shopee-cosmetric-review",
+      "title": "shopee-cosmetric-review",
+      "subtitle": "",
+      "owner": "Phước Thuận",
+      "license": "Unknown",
+      "total_bytes": 1601310,
+      "last_updated": "2026-05-22 13:34:58.903000",
+      "version": 1,
+      "downloads": 9,
+      "votes": 0,
+      "usability": 0.3125,
+      "matched_queries": [
+        "vietnamese chat",
+        "vietnamese fine-tuning",
+        "vietnamese instruction",
+        "vietnamese instruction tuning",
+        "vietnamese llm"
+      ]
+    },
+    {
+      "ref": "ponysai/multilingual-ai-character-evaluation-protocols",
+      "url": "https://www.kaggle.com/datasets/ponysai/multilingual-ai-character-evaluation-protocols",
+      "title": "Multilingual AI Character Evaluation Protocols",
+      "subtitle": "",
+      "owner": "ponysai",
+      "license": "Attribution 4.0 International (CC BY 4.0)",
+      "total_bytes": 58972,
+      "last_updated": "2026-08-06 21:41:47.237000",
+      "version": 1,
+      "downloads": 4,
+      "votes": 0,
+      "usability": 0.4375,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "randychabot/donatello-science-training-data",
+      "url": "https://www.kaggle.com/datasets/randychabot/donatello-science-training-data",
+      "title": "Donatello_Science_Training_Data",
+      "subtitle": "",
+      "owner": "Randy Chabot",
+      "license": "MIT",
+      "total_bytes": 3489122354,
+      "last_updated": "2025-11-01 04:44:34.957000",
+      "version": 10,
+      "downloads": 22,
+      "votes": 0,
+      "usability": 0.5882353,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "s3programmerlead/6g-global-virtual-multilingual-education-dataset",
+      "url": "https://www.kaggle.com/datasets/s3programmerlead/6g-global-virtual-multilingual-education-dataset",
+      "title": "6G Global Virtual Multilingual Education Dataset",
+      "subtitle": "",
+      "owner": "Hitler",
+      "license": "CC0: Public Domain",
+      "total_bytes": 8362,
+      "last_updated": "2025-02-04 10:04:31.263000",
+      "version": 1,
+      "downloads": 20,
+      "votes": 0,
+      "usability": 0.64705884,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "sakshamdabral/whatsapp-chat-intent-classification-dataset",
+      "url": "https://www.kaggle.com/datasets/sakshamdabral/whatsapp-chat-intent-classification-dataset",
+      "title": "WhatsApp Chat Intent Classification Dataset",
+      "subtitle": "24,000 labeled WhatsApp messages across 10 intents with emoji annotations ",
+      "owner": "Saksham dabral",
+      "license": "Apache 2.0",
+      "total_bytes": 380323,
+      "last_updated": "2026-02-27 06:12:42.470000",
+      "version": 1,
+      "downloads": 25,
+      "votes": 0,
+      "usability": 0.7058824,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "skr1125/aya-collection-hi",
+      "url": "https://www.kaggle.com/datasets/skr1125/aya-collection-hi",
+      "title": "aya-collection-hi",
+      "subtitle": "",
+      "owner": "SrinivasR",
+      "license": "Apache 2.0",
+      "total_bytes": 1402741002,
+      "last_updated": "2025-01-06 02:29:35.163000",
+      "version": 1,
+      "downloads": 6,
+      "votes": 0,
+      "usability": 0.5625,
+      "matched_queries": [
+        "aya collection"
+      ]
+    },
+    {
+      "ref": "soumyacryptic/bgmi-live-chat-sentiment",
+      "url": "https://www.kaggle.com/datasets/soumyacryptic/bgmi-live-chat-sentiment",
+      "title": "BGMI Live-Chat Sentiment (Hinglish esports)",
+      "subtitle": "7.97M Hinglish esports YouTube live-chat messages + gold sentiment labels",
+      "owner": "SoumyaCryptic",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 275178723,
+      "last_updated": "2026-06-14 16:06:10.330000",
+      "version": 1,
+      "downloads": 21,
+      "votes": 0,
+      "usability": 0.5882353,
+      "matched_queries": [
+        "multilingual chat"
+      ]
+    },
+    {
+      "ref": "summerbreeze11/openassistant-policy-data",
+      "url": "https://www.kaggle.com/datasets/summerbreeze11/openassistant-policy-data",
+      "title": "OpenAssistant Policy data",
+      "subtitle": "",
+      "owner": "Summer",
+      "license": "Unknown",
+      "total_bytes": 154519439,
+      "last_updated": "2023-02-09 18:09:51.280000",
+      "version": 2,
+      "downloads": 9,
+      "votes": 0,
+      "usability": 0.11764706,
+      "matched_queries": [
+        "openassistant"
+      ]
+    },
+    {
+      "ref": "syncoraai/customer-support-conversations",
+      "url": "https://www.kaggle.com/datasets/syncoraai/customer-support-conversations",
+      "title": "customer support conversations",
+      "subtitle": "",
+      "owner": "Syncora_ai",
+      "license": "MIT",
+      "total_bytes": 303724713,
+      "last_updated": "2025-10-09 11:20:25.190000",
+      "version": 1,
+      "downloads": 467,
+      "votes": 0,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "multilingual dialogue"
+      ]
+    },
+    {
+      "ref": "techsalerator/b2b-technographic-data-in-vietnam",
+      "url": "https://www.kaggle.com/datasets/techsalerator/b2b-technographic-data-in-vietnam",
+      "title": "B2B Technographic Data in Vietnam",
+      "subtitle": "A sample form Techsalerator Technographic Data in Vietnam",
+      "owner": "Techsalerator",
+      "license": "Apache 2.0",
+      "total_bytes": 12108,
+      "last_updated": "2024-09-12 17:20:00.123000",
+      "version": 2,
+      "downloads": 96,
+      "votes": 0,
+      "usability": 0.64705884,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "tommyttriesai/messages-from-openassistantoasst1-dataset",
+      "url": "https://www.kaggle.com/datasets/tommyttriesai/messages-from-openassistantoasst1-dataset",
+      "title": "Messages from OpenAssistant/oasst1 dataset",
+      "subtitle": "Tokenized with google-bert/bert-base-cased all 256 tokens long and padded",
+      "owner": "Tommy T tries AI",
+      "license": "MIT",
+      "total_bytes": 15104562,
+      "last_updated": "2025-07-20 04:31:10.487000",
+      "version": 1,
+      "downloads": 8,
+      "votes": 0,
+      "usability": 0.5,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "trongnguyen04/tatoeba-latin-alphabet",
+      "url": "https://www.kaggle.com/datasets/trongnguyen04/tatoeba-latin-alphabet",
+      "title": "English–Vietnamese Parallel Sentence Dataset",
+      "subtitle": "",
+      "owner": "Hà Trọng Nguyễn",
+      "license": "CC BY-NC-SA 4.0",
+      "total_bytes": 393409563,
+      "last_updated": "2025-04-06 15:25:43.393000",
+      "version": 2,
+      "downloads": 118,
+      "votes": 0,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "trungnghianguyen/assemble-law-chat-vietnamese",
+      "url": "https://www.kaggle.com/datasets/trungnghianguyen/assemble-law-chat-vietnamese",
+      "title": "assembly-law-chat-vietnamese",
+      "subtitle": "",
+      "owner": "trungnghianguyen",
+      "license": "Unknown",
+      "total_bytes": 81569748,
+      "last_updated": "2024-07-23 04:37:07.387000",
+      "version": 1,
+      "downloads": 20,
+      "votes": 0,
+      "usability": 0.23529412,
+      "matched_queries": [
+        "viet chat",
+        "vietnamese chat"
+      ]
+    },
+    {
+      "ref": "tuantotti/customer-service-dataset",
+      "url": "https://www.kaggle.com/datasets/tuantotti/customer-service-dataset",
+      "title": "customer-service-dataset",
+      "subtitle": "",
+      "owner": "Nguyễn Văn Tuấn",
+      "license": "Community Data License Agreement - Permissive - Version 1.0",
+      "total_bytes": 608547,
+      "last_updated": "2024-06-24 13:16:28.677000",
+      "version": 11,
+      "downloads": 73,
+      "votes": 0,
+      "usability": 0.64705884,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "valterh/oasst1-sl",
+      "url": "https://www.kaggle.com/datasets/valterh/oasst1-sl",
+      "title": "Oasst1-sl",
+      "subtitle": "OpenAssistant Dataset Automatically Translated to Slovene",
+      "owner": "VALTER HUDOVERNIK",
+      "license": "Unknown",
+      "total_bytes": 73846473,
+      "last_updated": "2023-05-25 20:39:32.417000",
+      "version": 4,
+      "downloads": 17,
+      "votes": 0,
+      "usability": 0.23529412,
+      "matched_queries": [
+        "oasst"
+      ]
+    },
+    {
+      "ref": "vinhbq/vietnamese-stationery-customer-reviews",
+      "url": "https://www.kaggle.com/datasets/vinhbq/vietnamese-stationery-customer-reviews",
+      "title": "Vietnamese Stationery Customer Reviews",
+      "subtitle": "16,000+ Vietnamese customer reviews with sentiment labels (POS/NEG) and ratings ",
+      "owner": "Vinh Bùi Quang",
+      "license": "Unknown",
+      "total_bytes": 229314,
+      "last_updated": "2026-05-20 06:41:25.820000",
+      "version": 1,
+      "downloads": 7,
+      "votes": 0,
+      "usability": 0.5294118,
+      "matched_queries": [
+        "vietnamese customer support"
+      ]
+    },
+    {
+      "ref": "vitduq/5agent-merged-v3",
+      "url": "https://www.kaggle.com/datasets/vitduq/5agent-merged-v3",
+      "title": "5agent-merged-v3",
+      "subtitle": "",
+      "owner": "ViET",
+      "license": "CC0: Public Domain",
+      "total_bytes": 393818,
+      "last_updated": "2026-09-19 09:23:01.180000",
+      "version": 1,
+      "downloads": 6,
+      "votes": 0,
+      "usability": 0.4375,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "vitduq/math-vi-solved-lora",
+      "url": "https://www.kaggle.com/datasets/vitduq/math-vi-solved-lora",
+      "title": "math-vi-solved-lora",
+      "subtitle": "Vietnamese Math Problems for LoRA Fine-tuning",
+      "owner": "ViET",
+      "license": "CC0: Public Domain",
+      "total_bytes": 1604163,
+      "last_updated": "2026-09-22 08:06:49.540000",
+      "version": 1,
+      "downloads": 1,
+      "votes": 0,
+      "usability": 0.5,
+      "matched_queries": [
+        "vietnamese fine-tuning"
+      ]
+    },
+    {
+      "ref": "xrouge/vietnamese-history-english-1000000-samples",
+      "url": "https://www.kaggle.com/datasets/xrouge/vietnamese-history-english-1000000-samples",
+      "title": "Vietnamese History – English – 1,000,000 samples",
+      "subtitle": "Vietnamese History Q&A – English – 1,000,000 samples",
+      "owner": "Minh Thành",
+      "license": "MIT",
+      "total_bytes": 56243042,
+      "last_updated": "2025-08-26 09:48:34.550000",
+      "version": 1,
+      "downloads": 14,
+      "votes": 0,
+      "usability": 0.6875,
+      "matched_queries": [
+        "vietnamese chat",
+        "vietnamese instruction",
+        "vietnamese sft",
+        "vietnamese sharegpt"
+      ]
+    }
+  ]
+}

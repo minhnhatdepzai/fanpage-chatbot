@@ -1,0 +1,70 @@
+# Dịch vụ phụ thuộc + (tùy chọn) API/worker trong Docker.
+#   Dev (khuyến nghị): docker compose up -d postgres   # API, worker, model server chạy trên host bằng uv
+#   Toàn bộ trong Docker: docker compose --profile app up -d --build
+# Model server (GPU) chạy trên host vì máy chưa cài NVIDIA Container Toolkit.
+name: fanpage-chatbot
+
+x-app: &app
+  build: .
+  env_file: .env
+  environment:
+    DATABASE_URL: postgresql+psycopg://chatbot:${POSTGRES_PASSWORD:?Đặt POSTGRES_PASSWORD trong .env}@postgres:5432/chatbot
+    LLM_BASE_URL: ${LLM_BASE_URL_FOR_DOCKER:-http://host.docker.internal:8100/v1}
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  restart: unless-stopped
+  profiles: ["app"]
+
+services:
+  postgres:
+    # pgvector (vector DB cho embedding) trên PostgreSQL 17 (Debian/glibc). Chuyển từ postgres:17-alpine bằng
+    # dump/restore sang volume MỚI (collation musl -> glibc khác nhau, không dùng lại thư mục dữ liệu cũ).
+    image: pgvector/pgvector:0.8.6-pg17-bookworm
+    environment:
+      POSTGRES_DB: chatbot
+      POSTGRES_USER: chatbot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Đặt POSTGRES_PASSWORD trong .env}
+    ports:
+      - "127.0.0.1:55432:5432"   # chỉ mở trên localhost
+    volumes:
+      - pgdata_pg17vec:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chatbot -d chatbot"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  migrate:
+    <<: *app
+    command: ["botctl", "db", "migrate"]
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    <<: *app
+    command: ["botctl", "api", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    <<: *app
+    command: ["botctl", "worker"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata_pg17vec:
+  # volume cũ (postgres:17-alpine) giữ lại để rollback; xóa bằng `docker volume rm fanpage-chatbot_pgdata` khi chắc chắn
+  pgdata:

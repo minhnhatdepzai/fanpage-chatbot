@@ -1,0 +1,130 @@
+# Tin tức / kiến thức thời sự có nguồn (giáo dục, học tập, giải trí, công nghệ AI).
+# Claude soạn ngày 24/09/2026; mỗi mục đã đối chiếu với trang nguồn ghi ở "source" (WebFetch cùng ngày).
+# Tin tức CŨ ĐI rất nhanh: mỗi mục ghi rõ "cập nhật đến"; quản trị viên nên rà soát và bổ sung định kỳ.
+entries:
+  # ---------------------------------------------------------------- Giáo dục Việt Nam
+  - id: thpt-2026-lich-thi
+    title: "Kỳ thi tốt nghiệp THPT 2026: lịch thi và cấu trúc"
+    source: "https://xaydungchinhsach.chinhphu.vn/lich-thi-tot-nghiep-thpt-nam-2026-119260319121525172.htm"
+    keywords: ["thi tốt nghiệp", "thi thpt", "tốt nghiệp thpt", "thi đại học", "xét tuyển đại học", "thi mấy môn", "lịch thi"]
+    content: >-
+      (Cập nhật đến 24/09/2026.) Kỳ thi tốt nghiệp THPT năm 2026 diễn ra ngày 11 và 12/6/2026, khoảng 1,2 triệu thí
+      sinh đăng ký. Cấu trúc "2+2": hai môn bắt buộc là Ngữ văn (120 phút) và Toán (90 phút) thi ngày 11/6, cùng hai
+      môn tự chọn thi ngày 12/6. Điểm thi được công bố lúc 8 giờ ngày 1/7/2026; thí sinh đăng ký xét tuyển đại học
+      từ 2/7 đến 14/7/2026.
+
+  - id: thpt-2026-pho-diem
+    title: "Phổ điểm thi tốt nghiệp THPT 2026"
+    source: "https://xaydungchinhsach.chinhphu.vn/pho-diem-ky-thi-tot-nghiep-thpt-nam-2026-119260701083655097.htm"
+    keywords: ["phổ điểm", "điểm thi", "điểm thi tốt nghiệp", "tỉ lệ tốt nghiệp", "tỷ lệ tốt nghiệp", "điểm thi thpt"]
+    content: >-
+      (Số liệu Bộ GD&ĐT công bố ngày 1/7/2026.) Tỉ lệ tốt nghiệp THPT năm 2026 là 99,01%. So với năm 2025, tỉ lệ điểm
+      từ 8 trở lên giảm ở hầu hết các môn và tỉ lệ dưới trung bình tăng. Môn Toán có 11,78% bài đạt từ 8 điểm và
+      42,34% bài dưới trung bình. Tiếng Anh có tỉ lệ dưới trung bình cao nhất: 55,6%.
+
+  - id: mien-hoc-phi-2025
+    title: "Miễn học phí cho học sinh công lập từ năm học 2025-2026"
+    source: "https://vnexpress.net/hoc-sinh-cong-lap-toan-quoc-duoc-mien-hoc-phi-tu-nam-hoc-2025-2026-4906573.html"
+    keywords: ["học phí", "miễn học phí", "hỗ trợ học phí"]
+    content: >-
+      Ngày 26/6/2025, Quốc hội thông qua nghị quyết miễn học phí cho trẻ mầm non và học sinh phổ thông học tại cơ sở
+      giáo dục công lập trên toàn quốc, áp dụng từ năm học 2025-2026. Học sinh trường tư thục, dân lập được hỗ trợ học
+      phí (không phải miễn toàn bộ). Đối tượng là công dân Việt Nam và người gốc Việt chưa xác định được quốc tịch
+      đang sống tại Việt Nam.
+
+  - id: luat-nha-giao-2025
+    title: "Luật Nhà giáo số 73/2025/QH15"
+    source: "https://tulieuvankien.dangcongsan.vn/he-thong-van-ban/van-ban-quy-pham-phap-luat/luat-nha-giao-so-732025qh15-hieu-luc-thi-hanh-tu-ngay-01012026-11767"
+    keywords: ["luật nhà giáo", "nhà giáo", "lương giáo viên", "chức danh giáo viên"]
+    content: >-
+      Luật Nhà giáo số 73/2025/QH15 được Quốc hội thông qua ngày 16/6/2025 và có hiệu lực từ ngày 1/1/2026. Luật quy
+      định về chức danh và vị trí việc làm của nhà giáo, chính sách tiền lương, các hành vi nhà giáo không được làm và
+      cơ chế bảo vệ nhà giáo.
+
+  - id: sgk-thong-nhat-2026
+    title: "Một bộ sách giáo khoa thống nhất toàn quốc từ năm học 2026-2027"
+    source: "https://baochinhphu.vn/ket-noi-tri-thuc-voi-cuoc-song-la-sach-giao-khoa-thong-nhat-toan-quoc-tu-nam-hoc-20262027-10225122622052997.htm"
+    keywords: ["sách giáo khoa", "sgk", "kết nối tri thức", "cánh diều", "chân trời sáng tạo"]
+    content: >-
+      Ngày 26/12/2025, Bộ GD&ĐT ban hành Quyết định 3588/QĐ-BGDĐT chọn bộ sách "Kết nối tri thức với cuộc sống" (Nhà
+      xuất bản Giáo dục Việt Nam) làm sách giáo khoa dùng thống nhất toàn quốc từ năm học 2026-2027. Mục tiêu là đến năm
+      2030 cấp sách giáo khoa miễn phí cho toàn bộ học sinh.
+
+  - id: 34-tinh-thanh
+    title: "Việt Nam có 34 đơn vị hành chính cấp tỉnh (từ 12/6/2025)"
+    source: "https://xaydungchinhsach.chinhphu.vn/chi-tiet-34-don-vi-hanh-chinh-cap-tinh-tu-12-6-2025-119250612141845533.htm"
+    keywords: ["bao nhiêu tỉnh", "tỉnh thành", "34 tỉnh", "63 tỉnh", "sáp nhập tỉnh", "đơn vị hành chính"]
+    content: >-
+      Theo nghị quyết Quốc hội thông qua và có hiệu lực ngày 12/6/2025, cả nước có 34 đơn vị hành chính cấp tỉnh,
+      gồm 28 tỉnh và 6 thành phố. Có 11 đơn vị không sắp xếp: Cao Bằng, Điện Biên, Hà Tĩnh, Lai Châu, Lạng Sơn, Nghệ
+      An, Quảng Ninh, Thanh Hóa, Sơn La, Hà Nội và Huế. Chính quyền các tỉnh, thành mới chính thức hoạt động từ 1/7/2025.
+
+  # ---------------------------------------------------------------- Học tập & kỹ năng
+  - id: ky-thuat-hoc-hieu-qua
+    title: "Kỹ thuật học hiệu quả theo nghiên cứu Dunlosky và cộng sự (2013)"
+    source: "https://www.psychologicalscience.org/publications/journals/pspi/learning-techniques.html"
+    keywords: ["cách học", "học hiệu quả", "phương pháp học", "ôn thi", "ôn bài", "học thuộc", "tự kiểm tra", "học giãn cách", "spaced repetition", "active recall", "đọc đi đọc lại", "đọc lại", "gạch chân", "highlight", "tô màu"]
+    content: >-
+      Nghiên cứu tổng quan của Dunlosky, Rawson, Marsh, Nathan và Willingham (2013, tạp chí Psychological Science in the
+      Public Interest) đánh giá 10 kỹ thuật học phổ biến. Hai kỹ thuật được xếp "hữu ích cao": tự kiểm tra (practice
+      testing, ví dụ làm đề, dùng thẻ ghi nhớ để tự hỏi) và học giãn cách (distributed practice, chia nhỏ việc ôn qua
+      nhiều buổi). Các kỹ thuật như gạch chân/tô đậm, đọc đi đọc lại và ghi nhớ bằng từ khóa được xếp hữu ích thấp,
+      vì khó áp dụng đúng và hiệu quả không ổn định.
+
+  # ---------------------------------------------------------------- Giải trí
+  - id: phong-ve-viet-moi-thoi-dai
+    title: "Phim điện ảnh Việt Nam doanh thu cao nhất mọi thời đại"
+    source: "https://vi.wikipedia.org/wiki/Danh_s%C3%A1ch_phim_%C4%91i%E1%BB%87n_%E1%BA%A3nh_Vi%E1%BB%87t_Nam_c%C3%B3_doanh_thu_cao_nh%E1%BA%A5t"
+    keywords: ["doanh thu phim việt", "phim việt doanh thu", "phim việt nam doanh thu", "phim việt", "phòng vé việt", "phim điện ảnh việt", "phim mai", "nhà bà nữ", "lật mặt"]
+    content: >-
+      (Cập nhật đến 24/09/2026, số liệu Box Office Vietnam, có thể chênh 5-10%.) Top phim Việt doanh thu cao nhất: 1.
+      "Mưa đỏ" (2025, đạo diễn Đặng Thái Huyền) khoảng 714 tỉ đồng; 2. "Mai" (2024, Trấn Thành) khoảng 551 tỉ; 3. "Lật
+      mặt 7: Một điều ước" (2024, Lý Hải) khoảng 483 tỉ; 4. "Nhà bà Nữ" (2023, Trấn Thành) khoảng 475 tỉ; 5. "Thỏ ơi!!"
+      (2026, Trấn Thành) khoảng 450 tỉ.
+
+  - id: phong-ve-viet-2026
+    title: "Phim Việt doanh thu cao nhất năm 2026 (đến 7/9/2026)"
+    source: "https://www.saostar.vn/dien-anh/3-phim-dien-anh-viet-dang-co-doanh-thu-cao-nhat-nam-2026-202609071022398728.html"
+    keywords: ["phim việt 2026", "phim tết 2026", "thỏ ơi", "phí phông", "nghỉ hè sợ nghỉ hưu", "phim hay năm nay", "phim chiếu rạp", "phim việt nào đang hot", "phim đang hot", "phim hot", "phim năm nay", "hot năm nay"]
+    content: >-
+      (Số liệu đến ngày 7/9/2026.) Ba phim Việt doanh thu cao nhất năm 2026: "Thỏ ơi!!" (đạo diễn Trấn Thành, ra rạp
+      dịp Tết 2026) khoảng 450 tỉ đồng; "Phí Phông: Quỷ máu rừng thiêng" (Đỗ Quốc Trung) khoảng 201 tỉ; "Nghỉ hè sợ nghỉ
+      hưu" (Huỳnh Lập) gần 193 tỉ và khi đó vẫn đang chiếu.
+
+  # ---------------------------------------------------------------- Công nghệ AI
+  - id: ai-openai-anthropic-22-9-2026
+    title: "OpenAI và Anthropic công bố model mới ngày 22/9/2026"
+    source: "https://www.engadget.com/2265801/anthropic-and-openai-announce-more-powerful-and-cheaper-ai-models/"
+    keywords: ["model ai mới", "ai mới nhất", "model mới nhất", "gpt-6", "gpt 6", "chatgpt mới", "opus 5.5", "tin tức ai", "tin ai"]
+    content: >-
+      (Cập nhật đến 24/09/2026.) Ngày 22/9/2026, Anthropic công bố Claude Opus 5.5 và OpenAI công bố GPT-6 Sol cùng
+      GPT-6 Luna. Cả hai hãng đều cho biết model mới có chi phí sử dụng thấp hơn thế hệ trước (mức giảm cụ thể khác nhau
+      giữa hai hãng). Lĩnh vực này thay đổi hằng tuần; có thể đã có model mới hơn.
+
+  - id: ai-gpt-5
+    title: "GPT-5 của OpenAI"
+    source: "https://en.wikipedia.org/wiki/GPT-5"
+    keywords: ["gpt-5", "gpt 5", "gpt5", "chatgpt 5"]
+    content: >-
+      (Đối chiếu ngày 24/09/2026.) GPT-5 do OpenAI phát triển, ra mắt ngày 7/8/2025; miễn phí cho mọi người dùng
+      ChatGPT (gói Plus/Pro có giới hạn cao hơn) và dùng được qua OpenAI API. Sau đó OpenAI còn ra các bản GPT-5.1,
+      GPT-5.2, GPT-5.4, GPT-5.5, GPT-5.6 và GPT-6 (xem mục tin ngày 22/9/2026).
+
+  - id: ai-anthropic-9-2026
+    title: "Các model Anthropic công bố tháng 9/2026"
+    source: "https://www.anthropic.com/news"
+    keywords: ["claude", "anthropic", "fable", "mythos", "opus 5.5"]
+    content: >-
+      (Cập nhật đến 24/09/2026.) Theo trang tin của Anthropic: ngày 1/9/2026 công bố Claude Fable 5.1 và Claude Mythos
+      5.1; ngày 22/9/2026 công bố Claude Opus 5.5, được mô tả là đạt mức của Claude Fable 5.1 trong phần lớn công việc
+      và chi phí chạy thấp hơn Opus 5 khoảng 40%.
+
+  - id: ai-gemini-3-8-flash
+    title: "Google Gemini 3.8 Flash (2/9/2026)"
+    source: "https://www.theregister.com/ai-and-ml/2026/09/02/with-gemini-38-flash-google-reminds-everyone-its-still-in-the-race/5294049"
+    keywords: ["gemini", "google ai", "gemini 3.8", "model ai mới", "ai mới nhất"]
+    content: >-
+      (Cập nhật đến 24/09/2026.) Ngày 2/9/2026, Google ra Gemini 3.8 Flash và bản Gemini 3.8 Flash Cyber dành cho bảo
+      mật (cấp qua chương trình Fairwind). Giá giới thiệu: 0,75 USD mỗi triệu token đầu vào và 3,75 USD mỗi triệu token
+      đầu ra, sẽ tăng gấp đôi từ năm mới. Người dùng Google AI Pro/Ultra dùng được trong ứng dụng Gemini, AI Mode của
+      Google Search và Google Sheets.
