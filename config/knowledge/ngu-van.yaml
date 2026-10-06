@@ -1,0 +1,21 @@
+# Khung chương trình Ngữ văn, KHÔNG chứa toàn văn sách giáo khoa hay tác phẩm còn bản quyền.
+# Tác phẩm cụ thể được lấy theo từng câu hỏi từ nguồn công khai/hợp pháp hoặc đoạn học sinh cung cấp.
+entries:
+  - id: ctgdpt-2018-ngu-van
+    title: "Chương trình giáo dục phổ thông 2018 của Bộ Giáo dục và Đào tạo"
+    source: "https://moet.gov.vn/content/tintuc/Lists/News/Attachments/8421/chuong-trinh-tong-the-ctgdpt-2018.pdf"
+    keywords: ["chương trình ngữ văn", "môn ngữ văn", "ngữ văn lớp", "tiếng việt lớp", "đọc viết nói nghe", "năng lực ngôn ngữ", "năng lực văn học"]
+    content: >-
+      Chương trình giáo dục phổ thông 2018 xác định giáo dục ngôn ngữ và văn học được thực hiện chủ yếu qua môn
+      Tiếng Việt ở cấp tiểu học và môn Ngữ văn ở cấp trung học cơ sở, trung học phổ thông. Việc dạy học hướng đến
+      năng lực ngôn ngữ và năng lực văn học, được tổ chức qua các hoạt động đọc, viết, nói và nghe. Đây là nguồn
+      tham chiếu khung; nội dung của từng bộ sách và từng văn bản cần được đối chiếu với tài liệu đang sử dụng.
+
+  - id: thong-tu-17-2025-ctgdpt
+    title: "Thông tư 17/2025/TT-BGDĐT sửa đổi Chương trình giáo dục phổ thông"
+    source: "https://congbao.chinhphu.vn/van-ban/thong-tu-so-17-2025-tt-bgddt-46255.htm"
+    keywords: ["thông tư 17", "chương trình giáo dục phổ thông mới nhất", "sửa đổi chương trình", "chương trình 2025"]
+    content: >-
+      Thông tư 17/2025/TT-BGDĐT là văn bản sửa đổi, bổ sung một số nội dung trong Chương trình giáo dục phổ thông
+      ban hành kèm Thông tư 32/2018/TT-BGDĐT. Khi trả lời về yêu cầu chương trình hiện hành, cần đối chiếu cả văn
+      bản gốc và phần sửa đổi; mục này không thay thế toàn văn văn bản pháp quy.

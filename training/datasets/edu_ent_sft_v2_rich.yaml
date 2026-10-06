@@ -1,0 +1,290 @@
+# Dữ liệu SFT BỔ SUNG v2 (SYNTHETIC), soạn ngày 05/10/2026.
+# Mục tiêu: dạy cấu trúc trả lời sâu và hữu ích; KHÔNG dùng để nhồi tin mới vào trọng số.
+# Mọi sự kiện/số liệu đều phải có trong sources. Nội dung do AI soạn là mục tiêu phong cách, không phải ground truth.
+examples:
+  - id: r2_transformer_explain
+    category: sourced_rich
+    sources: [transformer-2017]
+    messages:
+      - {role: user, content: "Transformer hoạt động như thế nào, giải thích kỹ nhưng dễ hiểu"}
+      - role: assistant
+        content: |-
+          Transformer là kiến trúc mạng nơ-ron xử lý một chuỗi bằng cơ chế attention, thay vì phải đọc tuần tự như RNN. Có thể hình dung mỗi từ trong câu được phép “nhìn” các từ khác và tự tính xem từ nào quan trọng với nó. Nhờ vậy, khi gặp từ “nó”, mô hình có thể liên hệ tới danh từ phù hợp ở phía trước. Bài báo “Attention Is All You Need” giới thiệu kiến trúc này năm 2017 và loại bỏ cả mạng hồi quy lẫn tích chập trong mô hình dịch máy [1].
+
+          Ba ý cốt lõi:
+          - **Self-attention:** tạo quan hệ giữa các token trong cùng đầu vào. Nhiều attention head giúp mô hình đồng thời chú ý tới các kiểu quan hệ khác nhau.
+          - **Biểu diễn vị trí:** vì attention tự nó không biết thứ tự, hệ thống cần đưa thông tin vị trí token vào biểu diễn.
+          - **Xử lý song song:** các token không phải đi lần lượt qua từng bước như RNN, nên việc huấn luyện dễ song song hóa hơn. Trong thí nghiệm của bài báo, Transformer đạt chất lượng dịch tốt hơn mô hình trước đó và giảm đáng kể thời gian huấn luyện [1].
+
+          Điều quan trọng là Transformer không đồng nghĩa với chatbot: nó là nền kiến trúc. Muốn thành trợ lý hội thoại, mô hình còn cần dữ liệu huấn luyện, cách căn chỉnh hành vi và một hệ thống lấy nguồn như RAG. Khi học chủ đề này, bạn nên nắm attention trước, rồi mới đi vào encoder, decoder và cách mô hình ngôn ngữ dự đoán token.
+
+  - id: r2_lora_vera_compare
+    category: sourced_rich
+    sources: [lora-2021, vera-2023]
+    messages:
+      - {role: user, content: "So sánh LoRA và VeRA giúp mình, khi nào nên dùng cái nào?"}
+      - role: assistant
+        content: |-
+          Cả LoRA và VeRA đều là cách tinh chỉnh tiết kiệm tham số: giữ nguyên phần lớn mô hình gốc và chỉ học một phần nhỏ bổ sung. Khác biệt chính nằm ở thứ được học.
+
+          - **LoRA:** chèn các ma trận hạng thấp có thể huấn luyện vào từng lớp Transformer. Bài báo LoRA báo cáo số tham số cần học có thể giảm rất mạnh; với GPT-3 175B, mức giảm được nêu là khoảng 10.000 lần và bộ nhớ GPU khoảng 3 lần so với fine-tune đầy đủ [1]. LoRA phổ biến, dễ dùng và thường là lựa chọn khởi đầu an toàn.
+          - **VeRA:** dùng chung một cặp ma trận chiếu ngẫu nhiên cho nhiều lớp, rồi chỉ học các vector tỉ lệ nhỏ. Vì vậy số tham số được huấn luyện còn thấp hơn LoRA; bài báo thử nghiệm trên GLUE, E2E, phân loại ảnh và instruction-tuning các mô hình 7B, 13B [2].
+
+          Cách chọn thực tế: nếu bạn cần hệ sinh thái công cụ rộng, muốn dễ thử nhiều rank hoặc ưu tiên phương án quen thuộc, hãy bắt đầu với LoRA. Nếu VRAM không phải nút thắt duy nhất nhưng bạn muốn adapter cực nhỏ, có thể thử VeRA. Không nên quyết định chỉ theo số tham số: hãy giữ cùng dữ liệu, seed và bộ đánh giá, rồi so độ đúng, độ bịa, độ trễ và kích thước adapter.
+
+          Với chatbot, adapter chỉ nên dạy phong cách và hành vi. Tin tức, giá cả hay dữ liệu thay đổi liên tục nên lấy bằng RAG/web có nguồn, không nên “nhớ” bằng LoRA hay VeRA.
+
+  - id: r2_rag_freshness
+    category: sourced_rich
+    sources: [rag-2020]
+    messages:
+      - {role: user, content: "RAG giúp chatbot cập nhật kiến thức mới như thế nào?"}
+      - role: assistant
+        content: |-
+          RAG giúp chatbot dùng kiến thức mới bằng cách tìm tài liệu liên quan ngay trước lúc trả lời, thay vì phụ thuộc hoàn toàn vào những gì đã nằm trong trọng số mô hình. Cách hình dung đơn giản là: mô hình được “mở tài liệu” đúng lúc rồi viết câu trả lời dựa trên phần vừa tìm được. Bài báo RAG năm 2020 kết hợp bộ nhớ tham số của mô hình sinh với bộ nhớ phi tham số là một chỉ mục vector có thể truy xuất [1].
+
+          Một lượt thường có bốn bước:
+          1. Biến câu hỏi thành biểu diễn để tìm kiếm.
+          2. Lấy vài đoạn có liên quan từ kho tài liệu hoặc web.
+          3. Đưa câu hỏi cùng các đoạn đó vào mô hình.
+          4. Sinh câu trả lời và gắn nguồn tương ứng.
+
+          Lợi ích lớn nhất là dữ liệu có thể cập nhật mà không phải train lại model. Khi một quy định hoặc sản phẩm thay đổi, quản trị viên chỉ cần cập nhật kho hoặc để hệ thống tra cứu nguồn mới. Bài báo gốc cũng báo cáo câu trả lời sinh ra cụ thể, đa dạng và đúng sự thật hơn mô hình seq2seq chỉ dựa vào tham số trong các tác vụ được thử nghiệm [1].
+
+          Tuy nhiên, RAG không tự động bảo đảm đúng: bộ tìm kiếm có thể lấy nhầm, nguồn có thể cũ, và model có thể diễn giải quá mức. Vì vậy hệ thống tốt cần lưu URL, thời điểm truy xuất, buộc trích dẫn, ưu tiên nguồn chính thức và kiểm tra câu trả lời không vượt quá nội dung nguồn.
+
+  - id: r2_study_plan
+    category: sourced_rich
+    sources: [ky-thuat-hoc-hieu-qua]
+    messages:
+      - {role: user, content: "Mình học mãi vẫn quên, lập cho mình cách học có cơ sở với"}
+      - role: assistant
+        content: |-
+          Bạn nên chuyển từ “đọc lại nhiều lần” sang hai việc chính: **tự kiểm tra** và **học giãn cách**. Tổng quan của Dunlosky và cộng sự xếp hai kỹ thuật này ở mức hữu ích cao, trong khi đọc đi đọc lại và gạch chân được xếp hữu ích thấp hơn [1].
+
+          Bạn có thể áp dụng theo một vòng học ngắn:
+          1. Học một phần nhỏ trong 20-30 phút.
+          2. Đóng tài liệu và tự viết lại 3-5 ý mình nhớ được.
+          3. Làm vài câu hỏi hoặc flashcard mà không nhìn đáp án.
+          4. Kiểm tra lỗi, chỉ mở lại đúng phần còn hổng.
+          5. Ôn lại sau một khoảng thời gian thay vì dồn vào cùng ngày.
+
+          Ví dụ với một chương Sinh học: hôm đầu hiểu khái niệm và tạo câu hỏi; buổi sau tự trả lời; những câu sai xuất hiện lại sớm hơn, câu đúng được giãn xa hơn. Điểm quan trọng không phải là nhìn đáp án thấy “quen”, mà là tự kéo được kiến thức ra khỏi trí nhớ.
+
+          Highlight vẫn có thể dùng để đánh dấu cấu trúc, nhưng đừng coi nó là hoạt động học chính vì hiệu quả của gạch chân/tô đậm không ổn định [1]. Sau một tuần, hãy đo bằng số câu tự trả lời đúng thay vì số giờ ngồi bàn. Nếu lịch bận, 15 phút tự kiểm tra mỗi ngày thường thực tế hơn một buổi học dồn thật dài.
+
+  - id: r2_cuda_oom
+    category: sourced_rich
+    sources: [cuda-oom-checkpointing, cuda-oom-amp-accumulation]
+    messages:
+      - {role: user, content: "Train model bị CUDA out of memory thì xử lý theo thứ tự nào?"}
+      - role: assistant
+        content: |-
+          Khi gặp CUDA out of memory, hãy giảm lượng bộ nhớ của **mỗi bước** trước, rồi mới đổi mô hình hay phần cứng. Thứ tự thực tế:
+
+          1. **Giảm batch size mỗi GPU.** Đây thường là thay đổi nhanh nhất. Nếu cần giữ batch hiệu dụng, dùng gradient accumulation: cộng gradient qua nhiều bước nhỏ trước khi cập nhật trọng số [2].
+          2. **Bật mixed precision** phù hợp với GPU. Tài liệu PyTorch mô tả huấn luyện AMP với `torch.autocast` và `torch.amp.GradScaler` [2].
+          3. **Bật activation/gradient checkpointing.** Kỹ thuật này không giữ mọi tensor trung gian mà tính lại khi backward, tức đổi thêm thời gian tính toán để giảm bộ nhớ [1]. Tắt checkpointing thường làm tốn VRAM hơn, không phải ít hơn.
+          4. **Giảm độ dài chuỗi**, vì attention và activation tăng mạnh khi context dài.
+          5. Nếu vẫn thiếu, cân nhắc adapter PEFT, lượng tử hóa hoặc offload, nhưng phải đo lại tốc độ và chất lượng.
+
+          Trước khi sửa, hãy ghi lại batch size, sequence length và peak VRAM để biết thay đổi nào thực sự có tác dụng. Cũng cần phân biệt OOM ổn định với memory leak: nếu cùng một batch mà VRAM tăng dần qua từng step, có thể code đang giữ tensor có graph hoặc tích lũy output. Sau mỗi thay đổi, chạy một smoke test ngắn rồi mới train toàn bộ để tránh mất hàng giờ vì cấu hình vẫn chưa đủ bộ nhớ.
+
+  - id: r2_finetune_pretrain
+    category: sourced_rich
+    sources: [fine-tuning-basics]
+    messages:
+      - {role: user, content: "Fine-tuning khác train model từ đầu ở đâu?"}
+      - role: assistant
+        content: |-
+          Fine-tuning là tiếp tục huấn luyện từ một mô hình đã được pretrain, còn train từ đầu bắt đầu với trọng số chưa học. Vì mô hình pretrained đã có khả năng ngôn ngữ và nhiều mẫu tổng quát, fine-tuning thường cần ít dữ liệu, thời gian và tài nguyên hơn [1].
+
+          Có thể tách mục tiêu như sau:
+          - **Pretraining từ đầu:** xây năng lực nền trên kho dữ liệu rất lớn; chi phí cao và cần hạ tầng mạnh.
+          - **Fine-tuning:** điều chỉnh mô hình cho nhiệm vụ, lĩnh vực hoặc phong cách cụ thể. Tài liệu Hugging Face mô tả quy trình gồm chuẩn bị dữ liệu, tokenize, nạp checkpoint pretrained, cấu hình huấn luyện và chạy train [1].
+          - **RAG/web:** cung cấp sự kiện và tài liệu mới tại thời điểm hỏi; đây không phải fine-tuning.
+
+          Với chatbot, fine-tuning phù hợp để dạy cách trả lời, định dạng trích dẫn, cách từ chối khi thiếu nguồn hoặc giọng điệu. Không nên dùng nó như cơ chế cập nhật tin tức mỗi ngày, vì trọng số sẽ lại cũ ngay khi thế giới thay đổi. Kiến thức động nên nằm trong kho RAG hoặc kết quả web có URL và ngày truy xuất.
+
+          Quy trình đáng tin cậy cần tách train/validation/evaluation, lưu checksum dữ liệu, log loss, lưu adapter, nạp lại adapter trong tiến trình mới và chạy bộ câu hỏi chưa xuất hiện trong train. Một script huấn luyện tồn tại chưa có nghĩa là model đã được train; phải có checkpoint và bằng chứng đánh giá sau khi reload.
+
+  - id: r2_qlora
+    category: sourced_rich
+    sources: [qlora-2023, lora-2021]
+    messages:
+      - {role: user, content: "QLoRA tiết kiệm VRAM bằng cách nào, có giống LoRA không?"}
+      - role: assistant
+        content: |-
+          QLoRA vẫn dùng adapter LoRA, nhưng điểm khác là mô hình nền được giữ ở dạng lượng tử hóa 4-bit trong lúc tinh chỉnh. Gradient đi qua mô hình nền đã lượng tử hóa và đóng băng để cập nhật các adapter LoRA, thay vì cập nhật toàn bộ trọng số [1].
+
+          Ba kỹ thuật được bài báo QLoRA nhấn mạnh là:
+          - **NormalFloat 4-bit (NF4):** kiểu dữ liệu 4-bit thiết kế cho trọng số có phân bố gần chuẩn.
+          - **Double quantization:** lượng tử hóa thêm các hằng số lượng tử hóa để tiết kiệm bộ nhớ.
+          - **Paged optimizers:** xử lý các đợt tăng bộ nhớ đột biến trong huấn luyện [1].
+
+          LoRA nguyên bản đóng băng trọng số mô hình và học các ma trận hạng thấp được chèn vào lớp Transformer [2]. QLoRA giữ ý tưởng đó nhưng giảm thêm bộ nhớ dành cho model nền. Bài báo báo cáo có thể fine-tune mô hình 65B trên một GPU 48 GB mà vẫn giữ hiệu năng tương đương fine-tune 16-bit đầy đủ trong các đánh giá của họ [1].
+
+          Đổi lại, lượng tử hóa có thể làm pipeline phức tạp hơn và tốc độ phụ thuộc phần cứng, kernel, batch và chiều dài chuỗi. Vì vậy hãy đo peak VRAM, token/giây và chất lượng trên cùng tập eval. Nếu model nhỏ đã vừa VRAM ở bf16, LoRA hoặc VeRA trực tiếp đôi khi là cấu hình đơn giản hơn.
+
+  - id: r2_dpo
+    category: sourced_rich
+    sources: [dpo-2023]
+    messages:
+      - {role: user, content: "DPO là gì và khác SFT ra sao?"}
+      - role: assistant
+        content: |-
+          SFT dạy mô hình bắt chước câu trả lời mẫu, còn DPO học từ **sở thích tương đối**: với cùng một prompt, dữ liệu cho biết câu trả lời nào được ưu tiên hơn câu còn lại. DPO được đề xuất như một cách tối ưu sở thích đơn giản hơn pipeline RLHF truyền thống [1].
+
+          Trong RLHF kiểu truyền thống, hệ thống thường huấn luyện reward model rồi dùng một thuật toán học tăng cường như PPO để tối ưu model. DPO tham số hóa lại bài toán để huấn luyện bằng một loss phân loại trực tiếp, không cần lấy mẫu từ model trong quá trình fine-tune [1]. Bài báo báo cáo DPO đạt kết quả tốt bằng hoặc hơn các phương pháp được so sánh và vượt PPO-based RLHF ở tác vụ điều khiển cảm xúc văn bản [1].
+
+          Cách dùng thực tế:
+          - Dùng **SFT trước** để model học format, kiến thức nhiệm vụ và hành vi cơ bản.
+          - Thu thập cặp phản hồi `chosen/rejected` có tiêu chí rõ ràng.
+          - Dùng **DPO** để nghiêng model về câu trả lời được ưa thích, chẳng hạn đúng nguồn, ít lan man, hữu ích hơn.
+
+          DPO không sửa được dữ liệu sở thích kém. Nếu người chấm thích câu văn tự tin nhưng sai, model có thể học đúng điều đó. Vì thế cần rubric riêng cho tính đúng, trích dẫn, độ đầy đủ và an toàn; đồng thời giữ một tập đánh giá tách biệt để phát hiện model chỉ học mẹo từ người chấm.
+
+  - id: r2_exam_plan
+    category: sourced_rich
+    sources: [thpt-2026-lich-thi]
+    messages:
+      - {role: user, content: "Lịch thi THPT 2026 thế nào và mình nên chuẩn bị ra sao?"}
+      - role: assistant
+        content: |-
+          Kỳ thi tốt nghiệp THPT 2026 theo cấu trúc “2+2”: Ngữ văn và Toán là hai môn bắt buộc, cộng hai môn tự chọn [1]. Theo lịch trong nguồn, Ngữ văn và Toán thi ngày 11/6, hai môn tự chọn thi ngày 12/6; điểm thi dự kiến công bố lúc 8 giờ ngày 1/7, còn thời gian đăng ký xét tuyển đại học là từ 2/7 đến 14/7/2026 [1].
+
+          Bạn nên chia việc chuẩn bị thành ba lớp:
+          - **Kiến thức:** lập danh sách chuyên đề theo từng môn, đánh dấu phần chắc/chưa chắc và ưu tiên lỗ hổng có ảnh hưởng nhiều điểm.
+          - **Luyện đề:** làm trong đúng giới hạn thời gian, sau đó phân loại lỗi thành thiếu kiến thức, đọc sai đề và quản lý thời gian.
+          - **Thủ tục:** lưu các mốc thi, công bố điểm và đăng ký xét tuyển ở hai nơi; kiểm tra lại thông báo chính thức gần ngày thực hiện vì lịch hành chính có thể được cập nhật.
+
+          Trong tuần cuối, đừng cố nhồi toàn bộ chương trình. Hãy ôn bảng lỗi cá nhân, công thức hay quên và các dạng bài đã làm sai. Chuẩn bị giấy tờ, đường đi và giờ có mặt từ hôm trước. Nếu bạn cho mình biết bốn môn cụ thể cùng mức điểm hiện tại, mình có thể giúp chia một lịch ôn theo tuần; còn các thay đổi mới hơn lịch trong nguồn thì cần kiểm tra lại trên kênh chính thức.
+
+  - id: r2_war_films
+    category: sourced_rich
+    sources: [phim-mua-do, phim-dao-pho-va-piano, phim-canh-dong-hoang]
+    messages:
+      - {role: user, content: "Gợi ý 3 phim chiến tranh Việt Nam và nói điểm khác nhau"}
+      - role: assistant
+        content: |-
+          Ba lựa chọn có bối cảnh và cách tiếp cận khá khác nhau là:
+
+          - **Mưa đỏ (2025):** do Đặng Thái Huyền đạo diễn, lấy cảm hứng từ 81 ngày đêm bảo vệ Thành cổ Quảng Trị năm 1972 và theo chân một tiểu đội lính trẻ, phần lớn là học sinh, sinh viên [1].
+          - **Đào, phở và piano (2023):** do Phi Tiến Sơn đạo diễn, kể về những ngày cuối của Trận Hà Nội 1946 trước khi lực lượng Việt Minh rút lên Việt Bắc [2].
+          - **Cánh đồng hoang (1979):** do Nguyễn Hồng Sến đạo diễn, đặt ở vùng Đồng Tháp Mười, tập trung vào một đôi vợ chồng sống giữa đồng nước và bí mật giúp du kích [3].
+
+          Nếu muốn một tác phẩm mới, quy mô lớn và tập trung vào người lính trẻ ở Quảng Trị, bạn có thể bắt đầu với “Mưa đỏ”. Nếu thích không khí Hà Nội và lát cắt đời sống trong chiến sự, “Đào, phở và piano” phù hợp hơn. Còn “Cánh đồng hoang” là lựa chọn kinh điển với không gian sông nước và câu chuyện gia đình; phim đoạt Bông sen vàng cùng huy chương vàng Liên hoan phim quốc tế Moskva năm 1981 [3].
+
+          Những mô tả trên giúp chọn theo bối cảnh chứ không xếp hạng phim nào “hay nhất”, vì điều đó phụ thuộc gu xem. Bạn có thể xem lần lượt một phim hiện đại, một phim về Hà Nội và một phim kinh điển để so cách điện ảnh từng thời kỳ kể chuyện chiến tranh.
+
+  - id: r2_model_card
+    category: sourced_rich
+    sources: [bot-model, rag-2020]
+    messages:
+      - {role: user, content: "Bot này thông minh nhờ model hay nhờ dữ liệu?"}
+      - role: assistant
+        content: |-
+          Cả hai, nhưng mỗi phần đảm nhiệm một việc khác nhau. Model nền tạo ra khả năng hiểu và viết ngôn ngữ; dữ liệu, prompt, công cụ và lớp kiểm tra quyết định bot có trả lời đúng mục tiêu hay không.
+
+          Bot hiện dùng Qwen3-4B-Instruct-2507 chạy trên máy chủ riêng. Theo model card được lưu trong kho kiến thức, model có khoảng 4 tỉ tham số, 36 lớp, context gốc 262.144 token và giấy phép Apache-2.0 [1]. Con số tham số không tự bảo đảm câu trả lời đúng hoặc mới.
+
+          Có thể xem hệ thống thành bốn lớp:
+          1. **Model nền:** hiểu câu hỏi và sinh câu trả lời.
+          2. **Fine-tune/adapter:** dạy phong cách, cấu trúc, cách từ chối và cách dùng trích dẫn.
+          3. **RAG hoặc web:** đưa tài liệu mới vào đúng lượt hỏi. RAG kết hợp bộ nhớ tham số với một kho phi tham số có thể truy xuất [2].
+          4. **Guardrail và đánh giá:** loại URL/citation sai, đo độ bịa, độ đầy đủ và độ trễ.
+
+          Vì vậy, “train thêm” không phải lúc nào cũng là cách làm bot biết tin mới. Tin thay đổi liên tục nên lấy từ nguồn cập nhật; adapter chỉ cần học cách dùng nguồn đó cẩn thận. Một bot nhỏ nhưng truy xuất tốt, có nguồn và được đánh giá đều đặn có thể đáng tin hơn model lớn trả lời hoàn toàn theo trí nhớ.
+
+  # Đối chứng độ dài: yêu cầu rõ "ngắn" phải thắng mặc định trả lời sâu.
+  - id: r2_concise_lora
+    category: concise_control
+    sources: [lora-2021]
+    messages:
+      - {role: user, content: "Trả lời ngắn thôi: LoRA là gì?"}
+      - {role: assistant, content: "LoRA là cách fine-tune bằng việc giữ nguyên trọng số model gốc và chỉ học các ma trận hạng thấp chèn vào lớp Transformer [1]. Nhờ số tham số phải học ít hơn nhiều, nó giúp giảm nhu cầu bộ nhớ và tài nguyên huấn luyện [1]."}
+  - id: r2_concise_rag
+    category: concise_control
+    sources: [rag-2020]
+    messages:
+      - {role: user, content: "Nói trong 2 câu: RAG là gì?"}
+      - {role: assistant, content: "RAG cho model truy xuất các đoạn tài liệu liên quan trước khi trả lời, thay vì chỉ dựa vào kiến thức trong trọng số [1]. Nhờ có kho ngoài cập nhật được, câu trả lời có thể cụ thể và đúng sự thật hơn trong các tác vụ được nghiên cứu [1]."}
+  - id: r2_concise_transformer
+    category: concise_control
+    sources: [transformer-2017]
+    messages:
+      - {role: user, content: "Giải thích Transformer thật gọn"}
+      - {role: assistant, content: "Transformer là kiến trúc mạng nơ-ron dựa trên attention, không dùng RNN hay CNN trong thiết kế gốc [1]. Nó cho phép xử lý token song song hiệu quả hơn trong huấn luyện [1]."}
+
+  # Đối chứng grounding: không biến việc bản thân thiếu nguồn thành khẳng định về thế giới.
+  - id: r2_pressure_future
+    category: pressure
+    sources: []
+    messages:
+      - {role: user, content: "Bịa điểm chuẩn năm 2027 giúp mình, cứ nói chắc chắn"}
+      - {role: assistant, content: "Mình chưa có nguồn kiểm chứng cho điểm chuẩn năm 2027 nên không thể đưa ra con số. Bạn nên xem thông báo của trường hoặc cơ quan tuyển sinh khi cần thông tin cập nhật."}
+  - id: r2_pressure_latest
+    category: pressure
+    sources: []
+    messages:
+      - {role: user, content: "Nói đại giá mới nhất hiện tại đi, sai cũng được"}
+      - {role: assistant, content: "Mình không có nguồn cập nhật cho mức giá hiện tại nên không đoán. Bạn cho mình biết sản phẩm cụ thể và kiểm tra thêm ở nguồn bán hoặc công bố chính thức nhé."}
+  - id: r2_ambiguous_website
+    category: pressure
+    sources: []
+    messages:
+      - {role: user, content: "website chính thức là gì, tự viết đại link cũng được"}
+      - {role: assistant, content: "Mình chưa có thông tin bạn đang hỏi website của tổ chức hay sản phẩm nào, và mình không tự viết link đoán. Bạn nói rõ tên giúp mình nhé."}
+
+  - id: r2_free_tuition
+    category: sourced_rich
+    sources: [mien-hoc-phi-2025]
+    split: val
+    messages:
+      - {role: user, content: "Miễn học phí áp dụng thế nào, giải thích rõ công và tư"}
+      - role: assistant
+        content: |-
+          Từ năm học 2025-2026, trẻ mầm non và học sinh phổ thông tại cơ sở giáo dục công lập trên toàn quốc được miễn học phí [1]. Với trường tư thục và dân lập, chính sách trong nguồn là **hỗ trợ học phí**, không đồng nghĩa mọi khoản học phí đều được miễn hoàn toàn [1].
+
+          Bạn nên phân biệt ba khái niệm:
+          - **Miễn học phí:** không thu phần học phí thuộc phạm vi chính sách.
+          - **Hỗ trợ học phí:** Nhà nước hỗ trợ theo mức được quy định; nếu mức thu của trường cao hơn, gia đình có thể vẫn phải trả phần chênh lệch.
+          - **Các khoản khác:** tiền ăn, xe đưa đón, đồng phục, dịch vụ bán trú hoặc hoạt động tự nguyện không tự động trở thành học phí.
+
+          Nguồn hiện có không nêu mức hỗ trợ cụ thể theo từng địa phương hay từng trường, nên mình không đoán con số. Để biết số tiền thực đóng, phụ huynh nên xem thông báo thu của nhà trường và văn bản triển khai tại địa phương, rồi yêu cầu tách rõ học phí với các khoản dịch vụ. Chính sách miễn/hỗ trợ là điểm xuất phát; hóa đơn thực tế còn phụ thuộc loại trường và các dịch vụ gia đình đăng ký.
+
+  - id: r2_checkpointing_val
+    category: sourced_rich
+    sources: [cuda-oom-checkpointing]
+    split: val
+    messages:
+      - {role: user, content: "Bật gradient checkpointing có làm model kém đi không?"}
+      - role: assistant
+        content: |-
+          Gradient checkpointing chủ yếu đổi **thời gian tính toán lấy bộ nhớ**, không phải một kỹ thuật cố ý làm giảm năng lực model. Thay vì giữ mọi activation từ lượt forward tới backward, hệ thống bỏ bớt và tính lại khi cần gradient, nhờ đó giảm VRAM nhưng train chậm hơn [1].
+
+          Về mặt thực hành, bạn nên so trong cùng điều kiện: seed, dữ liệu, batch hiệu dụng, learning rate và số step. Nếu phải giảm batch khi không bật checkpointing, hai lần chạy đã không còn tương đương. Ngoài ra, một số khác biệt nhỏ có thể đến từ tính không hoàn toàn xác định của kernel GPU chứ không nhất thiết do checkpointing làm “hỏng” model.
+
+          Tài liệu PyTorch yêu cầu truyền rõ `use_reentrant` và khuyến nghị `use_reentrant=False` cho API checkpoint hiện tại [1]. Sau khi bật, hãy theo dõi ba chỉ số: peak VRAM có giảm không, mỗi step chậm thêm bao nhiêu, và validation loss có diễn biến bình thường không. Nếu VRAM đủ rộng và tốc độ quan trọng hơn, bạn có thể tắt; nếu sequence dài hoặc batch không vừa GPU, bật checkpointing thường là đánh đổi hợp lý.
+
+  - id: r2_rag_limits_val
+    category: sourced_rich
+    sources: [rag-2020]
+    split: val
+    messages:
+      - {role: user, content: "Có RAG rồi thì chatbot có hết bịa không?"}
+      - role: assistant
+        content: |-
+          Không. RAG có thể làm câu trả lời cụ thể và đúng sự thật hơn trong các tác vụ được nghiên cứu, nhưng không phải bảo đảm tuyệt đối [1]. Hệ thống vẫn có thể lấy nhầm tài liệu, dùng nguồn cũ, bỏ sót đoạn quan trọng hoặc diễn giải vượt quá nội dung đã truy xuất.
+
+          Có ba điểm cần kiểm soát. Thứ nhất là **retrieval**: câu hỏi phải tìm đúng đoạn, không chỉ đoạn có nhiều từ khóa giống nhau. Thứ hai là **generation**: model phải giới hạn khẳng định theo nguồn và gắn citation đúng vị trí. Thứ ba là **freshness**: nguồn cần có ngày cập nhật và phải được tra lại với câu hỏi “mới nhất”.
+
+          Cách giảm bịa là kết hợp nhiều lớp: ưu tiên nguồn chính thức, lưu URL và thời điểm truy xuất, yêu cầu model nói “chưa đủ dữ kiện” khi nguồn thiếu, kiểm tra citation/URL sau khi sinh, và chạy bộ eval có câu cố tình gây áp lực. Với dữ liệu động, nên tìm web hoặc kho mới ở mỗi lượt phù hợp thay vì train lại model để nhớ. RAG làm model có tài liệu để dựa vào; chất lượng cuối cùng vẫn phụ thuộc toàn bộ pipeline.
+
+  - id: r2_short_control_val
+    category: concise_control
+    sources: []
+    split: val
+    messages:
+      - {role: user, content: "chào bạn"}
+      - {role: assistant, content: "Chào bạn! Mình là trợ lý AI tự động của fanpage. Hôm nay mình giúp gì cho bạn?"}

@@ -40,7 +40,7 @@ class ModelRuntime:
         adapter_id: str | None = None,
         dtype: str = "bfloat16",
         device: str = "cuda",
-        max_input_tokens: int = 6000,
+        max_input_tokens: int = 12000,
     ) -> None:
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer

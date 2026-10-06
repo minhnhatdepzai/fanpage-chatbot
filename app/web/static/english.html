@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#7963cc">
+  <meta name="description" content="Phòng Tiếng Anh StudyScope dùng nguyên giao diện Task 1 Coach.">
+  <title>StudyScope English — Task 1 Coach</title>
+  <style>
+    *{box-sizing:border-box}html,body{height:100%;margin:0}body{display:grid;grid-template-rows:64px 1fr;background:#f7f5ff;font-family:system-ui,-apple-system,sans-serif;color:#302b45}
+    header{display:flex;align-items:center;gap:22px;padding:0 clamp(14px,3vw,42px);border-bottom:1px solid #e5dff3;background:rgba(255,255,255,.95);box-shadow:0 5px 20px rgba(65,48,115,.07);z-index:2}
+    .brand{display:flex;align-items:center;gap:9px;color:#302b45;text-decoration:none;font-weight:850}.mark{display:grid;place-items:center;width:35px;height:35px;border-radius:11px;color:#fff;background:linear-gradient(145deg,#6d58c7,#977ce7)}
+    nav{display:flex;gap:5px;overflow:auto;margin-left:auto}nav a{white-space:nowrap;padding:9px 12px;border-radius:10px;color:#7e7892;text-decoration:none;font-size:12px;font-weight:700}nav a:hover{background:#f1edff;color:#725cc7}nav a.active{color:#fff;background:#7963cc}
+    .coach{width:100%;height:100%;border:0;background:#fff} .origin{font-size:10px;color:#aaa3bb}
+    @media(max-width:720px){body{grid-template-rows:58px 1fr}.brand strong,.origin{display:none}header{gap:8px;padding:0 8px}nav a{padding:8px 9px;font-size:10px}}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/web/chat"><span class="mark">S</span><strong>studyscope.</strong></a>
+    <span class="origin">Task 1 Coach nguyên bản</span>
+    <nav aria-label="Điều hướng môn học">
+      <a href="/web/chat">Chatbot</a><a href="/web/math">Toán</a><a href="/web/literature">Ngữ văn</a><a class="active" href="/web/english">Tiếng Anh</a>
+    </nav>
+  </header>
+  <iframe class="coach" title="Task 1 Coach" src="/task1-coach-pages/index.html" allow="autoplay"></iframe>
+</body>
+</html>

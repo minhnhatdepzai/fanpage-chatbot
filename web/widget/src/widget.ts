@@ -13,6 +13,8 @@ interface StoredMsg { role: Role; text: string }
 interface Session { session_id: string; token: string }
 interface ServerMsg { id: number; text: string }
 interface WidgetConfig { images: boolean; max_chars: number; max_image_mb: number }
+interface QueueState { phase: "idle" | "queued" | "processing"; position: number | null; total: number; active_jobs: number; worker_slots: number }
+interface QueueResponse { queue?: QueueState }
 
 const script = document.currentScript as HTMLScriptElement | null;
 const API = (script?.dataset.api || (script?.src ? new URL(script.src).origin : location.origin)).replace(/\/+$/, "");
@@ -107,7 +109,7 @@ function mount(): void {
   const log = el("div", "log");
   log.setAttribute("role", "log");
   log.setAttribute("aria-live", "polite");
-  const typing = el("div", "typing", "Đang trả lời…");
+  const typing = el("div", "typing", "Đang xếp lượt xử lý…");
   const form = el("form");
   const input = el("textarea");
   input.rows = 1;
@@ -154,7 +156,13 @@ function mount(): void {
       store.save(state);
     }
   };
-  const setTyping = (on: boolean): void => {
+  const queueText = (queue?: QueueState): string => {
+    if (queue?.phase === "processing") return `Đang xử lý · ${queue.active_jobs}/${queue.worker_slots || "?"} lượt đang chạy`;
+    if (queue?.phase === "queued") return `Đang chờ · vị trí ${queue.position}/${queue.total}`;
+    return "Đang hoàn tất câu trả lời…";
+  };
+  const setTyping = (on: boolean, queue?: QueueState): void => {
+    typing.textContent = queueText(queue);
     if (on) log.append(typing);
     else typing.remove();
     log.scrollTop = log.scrollHeight;
@@ -176,7 +184,8 @@ function mount(): void {
     try {
       while (Date.now() - started < POLL_MAX_MS) {
         const q = new URLSearchParams({ session_id: state.session.session_id, token: state.session.token, after: String(state.lastId) });
-        const res = await api<{ messages: ServerMsg[]; pending: boolean }>(`/web/messages?${q}`);
+        const res = await api<{ messages: ServerMsg[]; pending: boolean; queue: QueueState }>(`/web/messages?${q}`);
+        if (res.pending) setTyping(true, res.queue);
         for (const m of res.messages) {
           state.lastId = Math.max(state.lastId, m.id);
           typing.remove();
@@ -204,7 +213,8 @@ function mount(): void {
     send.disabled = true;
     try {
       const s = await ensureSession();
-      await api("/web/messages", { method: "POST", body: JSON.stringify({ ...s, text }) });
+      const accepted = await api<QueueResponse>("/web/messages", { method: "POST", body: JSON.stringify({ ...s, text }) });
+      setTyping(true, accepted.queue);
       void poll();
     } catch (e) {
       if ((e as { status?: number }).status === 401) {
@@ -231,7 +241,8 @@ function mount(): void {
     try {
       const image_base64 = await downscaleToJpegBase64(f, 1600, 0.85);
       const s = await ensureSession();
-      await api("/web/images", { method: "POST", body: JSON.stringify({ ...s, image_base64, caption }) });
+      const accepted = await api<QueueResponse>("/web/images", { method: "POST", body: JSON.stringify({ ...s, image_base64, caption }) });
+      setTyping(true, accepted.queue);
       void poll();
     } catch (e) {
       push({ role: "error", text: (e as Error).message }, false);

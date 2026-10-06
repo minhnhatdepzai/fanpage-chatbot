@@ -1,0 +1,33 @@
+# Ứng viên VeRA v6: chiều sâu văn học đa lăng kính và sáng tác Trung/Nhật.
+# Chỉ promote nếu vượt bộ eval tách biệt và được đọc mẫu thủ công.
+name: edu-ent-v6-deep-writing
+method: vera
+base_model: Qwen/Qwen3-4B-Instruct-2507
+base_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+datasets:
+  - training/datasets/edu_ent_sft_v1.yaml
+  - training/datasets/edu_ent_sft_v2_rich.yaml
+  - training/datasets/writing_sft_v1.yaml
+  - training/datasets/writing_deep_multicultural_sft_v2.yaml
+seed: 20261006
+max_seq_len: 6144
+chunked_lm_loss: true
+loss_chunk_tokens: 192
+vera:
+  r: 256
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  projection_prng_key: 20261006
+  save_projection: true
+  vera_dropout: 0.05
+  d_initial: 0.1
+lr: 1.8e-3
+weight_decay: 0.0
+grad_accum: 4
+epochs: 2
+max_steps: 30
+warmup_ratio: 0.1
+eval_every_steps: 6
+early_stopping_patience: 3
+validation_max_examples: 4
+max_grad_norm: 1.0
+output_root: artifacts/adapters

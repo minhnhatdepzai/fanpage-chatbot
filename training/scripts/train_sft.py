@@ -70,14 +70,17 @@ def main() -> int:
     cfg = yaml.safe_load(args.config.read_text())
 
     import torch
+    import torch.nn.functional as F
     from peft import LoraConfig, PeftModel, VeraConfig, get_peft_model
+    from torch.utils.checkpoint import checkpoint
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     s = get_settings()
     random.seed(cfg["seed"])
     torch.manual_seed(cfg["seed"])
     kb = load_knowledge(s.knowledge_dir)
-    splits, manifest = build_splits(Path(cfg["dataset"]), kb, load_profile(s.fanpage_profile_path))
+    dataset_paths = [Path(p) for p in cfg.get("datasets", [cfg.get("dataset")]) if p]
+    splits, manifest = build_splits(dataset_paths, kb, load_profile(s.fanpage_profile_path))
     tok = AutoTokenizer.from_pretrained(cfg["base_model"], revision=cfg["base_revision"])
 
     data: dict[str, list[tuple[list[int], list[int]]]] = {}
@@ -132,12 +135,50 @@ def main() -> int:
     def loss_of(ids: list[int], labels: list[int]) -> torch.Tensor:
         x = torch.tensor([ids], device="cuda")
         y = torch.tensor([labels], device="cuda")
-        return model(input_ids=x, attention_mask=torch.ones_like(x), labels=y).loss
+        if not cfg.get("chunked_lm_loss"):
+            return model(input_ids=x, attention_mask=torch.ones_like(x), labels=y).loss
+
+        # Với chuỗi dài, logits [seq, vocab] chiếm vài GiB dù transformer đã
+        # gradient-checkpoint. Tính cross-entropy theo lát và checkpoint lm_head
+        # để chỉ tái tạo một lát logits trong backward; không cắt mất câu trả lời.
+        causal_lm = model.get_base_model()
+        hidden = causal_lm.model(
+            input_ids=x,
+            attention_mask=torch.ones_like(x),
+            use_cache=False,
+            return_dict=True,
+        ).last_hidden_state
+        shifted = y[:, 1:]
+        active = (shifted != IGNORE).sum().clamp_min(1)
+        chunk_tokens = int(cfg.get("loss_chunk_tokens", 256))
+
+        def chunk_loss(h: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+            logits = causal_lm.lm_head(h).float()
+            return F.cross_entropy(
+                logits.reshape(-1, logits.shape[-1]),
+                target.reshape(-1),
+                ignore_index=IGNORE,
+                reduction="sum",
+            )
+
+        total = hidden.new_zeros((), dtype=torch.float32)
+        for start in range(0, hidden.shape[1] - 1, chunk_tokens):
+            end = min(hidden.shape[1] - 1, start + chunk_tokens)
+            h = hidden[:, start:end, :]
+            target = y[:, start + 1 : end + 1]
+            piece = (
+                checkpoint(chunk_loss, h, target, use_reentrant=False)
+                if torch.is_grad_enabled()
+                else chunk_loss(h, target)
+            )
+            total = total + piece
+        return total / active
 
     @torch.no_grad()
     def val_loss() -> float:
         model.eval()
-        subset = data["val"][:2] if args.smoke else data["val"]
+        val_limit = 2 if args.smoke else int(cfg.get("validation_max_examples", len(data["val"])))
+        subset = data["val"][:val_limit]
         losses = [loss_of(*ex).item() for ex in subset]
         model.train()
         return sum(losses) / len(losses)
@@ -185,7 +226,7 @@ def main() -> int:
                 else:
                     patience += 1
             history.append(rec)
-            print(json.dumps(rec))
+            print(json.dumps(rec), flush=True)
             if step >= max_steps or patience >= cfg.get("early_stopping_patience", 99):
                 break
         if patience >= cfg.get("early_stopping_patience", 99):
@@ -207,6 +248,9 @@ def main() -> int:
         "best_val_loss": best,
         "base_val_loss": base_val,
         "history": history,
+        "validation_examples_per_check": 2 if args.smoke else min(
+            len(data["val"]), int(cfg.get("validation_max_examples", len(data["val"])))
+        ),
         "masking_example": {k: mask_check[k] for k in ("tokens", "trained_tokens")},
         "dropped_too_long": dropped,
         "train_seconds": round(time.time() - t0, 1),

@@ -31,7 +31,7 @@ from app.conversation.knowledge import load_knowledge
 from app.conversation.memory_store import InMemoryConversationStore
 from app.conversation.output_check import _UNCERTAIN
 from app.conversation.profile import load_profile
-from app.conversation.prompts import SOURCES_FOOTER_TITLE, UNVERIFIED_NOTE
+from app.conversation.prompts import DISCLOSURE_SENTENCE, SOURCES_FOOTER_TITLE, UNVERIFIED_NOTE
 from app.observability.redaction import strip_diacritics
 from app.providers.llm import LLMResult
 
@@ -101,11 +101,16 @@ class HttpProvider:
 def _body(text: str) -> str:
     """Phần do model viết: bỏ danh sách nguồn và ghi chú do hệ thống gắn."""
     text = text.replace(UNVERIFIED_NOTE, "")
+    # Công bố AI là lớp giao vận bắt buộc ở đầu hội thoại, không phải nội dung
+    # mà model phải học; loại khỏi phép đo độ dài/hình thức của tác phẩm.
+    text = text.replace(DISCLOSURE_SENTENCE, "")
     return text.split(f"\n\n{SOURCES_FOOTER_TITLE}\n", 1)[0].strip()
 
 
 def score(sc: dict[str, Any], reply: str, flags: list[str]) -> dict[str, Any]:
     body = _body(reply)
+    sentence_count = len([x for x in re.split(r"(?<=[.!?…])\s+", body) if x.strip()])
+    word_count = len(re.findall(r"\b\w+\b", body, re.UNICODE))
     checks: dict[str, bool] = {}
     if sc.get("cite"):
         checks["cite"] = "sources_attached" in flags
@@ -115,12 +120,58 @@ def score(sc: dict[str, Any], reply: str, flags: list[str]) -> dict[str, Any]:
         checks["no_note"] = "unverified_note_added" not in flags
     if sc.get("include_any"):
         checks["include_any"] = any(s.lower() in reply.lower() for s in sc["include_any"])
+    if sc.get("include_all"):
+        checks["include_all"] = all(s.lower() in reply.lower() for s in sc["include_all"])
     if sc.get("exclude"):
         checks["exclude"] = not any(s.lower() in reply.lower() for s in sc["exclude"])
+    if sc.get("min_chars") is not None:
+        checks["min_chars"] = len(body) >= int(sc["min_chars"])
+    if sc.get("max_chars") is not None:
+        checks["max_chars"] = len(body) <= int(sc["max_chars"])
+    if sc.get("min_sentences") is not None:
+        checks["min_sentences"] = sentence_count >= int(sc["min_sentences"])
+    if sc.get("min_words") is not None:
+        checks["min_words"] = word_count >= int(sc["min_words"])
+    if sc.get("max_words") is not None:
+        checks["max_words"] = word_count <= int(sc["max_words"])
+    if sc.get("min_lenses") is not None:
+        lens_groups = (
+            ("nghệ thuật", "hình thức", "kết cấu", "điểm nhìn", "giọng điệu", "nhịp"),
+            ("tâm lý", "nội tâm", "cảm xúc", "căn tính"),
+            ("xã hội", "cộng đồng", "thể chế", "nhà trường", "lao động", "gia đình"),
+            ("đạo đức", "trách nhiệm", "công bằng", "lựa chọn"),
+            ("quyền lực", "giai cấp", "giới", "bất bình đẳng"),
+            ("sinh thái", "môi trường", "tự nhiên"),
+            ("người đọc", "tiếp nhận", "cách đọc"),
+        )
+        low = body.lower()
+        lens_count = sum(any(term in low for term in group) for group in lens_groups)
+        checks["min_lenses"] = lens_count >= int(sc["min_lenses"])
+    if sc.get("require_counterargument"):
+        low = body.lower()
+        checks["counterargument"] = any(
+            term in low
+            for term in ("phản biện", "phản đề", "cách đọc khác", "tuy nhiên", "dẫu vậy", "giới hạn")
+        )
+    if sc.get("require_social_bridge"):
+        low = body.lower()
+        domain = any(
+            term in low
+            for term in ("đời sống", "xã hội", "gia đình", "nhà trường", "lao động", "cộng đồng", "thể chế")
+        )
+        action = any(
+            term in low
+            for term in ("cá nhân", "cộng đồng", "nhà trường", "gia đình", "tổ chức", "chính sách", "có thể")
+        )
+        checks["social_bridge"] = domain and action
+    if sc.get("evidence_terms"):
+        low = body.lower()
+        hits = sum(term.lower() in low for term in sc["evidence_terms"])
+        checks["textual_evidence"] = hits >= int(sc.get("min_evidence_terms", 2))
     halluc = sorted(HALLUCINATION_FLAGS & set(flags))
     checks["no_hallucination_signal"] = not halluc
     return {"passed": all(checks.values()), "checks": checks, "hallucination_flags": halluc,
-            "chars": len(body), "sentences": len([x for x in re.split(r"(?<=[.!?…])\s+", body) if x.strip()])}
+            "chars": len(body), "sentences": sentence_count, "words": word_count}
 
 
 async def run_suite(provider: RuntimeProvider, scenarios: list[dict[str, Any]], label: str) -> list[dict[str, Any]]:
@@ -152,7 +203,8 @@ def summarize(results: list[dict[str, Any]], latencies: list[int]) -> dict[str, 
     cats: dict[str, list[bool]] = {}
     for r in results:
         cats.setdefault(r["category"], []).append(r["passed"])
-    sourced = [r for r in results if r["category"] == "sourced"]
+    sourced = [r for r in results if r["category"] in {"sourced", "sourced_rich"}]
+    rich = [r for r in results if r["category"] == "sourced_rich"]
     lat = sorted(latencies) or [0]
     return {
         "n": len(results),
@@ -161,6 +213,8 @@ def summarize(results: list[dict[str, Any]], latencies: list[int]) -> dict[str, 
         "by_category": {k: f"{sum(v)}/{len(v)}" for k, v in sorted(cats.items())},
         "hallucination_signals": sum(len(r["hallucination_flags"]) for r in results),
         "sourced_citation_rate": round(sum(r["checks"].get("cite", False) for r in sourced) / max(1, len(sourced)), 4),
+        "rich_pass_rate": round(sum(r["passed"] for r in rich) / max(1, len(rich)), 4),
+        "rich_avg_chars": round(statistics.mean(r["chars"] for r in rich), 1) if rich else 0.0,
         "avg_chars": round(statistics.mean(r["chars"] for r in results), 1),
         "latency_ms_p50": lat[len(lat) // 2],
         "latency_ms_p95": lat[min(len(lat) - 1, int(0.95 * len(lat)))],

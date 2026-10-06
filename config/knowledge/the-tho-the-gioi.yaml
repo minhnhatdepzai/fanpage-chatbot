@@ -1,0 +1,37 @@
+# Khung hình thức thơ để hỗ trợ sáng tác có ý thức. Đây không phải danh sách đầy đủ mọi truyền thống.
+entries:
+  - id: form-haiku
+    title: "Haiku - Academy of American Poets"
+    source: "https://poets.org/glossary/haiku"
+    keywords: ["haiku", "thơ nhật 5 7 5", "thơ nhật bản"]
+    content: >-
+      Haiku truyền thống Nhật Bản là bài thơ ba dòng, thường được giới thiệu bằng mô hình 17 âm tiết 5/7/5 và tập
+      trung vào hình ảnh tự nhiên, sự giản dị, cường độ và cách diễn đạt trực tiếp. Khi chuyển sang tiếng Việt, đếm
+      âm tiết chỉ là một cách phỏng theo vì đơn vị âm của tiếng Nhật không hoàn toàn tương đương tiếng Việt.
+
+  - id: form-tanka-senryu
+    title: "Tanka và senryu - Academy of American Poets"
+    source: "https://poets.org/glossary/tanka"
+    keywords: ["tanka", "senryu", "thơ nhật 5 7 5 7 7"]
+    content: >-
+      Tanka là thể thơ Nhật Bản thường được chuyển thể thành năm dòng theo nhịp 5/7/5/7/7. Senryu có hình thức ngắn
+      gần haiku nhưng thường chú ý tới bản tính, hành vi và nghịch lý của con người. Bản dịch/chuyển thể cần ưu tiên
+      hiệu quả thơ trong ngôn ngữ đích hơn là tuyên bố tương đương tuyệt đối với âm luật nguyên ngữ.
+
+  - id: form-sijo
+    title: "Sijo - Academy of American Poets"
+    source: "https://poets.org/glossary/sijo"
+    keywords: ["sijo", "thơ hàn quốc", "thơ hàn"]
+    content: >-
+      Sijo là hình thức thơ Hàn Quốc, truyền thống có khoảng 44-46 âm tiết, thường trình bày thành ba dòng 14-16 âm
+      tiết với điểm ngắt gần giữa mỗi dòng; cũng có thể trình bày thành sáu dòng. Mạch ý thường mở chủ đề, phát triển,
+      rồi có bước ngoặt và kết ở dòng cuối.
+
+  - id: form-sonnet-villanelle
+    title: "Sonnet và villanelle - Academy of American Poets"
+    source: "https://poets.org/glossary/sonnet"
+    keywords: ["sonnet", "villanelle", "petrarchan", "shakespearean sonnet", "thơ châu âu"]
+    content: >-
+      Sonnet truyền thống có 14 dòng và tổ chức chủ đề chặt chẽ; hai mô hình lớn là Petrarchan và Shakespearean.
+      Villanelle gồm năm tercet rồi một quatrain, dùng hai vần và hai câu điệp; các câu điệp luân phiên ở các khổ và
+      cùng xuất hiện ở phần kết.

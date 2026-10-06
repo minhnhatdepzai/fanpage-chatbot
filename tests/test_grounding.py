@@ -92,6 +92,28 @@ def test_valid_citation_gets_system_source_footer():
     assert "sources_attached" in r.flags and UNVERIFIED_NOTE not in r.text
 
 
+def test_multi_source_writing_attaches_every_retrieved_source():
+    sources = [
+        ("Nguồn học thuật", "https://example.org/research"),
+        ("Bài báo", "https://example.net/news"),
+        ("Bài mẫu", "https://example.edu.vn/bai-mau"),
+    ]
+    r = check_output(
+        "Có thể nhìn vấn đề từ nhiều phía [1].",
+        _ctx(
+            user_text="Nghị luận xã hội về mạng xã hội",
+            sources=sources,
+            allowed_urls={url for _, url in sources},
+            writing_mode=True,
+            attach_all_sources=True,
+        ),
+    )
+    assert r.text
+    assert all(url in r.text for _, url in sources)
+    assert {"sources_attached", "all_sources_attached"} <= set(r.flags)
+    assert UNVERIFIED_NOTE not in r.text
+
+
 def test_invalid_citation_and_fabricated_link_are_removed():
     r = check_output(
         "LoRA giúp fine-tune rẻ hơn. Chi tiết xem https://fake-paper.example.com/lora nhé [3].", _ctx()
@@ -170,7 +192,9 @@ class Harness:
         self.clock = [datetime(2026, 9, 23, 10, 0, tzinfo=UTC)]
         self.store = InMemoryConversationStore(now=lambda: self.clock[0])
         self.provider = provider
-        self.settings = get_settings().model_copy(update={"grounding_mode": mode})
+        self.settings = get_settings().model_copy(
+            update={"grounding_mode": mode, "answer_verification_enabled": False}
+        )
         self.graph = build_graph()
 
     async def say(self, psid: str, text: str) -> dict:

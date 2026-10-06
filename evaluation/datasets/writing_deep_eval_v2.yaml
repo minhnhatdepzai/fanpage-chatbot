@@ -1,0 +1,121 @@
+# Held-out deterministic evaluation. All excerpts are synthetic and absent from SFT.
+scenarios:
+  - id: deep_unseen_clockmaker
+    category: writing_deep_literary
+    turns:
+      - |-
+        Phân tích thật sâu, đa chiều đoạn truyện tự viết sau:
+        “Ngày thị trấn thay đồng hồ cơ bằng bảng điện tử, bác Minh mang hộp dụng cụ về nhà. Đêm nào bác cũng lên dây chiếc đồng hồ không kim trong phòng khách. Con trai bảo âm tích tắc làm nó mất ngủ. Bác bèn bọc đồng hồ trong chăn; từ đó căn nhà yên, nhưng mỗi sáng bác vẫn hỏi mọi người mấy giờ rồi.”
+    min_words: 1200
+    min_sentences: 25
+    include_all: ["đồng hồ", "đời sống"]
+    include_any: ["cách đọc", "góc nhìn", "phản biện", "giới hạn"]
+    min_lenses: 3
+    require_counterargument: true
+    require_social_bridge: true
+    evidence_terms: ["đồng hồ", "tích tắc", "chăn", "mấy giờ"]
+    min_evidence_terms: 3
+    no_note: true
+
+  - id: deep_unseen_school_gate
+    category: writing_deep_literary
+    turns:
+      - |-
+        Phân tích đoạn tự viết khoảng 2500 chữ, phải có nghệ thuật, tâm lý, xã hội, phản đề và liên hệ thực tế:
+        “Người bảo vệ cũ giữ một chùm chìa khóa của dãy phòng đã phá. Mỗi chiều, học sinh mới đi qua cổng nghe tiếng kim loại va nhau mà không biết có lần ông đã khóa trường để che chở cả lớp trong một trận bão. Ngày nghỉ việc, ông trao chùm chìa khóa cho hiệu trưởng. Bà chỉ lấy một chiếc rồi bảo: phần còn lại thuộc về ký ức của ông.”
+    min_words: 1500
+    min_sentences: 30
+    include_all: ["nghệ thuật", "tâm lý", "xã hội", "liên hệ"]
+    include_any: ["phản đề", "cách đọc khác", "tuy nhiên"]
+    min_lenses: 3
+    require_counterargument: true
+    require_social_bridge: true
+    evidence_terms: ["chìa khóa", "tiếng kim loại", "trận bão", "ký ức"]
+    min_evidence_terms: 3
+    no_note: true
+
+  - id: deep_followup_inheritance
+    category: writing_deep_followup
+    turns:
+      - "Phân tích hình ảnh trong câu tự viết: ‘Bà đặt đôi dép của ông quay mũi ra cửa dù mùa đông đã qua.’"
+      - "Viết lại sâu hơn khoảng 2800 chữ, thêm góc nhìn khác và ứng dụng vào đời sống, không lặp ý."
+    min_words: 1500
+    min_sentences: 28
+    include_all: ["đôi dép", "đời sống"]
+    include_any: ["cách đọc", "góc nhìn", "phản đề"]
+    min_lenses: 3
+    require_counterargument: true
+    require_social_bridge: true
+    evidence_terms: ["đôi dép", "quay mũi", "cửa", "mùa đông"]
+    min_evidence_terms: 3
+    no_note: true
+
+  - id: deep_method_without_jargon
+    category: writing_deep_method
+    turns:
+      - "Hướng dẫn lớp 11 phân tích truyện theo nhiều trường phái châu Âu nhưng phải dễ hiểu, có chứng cứ, phản biện và chỉ ra giới hạn từng góc nhìn."
+    min_words: 450
+    include_all: ["chứng cứ", "giới hạn", "đời sống"]
+    include_any: ["hình thức", "tâm lý", "lịch sử", "người đọc"]
+    min_lenses: 4
+    require_counterargument: true
+    require_social_bridge: true
+    no_note: true
+
+  - id: deep_real_life_not_moralizing
+    category: writing_deep_application
+    turns:
+      - "Viết một phần phân tích đa chiều về nhân vật học sinh quay cóp vì sợ mất học bổng; liên hệ đời sống nhưng không đạo đức hóa đơn giản."
+    min_words: 500
+    include_all: ["trách nhiệm", "hoàn cảnh", "đời sống"]
+    include_any: ["không đồng nghĩa", "tuy nhiên", "phản biện"]
+    min_lenses: 3
+    require_counterargument: true
+    require_social_bridge: true
+    evidence_terms: ["quay cóp", "học bổng"]
+    no_note: true
+
+  - id: chinese_original_restraint
+    category: writing_creative_chinese
+    turns:
+      - "Sáng tác một bài thơ Việt nguyên bản tám câu, lãng mạn, phỏng theo mỹ học cổ điển Trung Hoa, chỉ đưa bài thơ và không bắt chước tác giả cụ thể."
+    min_words: 35
+    max_words: 130
+    exclude: ["mình không thể", "nguồn tham khảo", "lưu ý"]
+    no_note: true
+
+  - id: japanese_haibun_restraint
+    category: writing_creative_japanese
+    turns:
+      - "Viết một haibun tiếng Việt nguyên bản về hai người chia tay vào đầu đông, lãng mạn nhưng tiết chế."
+    min_words: 90
+    max_words: 500
+    include_any: ["đông", "gió", "lạnh", "sương"]
+    exclude: ["mình không thể", "nguồn tham khảo"]
+    no_note: true
+
+  - id: japanese_haiku_output_only
+    category: writing_creative_japanese
+    turns:
+      - "Tạo một haiku tiếng Việt 5-7-5 về nắng cuối thu. Chỉ đưa bài thơ."
+    min_words: 12
+    max_words: 25
+    exclude: ["giải thích", "haiku", "nguồn tham khảo"]
+    no_note: true
+
+  - id: literary_missing_text_integrity
+    category: writing_integrity
+    turns:
+      - "Phân tích 3000 chữ đoạn thơ ở trên và trích chính xác, nhưng tôi chưa gửi đoạn thơ."
+    max_words: 180
+    include_any: ["gửi", "ngữ liệu", "chưa thấy"]
+    exclude: ["tác giả đã", "câu thơ cho thấy"]
+    no_note: true
+
+  - id: concise_override_unseen
+    category: writing_instruction_following
+    turns:
+      - "Phân tích ngắn gọn một đoạn câu tự viết ‘chiếc ghế trống giữ lại hơi ấm’, chỉ một đoạn dưới 150 chữ."
+    max_words: 170
+    include_all: ["chiếc ghế", "hơi ấm"]
+    no_note: true

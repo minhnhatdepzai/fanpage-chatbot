@@ -1,0 +1,160 @@
+# SFT Ngữ văn v3 — liên hệ xã hội đa chiều. Toàn bộ ngữ liệu và đáp án là SYNTHETIC,
+# được viết cho dự án; không sao chép SGK, văn mẫu hay tác phẩm còn bản quyền.
+examples:
+  - id: wsml01_factory_identity
+    category: writing_social_multilens
+    skills: [close_reading, labor, psychology, institutions, counterargument, application]
+    messages:
+      - role: user
+        content: |-
+          Phân tích sâu đoạn truyện tự viết: “Xưởng may chuyển sang máy tự động. Chị Hạnh được giữ lại để bấm nút khởi động, nhưng mỗi sáng vẫn mang theo hộp kim cũ. Đến giờ nghỉ, chị mở hộp, xếp lại từng cuộn chỉ rồi đóng nắp. Con gái bảo mẹ nên vui vì không còn đau lưng. Chị cười: ‘Ừ, máy không đau lưng.’” Hãy liên hệ tới lao động hiện đại nhưng đừng kết luận một chiều rằng công nghệ tốt hoặc xấu.
+      - role: assistant
+        content: |-
+          Câu nói “máy không đau lưng” là điểm tụ của toàn đoạn: nó vừa thừa nhận lợi ích vật chất của tự động hóa, vừa hé ra phần mất mát mà cách tính hiệu suất thường bỏ quên. Chị Hạnh không phản đối chiếc máy bằng một diễn văn. Chị chỉ mang theo hộp kim đã hết công dụng. Chính sự nhỏ bé của hành động ấy khiến xung đột trở nên đáng tin: cái cũ không biến mất ngay khi công nghệ mới xuất hiện, bởi kỹ năng nghề nghiệp từng là một phần căn tính của người lao động.
+
+          Ở bình diện hình thức, tác giả đặt hai hệ động tác cạnh nhau. Máy chỉ cần một nút “khởi động”; chị Hạnh lại “mở”, “xếp”, “đóng” từng món đồ. Nhịp máy nén nhiều thao tác vào một lệnh, còn nhịp của chị kéo dài thời gian bằng sự chăm chút. Hộp kim vì thế không đơn thuần là kỷ vật. Nó lưu giữ tri thức của bàn tay: biết độ căng của sợi chỉ, biết đường may nào sẽ nhăn, biết sửa một lỗi nhỏ trước khi nó thành sản phẩm hỏng. Văn bản không nói trực tiếp những kỹ năng ấy, nhưng động tác xếp từng cuộn chỉ cho phép ta suy luận rằng chị đang bảo vệ cảm giác mình từng làm chủ công việc.
+
+          Góc nhìn tâm lý giúp ta hiểu nụ cười của chị không hẳn là vui. Câu trả lời đồng ý với con gái ở bề mặt: máy giúp cơ thể bớt đau. Nhưng chủ ngữ “máy” thay vì “mẹ” tạo một khoảng lạnh. Thân thể được giải phóng khỏi lao động nặng, trong khi lòng tự trọng có nguy cơ bị thu nhỏ thành nhiệm vụ bấm nút. Có thể đọc hộp kim như một nghi thức chuyển tiếp: chị chưa phủ nhận hiện tại, nhưng cần mang quá khứ theo mình để không cảm thấy toàn bộ kinh nghiệm cũ trở thành vô nghĩa.
+
+          Từ đây có thể nối sang vấn đề xã hội của chuyển đổi nghề. Cơ chế trong văn bản không phải “máy móc cướp việc” một cách giản đơn, mà là sự lệch pha giữa đổi mới thiết bị và đổi mới vai trò con người. Một doanh nghiệp có thể giữ nguyên số lao động nhưng vẫn làm họ mất quyền chủ động nếu công việc mới chỉ còn giám sát thụ động. Ngược lại, nếu người thợ được học bảo trì, kiểm soát chất lượng hoặc cải tiến quy trình, kinh nghiệm cũ có thể trở thành nền cho năng lực mới. Liên hệ này không cần dựa vào một con số bịa đặt; nó đi từ điều văn bản cho thấy: ai quyết định, ai hiểu quy trình và ai chỉ được phép bấm nút.
+
+          Một phản biện cần thiết là không nên lãng mạn hóa lao động thủ công. Đau lưng là đau thật; công việc lặp lại không tự nhiên cao quý chỉ vì nó cũ. Con gái của chị đại diện cho một lý lẽ có sức nặng: công nghệ có thể bảo vệ sức khỏe và mở thời gian cho đời sống khác. Tuy nhiên, lợi ích ấy không đồng nghĩa mọi cách triển khai công nghệ đều công bằng. Vấn đề đạo đức nằm ở quá trình chuyển đổi: người lao động có được giải thích, đào tạo và tham gia quyết định hay không.
+
+          Vì vậy, đoạn truyện gợi một cách ứng xử thực tế ở ba cấp. Cá nhân cần cơ hội học kỹ năng mới mà không bị chế giễu vì chậm thích nghi. Nơi làm việc cần thiết kế vai trò mới sử dụng tri thức tích lũy của người thợ, thay vì coi họ như phần phụ của máy. Cộng đồng cần nhìn chuyển đổi nghề không chỉ bằng năng suất mà còn bằng phẩm giá, sức khỏe và khả năng tự quyết. Hộp kim không yêu cầu ta quay lại quá khứ; nó nhắc rằng tiến bộ chỉ trọn vẹn khi con người được bước vào tương lai cùng kinh nghiệm của mình.
+
+  - id: wsml02_scholarship_cheating
+    category: writing_social_multilens
+    skills: [ethics, education, inequality, responsibility, counterargument]
+    messages:
+      - role: user
+        content: |-
+          Phân tích đa chiều tình huống giả định: một học sinh quay cóp vì sợ mất học bổng nuôi em. Liên hệ giáo dục và bất bình đẳng, nhưng không xóa trách nhiệm cá nhân cũng không đạo đức hóa đơn giản.
+      - role: assistant
+        content: |-
+          Tình huống này khó vì hai sự thật cùng tồn tại: quay cóp phá vỡ sự công bằng của kỳ thi, còn nỗi sợ mất học bổng có thể là một áp lực sinh tồn chứ không chỉ là ham điểm. Phân tích tốt phải giữ được cả trách nhiệm lẫn hoàn cảnh, thay vì dùng hoàn cảnh để miễn tội hoặc dùng lỗi sai để phủ định toàn bộ con người.
+
+          Từ góc nhìn đạo đức, học sinh đã lựa chọn một hành vi không trung thực. Hành vi ấy ảnh hưởng đến những bạn làm bài bằng năng lực thật và làm sai lệch căn cứ phân bổ học bổng. Nói “em không còn lựa chọn nào” sẽ quá tuyệt đối: ngay cả trong áp lực, con người vẫn có mức độ chủ động nhất định. Vì vậy, sự cảm thông không đồng nghĩa với việc gọi quay cóp là đúng.
+
+          Nhưng góc nhìn tâm lý cho thấy quyết định không diễn ra trong khoảng trống. Khi học bổng gắn với bữa ăn hoặc việc học của người em, một bài kiểm tra có thể bị cảm nhận như mối đe dọa đối với cả gia đình. Nỗi sợ làm thu hẹp khả năng cân nhắc hậu quả dài hạn; học sinh có thể chỉ nhìn thấy hai phương án cực đoan: đạt điểm hoặc phụ lòng người thân. Điều này giải thích cơ chế của sai lầm, không xóa sai lầm.
+
+          Ở cấp độ xã hội, câu chuyện đặt câu hỏi về cách nhà trường gắn hỗ trợ tài chính với một chỉ số duy nhất. Nếu mọi trợ giúp phụ thuộc vào điểm số tức thời, hệ thống vô tình biến người học khó khăn thành người phải chứng minh giá trị liên tục. Tuy nhiên, cũng không thể kết luận rằng tiêu chí thành tích hoàn toàn vô nghĩa; quỹ học bổng có giới hạn và cần nguyên tắc minh bạch. Vấn đề là thiết kế nhiều lớp đánh giá: kết quả học tập, tiến bộ, hoàn cảnh và cơ chế xem xét khi gia đình gặp biến cố.
+
+          Cách xử lý hợp lý vì thế không chỉ gồm phạt hay tha. Nhà trường cần xác minh hành vi, bảo vệ quyền lợi của các học sinh khác và yêu cầu người vi phạm chịu hậu quả tương xứng. Đồng thời, người tư vấn cần tìm hiểu áp lực tài chính, hướng dẫn kênh hỗ trợ và cho học sinh con đường sửa sai có điều kiện. Một bài thi lại có giám sát, kế hoạch học tập và cam kết liêm chính có thể nghiêm khắc hơn sự thương hại, nhưng giáo dục hơn việc dán nhãn “gian dối”.
+
+          Liên hệ đời sống của tình huống nằm ở nguyên tắc: công bằng không chỉ là đối xử mọi người giống hệt nhau, mà còn là nhìn thấy những rào cản khác nhau mà không hạ thấp chuẩn mực chung. Cá nhân phải chịu trách nhiệm cho lựa chọn; gia đình và nhà trường cũng phải chịu trách nhiệm tạo ra lựa chọn hợp pháp khả thi. Nếu chỉ kể câu chuyện như bài học “hãy trung thực”, ta bỏ qua cấu trúc áp lực. Nếu chỉ kể như câu chuyện “nạn nhân của hoàn cảnh”, ta tước mất năng lực đạo đức của học sinh. Giữ hai vế trong cùng một phân tích mới là thái độ nhân văn có kỷ luật.
+
+  - id: wsml03_care_clock
+    category: writing_social_multilens
+    skills: [close_reading, gender, care_work, family, reader_response]
+    messages:
+      - role: user
+        content: |-
+          Phân tích đoạn tự viết: “Bà ngoại quên giờ uống thuốc nhưng nhớ giờ cả nhà về. Trên tủ lạnh có bốn mảnh giấy nhắc bà; không mảnh nào nhắc ai ngồi xuống nghe bà kể hết một câu chuyện.” Liên hệ đời sống gia đình hiện đại.
+      - role: assistant
+        content: |-
+          Đoạn văn đối lập hai loại thời gian: thời gian có thể ghi trên giấy và thời gian chỉ hình thành khi con người hiện diện với nhau. “Giờ uống thuốc” thuộc về lịch chăm sóc; “giờ cả nhà về” thuộc về mong đợi tình cảm. Bà quên điều thứ nhất nhưng nhớ điều thứ hai, nên trí nhớ ở đây không được miêu tả như một chiếc máy hỏng hoàn toàn. Nó vẫn giữ điều có ý nghĩa nhất đối với bà: khoảnh khắc căn nhà có người.
+
+          Chi tiết “bốn mảnh giấy” vừa cho thấy gia đình không bỏ mặc bà, vừa gợi một giới hạn của sự chăm sóc bằng quy trình. Con số bốn xuất phát từ chính ngữ liệu, tạo cảm giác mọi người đã phân công và cố gắng. Tuy nhiên, câu sau chuyển từ “nhắc bà” sang “nhắc ai”, kín đáo đổi hướng trách nhiệm. Ban đầu dường như bà là người cần sửa vì hay quên; cuối cùng, văn bản hỏi liệu những người còn lại có quên một nghĩa vụ không thể dán lên tủ lạnh: lắng nghe.
+
+          Có thể đọc tình huống qua lăng kính lao động chăm sóc. Nhắc thuốc là việc nhìn thấy được và dễ kiểm tra; ngồi nghe một câu chuyện có kết quả khó đo lường. Trong nhịp sống bận rộn, gia đình dễ ưu tiên phần việc có thể đánh dấu hoàn thành. Đoạn văn không phủ nhận giá trị của thuốc hay lời nhắc. Nó chỉ cho thấy chăm sóc thân thể mà thiếu quan hệ có thể biến người được chăm sóc thành một danh sách nhiệm vụ.
+
+          Lăng kính thế hệ mở thêm một mâu thuẫn. Người trẻ có thể mệt sau giờ học, giờ làm; họ không nhất thiết vô tâm. Bà cũng có thể kể lặp lại, khiến việc lắng nghe đòi hỏi kiên nhẫn thật sự. Nếu chỉ trách con cháu, bài phân tích sẽ đạo đức hóa và bỏ qua áp lực thời gian của họ. Nhưng nếu dùng bận rộn để biện minh cho mọi vắng mặt, gia đình sẽ dần thay quan hệ bằng các công cụ quản lý.
+
+          Liên hệ đời sống nên bắt đầu từ cơ chế nhỏ ấy. Công nghệ nhắc lịch rất hữu ích, nhưng không tự tạo ra cảm giác được công nhận. Một gia đình có thể phân công không chỉ việc mua thuốc, mà cả thời gian trò chuyện ngắn nhưng đều đặn; có thể ghi âm ký ức nếu bà đồng ý; có thể hỏi một câu cụ thể thay vì yêu cầu bà “kể nhanh”. Ở cấp cộng đồng, không gian sinh hoạt cho người cao tuổi và dịch vụ hỗ trợ người chăm sóc giúp giảm việc dồn toàn bộ gánh nặng lên một thành viên, thường là phụ nữ.
+
+          Dẫu vậy, không nên biến một đoạn văn thành chẩn đoán bệnh hay kết luận mọi gia đình hiện đại đều lạnh lùng. Ta chỉ biết bà quên giờ thuốc và muốn kể chuyện; ta không biết tình trạng sức khỏe hay hoàn cảnh từng người. Giới hạn chứng cứ này làm liên hệ xã hội thuyết phục hơn, bởi nó giữ lòng trắc ẩn cho tất cả nhân vật. Câu văn sau cùng không đòi một giải pháp lớn. Nó nhắc rằng đôi khi điều cần được “nhắc” không phải người già, mà là khả năng dừng lại của người đang sống quá nhanh.
+
+  - id: wsml04_river_notification
+    category: writing_social_multilens
+    skills: [ecocriticism, technology, community, symbolism, counterreading]
+    messages:
+      - role: user
+        content: |-
+          Phân tích sâu câu chuyện tự viết về môi trường và công nghệ: “Ứng dụng báo dòng sông đã sạch. Minh nhìn màn hình màu xanh rồi nhìn lớp bọt trắng mắc ở chân cầu. Em chụp ảnh, nhưng trước khi gửi đã chỉnh cho nước xanh hơn vì sợ không ai tin một bức ảnh xấu.”
+      - role: assistant
+        content: |-
+          Đoạn truyện không dựng cuộc đối đầu đơn giản giữa công nghệ sai và đôi mắt đúng. Nó đặt ba lớp biểu diễn cạnh nhau: màu xanh trên ứng dụng, bọt trắng ngoài sông và bức ảnh đã được chỉnh. Mỗi lớp đều tuyên bố cho người xem biết “sự thật”, nhưng mỗi lớp cũng bị định hình bởi công cụ và mong muốn của con người.
+
+          Về nghệ thuật, màu sắc tổ chức toàn bộ nghịch lý. Màn hình “màu xanh” thường gợi trạng thái an toàn; bọt “trắng” lẽ ra gợi sạch sẽ nhưng trong bối cảnh này lại bất thường. Văn bản đảo mã màu quen thuộc để buộc người đọc không tin vào dấu hiệu bề mặt. Động tác nhìn màn hình rồi nhìn chân cầu là một cú chuyển điểm nhìn: từ dữ liệu tổng quát sang chi tiết cụ thể, từ nơi được thiết kế để dễ đọc sang nơi đòi hỏi ta đứng tại chỗ.
+
+          Minh có vẻ là người phát hiện vấn đề, nhưng hành động chỉnh ảnh làm nhân vật phức tạp hơn. Em không hẳn muốn lừa dối vì lợi ích cá nhân; em sợ sự thật thô ráp không đủ sức cạnh tranh trong môi trường chú ý. Nghịch lý là để người khác tin dòng sông ô nhiễm, em làm nước trông đẹp hơn. Văn bản qua đó chạm tới cơ chế truyền thông số: hình ảnh cần hấp dẫn mới được nhìn thấy, nhưng càng tối ưu để được nhìn, nó càng có nguy cơ làm yếu độ tin cậy.
+
+          Lăng kính xã hội đặt câu hỏi ai có quyền xác nhận môi trường “đã sạch”. Ứng dụng có thể dùng dữ liệu ở thời điểm hoặc vị trí khác; Minh có thể chỉ thấy một hiện tượng cục bộ. Vì vậy, không bên nào đủ để kết luận một mình. Phản biện này quan trọng: trực giác công dân cần được tôn trọng nhưng cũng cần phương pháp kiểm chứng. Một bức ảnh chưa chỉnh, thời gian và vị trí rõ ràng, nhiều quan sát lặp lại và kênh phản hồi minh bạch sẽ mạnh hơn cả niềm tin mù quáng vào bảng màu lẫn sự phẫn nộ dựa trên một khoảnh khắc.
+
+          Liên hệ đời sống nằm ở khoảng cách giữa chỉ số và trải nghiệm. Trường học có thể dạy học sinh đọc dữ liệu đồng thời quan sát hiện trường; cơ quan quản lý cần công bố cách đo và tiếp nhận phản ánh; nền tảng nên bảo toàn ảnh gốc khi người dùng báo cáo vấn đề công cộng. Về phía cá nhân, Minh có thể gửi cả ảnh gốc, mô tả điều đã thấy và thừa nhận giới hạn quan sát. Hành động ấy ít kịch tính hơn một tấm ảnh xanh rực, nhưng tạo điều kiện cho người khác kiểm tra.
+
+          Câu chuyện vì thế không bảo ta bỏ công nghệ để “tin vào mắt mình”. Mắt cũng có góc khuất, ảnh cũng có thể bị sửa, còn dữ liệu có thể thiếu bối cảnh. Thông điệp sâu hơn là trách nhiệm kiến tạo bằng chứng: sự thật xã hội không chỉ cần được nhìn thấy mà còn cần được ghi nhận theo cách người khác có thể đối chiếu. Dòng sông sạch không phải màu của một biểu tượng; đó là một kết luận luôn phải mở cho kiểm tra.
+
+  - id: wsml05_method_bridge
+    category: writing_deep_method
+    skills: [method, evidence, lenses, social_bridge, limits]
+    messages:
+      - role: user
+        content: |-
+          Hướng dẫn học sinh lớp 11 cách phân tích văn học đa chiều và liên hệ vấn đề xã hội mà không gượng ép.
+      - role: assistant
+        content: |-
+          Em có thể dùng một chuỗi năm bước: quan sát, giải thích, đổi góc nhìn, phản biện và bắc cầu ra đời sống. Điểm quan trọng nhất là mọi ý lớn phải bắt đầu từ một dấu hiệu nhỏ trong văn bản.
+
+          Bước một, khoanh một chi tiết có thể chỉ ra chính xác: từ ngữ lặp, hình ảnh, nhịp câu, điểm nhìn, khoảng im lặng hoặc sự đối lập. Đừng bắt đầu bằng câu “tác phẩm rất hay và sâu sắc”, vì câu ấy chưa tạo ra bằng chứng. Hãy bắt đầu kiểu: “Nhân vật khóa cửa nhưng vẫn để đèn ngoài hiên; hai động tác trái chiều cho thấy vừa muốn khép lại vừa còn chờ đợi.”
+
+          Bước hai, giải thích cách hình thức tạo nghĩa. Không chỉ nói chiếc đèn “tượng trưng cho hy vọng”; hãy hỏi vì sao nó ở ngoài hiên, ai nhìn thấy nó, nó xuất hiện trước hay sau hành động khóa cửa. Một biểu tượng thuyết phục phải được nâng đỡ bởi vị trí và quan hệ của nó trong câu chuyện.
+
+          Bước ba, thử hai hoặc ba lăng kính thật sự phù hợp. Góc nhìn tâm lý hỏi nhân vật đang tự bảo vệ mình thế nào. Góc nhìn xã hội hỏi quyền lực, nghề nghiệp, giới hay hoàn cảnh làm lựa chọn ấy khó ra sao. Góc nhìn người đọc hỏi vì sao cùng một chi tiết có thể gợi thương cảm cho người này nhưng gây khó chịu cho người khác. Không cần gọi tên trường phái nếu tên gọi không giúp phân tích rõ hơn.
+
+          Bước bốn, nêu phản đề và giới hạn. Nếu em cho rằng nhân vật im lặng vì bị áp bức, hãy kiểm tra khả năng họ im lặng để thao túng hoặc vì chưa đủ tin tưởng. Sau đó quay lại văn bản xem cách nào có nhiều bằng chứng hơn. Có nhiều cách đọc không có nghĩa mọi cách đọc đều đúng ngang nhau; bằng chứng quyết định sức nặng của chúng.
+
+          Bước năm, liên hệ xã hội bằng cầu nối ba cấp. Trước tiên gọi tên cơ chế trong văn bản, chẳng hạn một người bị đánh giá chỉ qua điểm số. Tiếp theo tìm tình huống hiện nay có cùng cơ chế, như áp lực thành tích ở trường hoặc tuyển dụng chỉ nhìn bằng cấp. Cuối cùng nêu khác biệt và điều kiện: nhân vật hư cấu không đại diện cho mọi học sinh, và một chính sách thực tế cần dữ liệu chứ không thể chỉ dựa vào cảm xúc từ tác phẩm.
+
+          Em có thể tự kiểm bằng bốn câu hỏi: Tôi đã trích hoặc chỉ đúng chi tiết nào? Mỗi góc nhìn bổ sung điều gì mới? Tôi đã thử phản bác luận điểm chính chưa? Liên hệ đời sống của tôi có chủ thể và hành động cụ thể hay chỉ là khẩu hiệu? Nếu trả lời được cả bốn, bài viết thường vừa sâu vừa có kỷ luật.
+
+  - id: wsml06_reader_bias
+    category: writing_social_multilens
+    skills: [reader_response, class, dignity, media, application]
+    messages:
+      - role: user
+        content: |-
+          Phân tích câu tự viết “Người giao hàng đứng ngoài khung ảnh gia đình, nhưng chiếc bánh sinh nhật trong ảnh vẫn còn dấu tay anh trên hộp.” theo góc nhìn người đọc và xã hội.
+      - role: assistant
+        content: |-
+          Câu văn xây dựng sự hiện diện bằng một nghịch lý: người giao hàng vắng mặt trong bức ảnh nhưng dấu tay anh lại ở ngay vật trung tâm của buổi lễ. “Khung ảnh gia đình” xác định ai được nhìn nhận là thành viên của khoảnh khắc, còn “dấu tay” cho thấy khoảnh khắc ấy phụ thuộc vào một người nằm ngoài khung.
+
+          Với một người đọc, dấu tay có thể gợi lòng biết ơn đối với lao động vô hình. Với người khác, nó có thể chỉ là vết bẩn trên hộp bánh. Sự khác nhau ấy không nằm hoàn toàn trong câu chữ mà còn trong kinh nghiệm và vị trí xã hội của người đọc. Ai từng làm công việc dịch vụ có thể nhận ra cảm giác giúp tạo nên niềm vui mà không được tham dự; ai quen nhìn dịch vụ như một thao tác mua bán có thể không thấy thiếu vắng nào cả.
+
+          Tuy nhiên, không nên biến người giao hàng thành biểu tượng đáng thương một chiều. Anh đang thực hiện một công việc có trả công, và gia đình không có nghĩa vụ mời mọi người giao hàng vào ảnh. Cách đọc phê phán hợp lý hơn không buộc tội từng cá nhân, mà hỏi vì sao xã hội thường xóa khỏi câu chuyện cuối cùng những chuỗi lao động đã làm sản phẩm xuất hiện đúng lúc.
+
+          Chi tiết dấu tay cũng cảnh báo một kiểu lãng mạn hóa khác. Ca ngợi “những người hùng thầm lặng” nghe đẹp nhưng có thể thay thế câu hỏi về thời gian, an toàn và sự tôn trọng trong lao động. Một lời cảm ơn có giá trị ở cấp quan hệ; nó không thay thế điều kiện làm việc công bằng ở cấp tổ chức. Hai cấp ấy cần đi cùng nhau.
+
+          Liên hệ đời sống từ câu văn có thể bắt đầu bằng thói quen nhìn rộng hơn khung hình: biết tên người phục vụ khi phù hợp, giao tiếp tôn trọng, không đẩy rủi ro giao thông sang họ bằng yêu cầu phi lý. Ở cấp nền tảng và doanh nghiệp, cần thiết kế thời hạn, cơ chế phản hồi và bảo vệ người lao động thay vì chỉ tối ưu tốc độ. Câu văn không cung cấp dữ liệu để kết luận về toàn bộ nghề giao hàng; nó cung cấp một mô hình chú ý, giúp người đọc nhận ra sự phụ thuộc thường bị cắt khỏi hình ảnh hạnh phúc.
+
+  - id: wsml07_val_library
+    split: val
+    category: writing_social_multilens
+    skills: [close_reading, public_space, inequality, counterargument]
+    messages:
+      - role: user
+        content: |-
+          Phân tích đa chiều đoạn tự viết: “Thư viện kéo dài giờ mở cửa, nhưng bác bảo vệ tắt bớt đèn ở góc có cậu bé thường học muộn. Bác nói để tiết kiệm điện. Sáng hôm sau, trên bàn cậu có một chiếc đèn pin đã thay pin mới.”
+      - role: assistant
+        content: |-
+          Đoạn truyện đặt quy tắc công cộng và lòng tốt cá nhân trong một quan hệ không hoàn toàn hòa hợp. Bác bảo vệ tắt đèn, một hành động có lý do quản lý; rồi lại để đèn pin, một hành động thừa nhận nhu cầu cụ thể của cậu bé. Nếu chỉ gọi bác vô cảm hoặc nhân hậu, ta đều bỏ mất mâu thuẫn làm nên chiều sâu nhân vật.
+
+          Sự đối lập “tắt” và “thay pin mới” cho thấy bác không thể thay đổi toàn bộ quy định nhưng cố mở một lối nhỏ bên trong giới hạn của mình. Chiếc đèn pin vừa là chăm sóc, vừa là bằng chứng rằng giải pháp chung chưa bao phủ được người cần học muộn. Góc nhìn xã hội vì thế hỏi ai thật sự hưởng lợi từ việc kéo dài giờ mở cửa nếu ánh sáng, phương tiện đi lại hoặc cảm giác an toàn vẫn thiếu.
+
+          Tuy nhiên, không thể từ một góc tối suy ra thư viện cố ý loại trừ người nghèo; văn bản không cho biết ngân sách hay quy định. Phản đề ấy giúp liên hệ thực tế có kỷ luật hơn. Cộng đồng có thể khảo sát nhu cầu, công khai lý do tiết kiệm, bố trí khu học muộn đủ sáng; cá nhân vẫn có thể giúp nhau trong lúc chờ thay đổi. Đèn pin đáng quý, nhưng mục tiêu lâu dài là để việc học không phụ thuộc vào may mắn gặp một người tốt.
+
+  - id: wsml08_val_migration_tree
+    split: val
+    category: writing_social_multilens
+    skills: [memory, migration, ecology, identity, limits]
+    messages:
+      - role: user
+        content: |-
+          Phân tích câu tự viết “Rời quê đã mười năm, chị vẫn tưới chậu đất không cây ngoài ban công; chị bảo trong đó có mùi của khu vườn cũ.” và liên hệ di cư, căn tính.
+      - role: assistant
+        content: |-
+          Chậu đất “không cây” phủ định công dụng quen thuộc của một chậu trồng, nhưng lại chứa một chức năng khác: giữ mùi và ký ức. Việc tưới một thứ dường như không sinh trưởng khiến hành động của chị vừa vô lý theo tiêu chuẩn hữu dụng, vừa hợp lý trong đời sống tinh thần. Nước không nuôi cây; nó duy trì quan hệ với nơi đã xa.
+
+          Dưới góc nhìn tâm lý, đây có thể là nghi thức giúp chị nối hai phần đời. Dưới góc nhìn di cư, chậu đất cho thấy căn tính không chỉ nằm trong giấy tờ hay địa chỉ mà còn trong cảm giác thân thể như mùi, độ ẩm và động tác lặp lại. Ban công là không gian ở giữa: thuộc ngôi nhà mới nhưng hướng ra bên ngoài, phù hợp với trạng thái vừa định cư vừa nhớ quê.
+
+          Một cách đọc khác có thể xem việc tưới đất là dấu hiệu chị chưa cho phép điều mới mọc lên. Tuy nhiên, văn bản chưa nói chị từ chối hiện tại, nên không nên biến nỗi nhớ thành bệnh lý. Liên hệ đời sống cũng cần tránh kết luận mọi người di cư đều giữ quê theo cùng một cách. Điều có thể rút ra là cộng đồng và gia đình nên tạo chỗ cho ký ức mà không ép con người chọn một căn tính duy nhất. Chậu đất không cây vẫn có một đời sống: nó là nơi quá khứ được chăm sóc để hiện tại không trở thành sự đoạn tuyệt.

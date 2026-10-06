@@ -147,7 +147,7 @@ def create_app(runtime: ModelRuntime, served_name: str, embedder: Any = None, vi
         use_adapter = not (req.model or "").endswith("@base")  # "<tên>@base": bỏ qua adapter (đánh giá A/B)
         try:
             res = await asyncio.to_thread(
-                runtime.generate, msgs, max_new_tokens=min(max_new, 2048), temperature=req.temperature,
+                runtime.generate, msgs, max_new_tokens=min(max_new, 4096), temperature=req.temperature,
                 top_p=req.top_p, seed=req.seed, stop=stop, use_adapter=use_adapter,
             )
         except ValueError as exc:

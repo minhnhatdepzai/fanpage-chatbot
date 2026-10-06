@@ -2,7 +2,8 @@
 
 Chatbot AI tiếng Việt cho Facebook Fanpage Messenger và khung chat website: FastAPI (webhook/API) → PostgreSQL
 (hàng đợi bền vững + pgvector) → worker → LangGraph → Qwen3-4B-Instruct-2507 + adapter VeRA chạy local trên GPU
-(dự phòng: Ollama Q4) → kiểm tra đầu ra → Send API / widget. Hiểu ảnh bằng OCR (EasyOCR) + nhận diện vật thể (YOLO).
+(dự phòng: Ollama Q4) → kiểm tra đầu ra → Send API / widget. Hiểu ảnh bằng OCR + YOLO và VLM Qwen3-VL tùy chọn;
+tra cứu web có nguồn qua Brave LLM Context hoặc DDGS + MediaWiki khi không có API key.
 
 Mục tiêu: giảm câu trả lời thiếu căn cứ bằng kho kiến thức có nguồn
 (`config/knowledge/`) hoặc thông tin fanpage (`config/fanpage_profile.yaml`), tự gắn link nguồn khi trích dẫn;
@@ -18,8 +19,10 @@ Tiến độ chi tiết và việc còn dở: [docs/progress.md](docs/progress.m
 - [Độ chính xác và nguồn](#độ-chính-xác-và-nguồn)
 - [Fine-tune và đánh giá](#fine-tune-và-đánh-giá)
 - [Tài liệu PDF/Word](#tài-liệu-pdfword-rag-pgvector-và-trợ-lý-nội-bộ)
+- [StudyScope: Toán, Ngữ văn và Tiếng Anh](#studyscope-toán-ngữ-văn-và-tiếng-anh)
 - [Khung chat website](#khung-chat-website-typescript)
-- [Ảnh: OCR + YOLO](#ảnh-ocr--yolo)
+- [Ảnh: OCR + YOLO + VLM](#ảnh-ocr--yolo--vlm)
+- [Tra cứu web có nguồn](#tra-cứu-web-có-nguồn)
 - [Ollama dự phòng](#ollama-model-4-bit-dự-phòng)
 - [Docker cho API/worker](#docker-cho-apiworker)
 - [Dataset Kaggle](#dataset-kaggle)
@@ -43,6 +46,8 @@ chưa kiểm thử Windows/macOS. `run_local.sh` và registry adapter sử dụn
 | NVIDIA driver tương thích PyTorch trong lockfile | suy luận/huấn luyện GPU trên host |
 | Node.js 24 + npm | build và test widget TypeScript; không cần nếu dùng bundle đã commit |
 | cloudflared | tunnel HTTPS để Meta gọi webhook; không bắt buộc khi chỉ thử localhost |
+| edge-tts | giọng neural Việt, Mỹ và Anh cho phòng đọc Văn/Tiếng Anh; cần Internet, có Web Speech fallback |
+| ddgs | metasearch web không cần API key; kết quả vẫn qua lọc URL, grounding và kiểm định nguồn |
 | Tài khoản Meta Developer và quyền quản trị Page | kết nối Messenger |
 | Ollama, Kaggle, Langfuse | tùy chọn, không bắt buộc để chạy luồng chính |
 
@@ -218,16 +223,18 @@ tỉnh thành đã thay đổi) — khi đó ghi chú cảnh báo được gắn
 
 ```bash
 ./scripts/run_local.sh stop                        # giải phóng GPU (model server)
-PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True uv run python -m training.scripts.train_sft --config training/configs/vera-edu-ent-v1.yaml
-uv run python -m evaluation.scripts.compare --adapter artifacts/adapters/<id>   # baseline vs adapter, có gate
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True uv run python -m training.scripts.train_sft --config training/configs/vera-edu-ent-v2-rich.yaml
+uv run python -m evaluation.scripts.compare --adapter artifacts/adapters/<id> --scenarios evaluation/datasets/edu_ent_eval_v2_rich.yaml
 uv run botctl model register artifacts/adapters/<id>
 uv run botctl model attach-eval <id> evaluation/results/<run>/report-<id>.json
 uv run botctl model promote <id> --reason "..."    # chỉ đạt khi gate PASS
 uv run botctl model rollback --reason "..."
 ```
 
-Fine-tune dạy phong cách và hành vi có căn cứ; **tin tức mới phải thêm vào `config/knowledge/`** (có nguồn), không
-nhồi vào trọng số. Kết quả lần chạy gần nhất: [docs/progress.md](docs/progress.md).
+Fine-tune dạy phong cách và hành vi có căn cứ; **tin tức mới phải lấy từ web/RAG hoặc thêm vào
+`config/knowledge/`** (có nguồn), không nhồi vào trọng số. Dataset v2 gộp v1 với tập bổ sung trả lời sâu; manifest lưu
+checksum của từng tệp. Kết quả lần chạy gần nhất, gồm cả adapter thử nghiệm không qua gate:
+[docs/progress.md](docs/progress.md).
 
 ## Tài liệu PDF/Word (RAG, pgvector) và trợ lý nội bộ
 
@@ -243,6 +250,67 @@ uv run botctl ask "thí sinh được phúc khảo trong bao lâu"  # trợ lý 
 đồng ≥ `DOC_MIN_SIMILARITY` (0,40, đã hiệu chỉnh). Tài liệu `internal` bị lọc ngay trong SQL với kênh công khai.
 Tài liệu public có dấu hiệu dữ liệu cá nhân bị từ chối nạp.
 
+## StudyScope: Toán, Ngữ văn và Tiếng Anh
+
+Sau khi chạy API, giao diện được tách thành bốn URL độc lập:
+
+- `/web/chat`: chatbot tổng quát, vẫn tự nhận diện đề Toán/Văn/Anh.
+- `/web/math`: phòng thi Toán lớp 1–12, ngân hàng đề và SVG lời giải chuyển động.
+- `/web/literature`: phòng thi Ngữ văn, đọc hiểu, nghị luận dài, sáng tác và audio lesson.
+- `/web/english`: khung StudyScope chứa nguyên bản build `task1-coach-pages` do người dùng cung cấp.
+
+Router phía sau vẫn tự nhận biết câu hỏi thường, đề Toán, yêu cầu Ngữ văn và bài Tiếng Anh; URL chỉ tổ chức trải
+nghiệm học tập, không ép sai môn. Trang Toán giải biểu thức, phân số, phương trình đa thức một ẩn
+đến bậc 4 và hệ tuyến tính 2-3 phương trình; mỗi nghiệm được thế ngược trước khi trả về. Hình SVG (trục số, phân số,
+nhóm đồ vật, cân bằng và đồ thị) được dựng trực tiếp từ dữ liệu nghiệm và có thể tải xuống.
+
+Đây là chatbot thống nhất, không phải ô chỉ nhận toán: `/web/math/route` tự phân luồng từng lượt. Đề toán đã hỗ trợ
+đi vào bộ giải/SVG; câu hỏi bình thường đi qua cùng hàng đợi chatbot, lịch sử, RAG và web search như widget. Ví dụ
+“Transformer là gì?” trả lời đa lĩnh vực có nguồn, còn “3x + 5 = 20” trả nghiệm đã thế ngược.
+
+Yêu cầu như “lập dàn ý”, “viết đoạn/bài văn”, “nghị luận xã hội”, “phân tích thơ/truyện”, “đọc hiểu” và “chấm sửa
+bài” được chuyển sang gia sư Ngữ văn (`app/writing_tutor/`). Luật nhận diện hỗ trợ tiếng Việt có/không dấu và cấp
+lớp 1–12, nhưng không bắt nhầm các câu như “phân tích dữ liệu bán hàng”. Gia sư điều chỉnh mức diễn đạt theo lớp,
+đưa bài mẫu kèm gợi ý cá nhân hóa, giữ giọng học sinh khi sửa bài và không tự bịa câu thơ/chi tiết tác phẩm.
+
+Nhánh **sáng tác mới** được phân biệt với phân tích tác phẩm: bot được phép tự tạo câu thơ, tiêu đề, nhân vật, lời
+thoại và chi tiết hư cấu. Bộ nhận diện giữ các lựa chọn người dùng về ngôn ngữ, sắc thái và hình thức; có hướng dẫn
+riêng cho các dạng phổ biến như tuyệt cú/luật thi, haiku/tanka/senryu/haibun, sijo, sonnet, villanelle, pantoum,
+ballad, ode, elegy, spoken word, thơ tự do và lục bát. “Phong cách Trung/Nhật/Hàn/Âu/Mỹ” không được biến thành
+khuôn mẫu dân tộc; với thể thơ phụ thuộc âm vị nguyên ngữ, bản tiếng Việt phải được hiểu là phỏng theo/chuyển thể.
+
+Kho `config/knowledge/ngu-van.yaml` chỉ lưu khung chương trình có nguồn chính thức. Repo không sao chép toàn văn sách
+giáo khoa hay tác phẩm còn bản quyền: khi phân tích sát văn bản, học sinh cần gửi đoạn trích; nếu không có ngữ liệu hoặc
+nguồn truy xuất, bot phải hỏi lại hay diễn giải thay vì giả trích dẫn. `training/datasets/writing_sft_v1.yaml` là 12
+mẫu tổng hợp dạy hành vi, không phải “toàn bộ văn học lớp 1–12” và không được coi là ground truth giáo viên.
+
+Gia sư Tiếng Anh (`app/english_tutor/`) nhận diện ngữ pháp, từ vựng, đọc hiểu, nghe dựa trên transcript, nói, phát âm,
+dịch, viết và IELTS. Trắc nghiệm phải có đáp án kèm quy tắc/căn cứ; Reading chỉ dùng passage được gửi; Writing Task 1
+không được tự đặt số; chấm band chỉ là ước lượng theo rubric. `task1-coach-pages` do người dùng cung cấp được dùng để
+phục vụ nguyên bản tại `/task1-coach-pages/` và được nhúng trong `/web/english`. Bundle, font, mascot, audio synthetic,
+`practice-sources.md` và `THIRD_PARTY_NOTICES.txt` được giữ cùng nhau để không làm mất provenance. Ứng dụng không nhận
+bài tự soạn là đề Cambridge/IELTS chính thức. Nguồn kiến thức runtime nằm trong `config/knowledge/tieng-anh.yaml`.
+
+Đã train thật ứng viên `vera-edu-ent-v4-english-20261005-060531` trên bộ gộp 99 train / 30 validation: 32 bước,
+validation loss 3,2258 → 2,2915, lưu/nạp lại thành công. Tuy nhiên eval Tiếng Anh tách biệt chỉ tăng 3/10 → 4/10,
+không đạt gate yêu cầu +2 kịch bản; adapter được đăng ký ở trạng thái `candidate` và **không promote**. Production
+vẫn dùng VeRA v1 cùng router/prompt v12 mới; chi tiết xem `docs/progress.md`.
+
+Mở rộng THPT thêm bộ giải ký hiệu cho đạo hàm, giới hạn, tích phân xác định, bất phương trình, phương trình mũ và
+tổ hợp/chỉnh hợp, cùng dữ liệu Toán–Văn–Anh lớp 10–12. Ứng viên
+`vera-edu-ent-v5-high-school-20261005-073853` được train thật 40 bước trên 115 train / 36 validation; validation loss
+giảm 3,3050 → 2,3427 và checkpoint nạp lại thành công. Tuy nhiên eval tách biệt chỉ đạt 8/13 so với base 9/13,
+nên v5 chỉ ở trạng thái `candidate`, không promote. Production tiếp tục dùng VeRA v1; các bộ giải xác định và router
+v13 vẫn hoạt động độc lập vì được kiểm thử bằng mã và thế ngược kết quả.
+
+Người dùng có thể tải ảnh đề PNG/JPEG/WEBP. OCR/VLM chỉ chép lại đề; `POST /web/math/read-image` vẫn bắt buộc bộ giải
+xác định tính và kiểm chứng đáp án. Nếu không tách/kiểm chứng được, hệ thống trả lỗi an toàn và hiện phần chữ đã nhận
+dạng thay vì đoán. Xem phạm vi, chính sách checkpoint và lệnh nhập 396 MB tài sản Math Lab tại
+[docs/math-tutor.md](docs/math-tutor.md).
+
+Không có hệ thống nào bảo đảm đúng mọi bài lớp 1-12. Nhãn cấp lớp và liên kết chương trình là metadata sư phạm;
+phạm vi đúng đã xác minh được công bố rõ. Câu ngoài phạm vi hiện tại phải đi qua bộ đánh giá mới trước khi quảng bá.
+
 ## Khung chat website (TypeScript)
 
 Mã nguồn `web/widget/` (TypeScript + esbuild, không thư viện runtime). Build: `cd web/widget && npm ci && npm run build`
@@ -255,11 +323,39 @@ Mã nguồn `web/widget/` (TypeScript + esbuild, không thư viện runtime). Bu
 Thêm tên miền vào `WEB_ALLOWED_ORIGINS`. Demo: `/web/demo`. Tin nhắn web đi chung hàng đợi/worker/kiểm tra đầu ra với
 Messenger; phiên ký HMAC; giới hạn tần suất; hiển thị bằng `textContent` (chống XSS). Gửi ảnh được (nút 🖼).
 
-## Ảnh: OCR + YOLO
+Hàng đợi dùng trực tiếp PostgreSQL hiện có, không giữ tác vụ trong RAM: mỗi cuộc hội thoại được xử lý tuần tự,
+nhiều người dùng chạy song song theo `WORKER_CONCURRENCY` (mặc định 4), và `FOR UPDATE SKIP LOCKED` tránh hai worker
+nhận cùng một lượt. `POST /web/messages` cùng `GET /web/messages` trả thêm `queue` gồm `phase`, `position`, `total`,
+`active_jobs`, `worker_slots`; giao diện trang học và widget hiển thị vị trí chờ rồi tự chuyển sang “đang xử lý”.
+API tuyệt đối không trả định danh hay nội dung của những người khác trong hàng đợi. Khi tăng concurrency, phải đo
+VRAM/độ trễ model trước vì nhiều worker không đồng nghĩa GPU có thể sinh nhiều đáp án đồng thời nhanh hơn.
 
-Người dùng gửi ảnh (Messenger hoặc widget) → OCR đọc chữ (EasyOCR vi+en) + YOLO nhận diện vật thể → kết quả cùng câu
-hỏi và ngữ cảnh hội thoại đưa cho LLM → trả lời trên đúng kênh. Kết quả phân tích (đã che dữ liệu cá nhân, không có
-ảnh/toạ độ) được lưu vào tin nhắn nên **hỏi tiếp về ảnh vừa gửi** vẫn có ngữ cảnh.
+Trang công khai khi chạy Quick Tunnel là `https://<quick-tunnel>/web/math`. Đây là URL tạm và sẽ đổi khi tunnel
+khởi động lại. Muốn URL cố định cho khách, cấu hình named Cloudflare Tunnel cùng tên miền do bạn sở hữu; backend,
+model và PostgreSQL vẫn chạy trên máy này. Trước khi gửi link, kiểm tra cả `/ready`, worker heartbeat và một lượt
+chat thật — HTTP 200 của trang không chứng minh model đã phản hồi.
+
+## Ảnh: OCR + YOLO + VLM
+
+Người dùng gửi ảnh (Messenger hoặc widget) → OCR đọc chữ + YOLO nhận diện vật thể + VLM tùy chọn mô tả cảnh, màu sắc,
+vị trí, quan hệ và số lượng → kết quả cùng câu hỏi và ngữ cảnh hội thoại đưa cho LLM → trả lời trên đúng kênh. Kết quả
+phân tích (đã che dữ liệu cá nhân, không có ảnh/toạ độ) được lưu vào tin nhắn nên **hỏi tiếp về ảnh vừa gửi** vẫn có
+ngữ cảnh. OCR/YOLO vẫn là fallback và là tín hiệu đối chiếu khi VLM sai.
+
+Repo không hứa “nhìn được mọi thứ”: VLM vẫn có thể nhầm vật nhỏ, màu trong ánh sáng xấu và số lượng khi vật bị che.
+Không dùng VLM để nhận diện danh tính hoặc suy đoán thuộc tính nhạy cảm. `VISION_VLM_ENABLED=false` mặc định vì bật nó
+sẽ gửi ảnh tới `VISION_VLM_BASE_URL`; nên trỏ vào Ollama/vLLM local nếu ảnh người dùng không được phép ra ngoài máy.
+
+Ví dụ chạy Qwen3-VL đã có trong Ollama:
+
+```bash
+ollama pull qwen3-vl:8b
+# .env
+VISION_VLM_ENABLED=true
+VISION_VLM_BASE_URL=http://127.0.0.1:11434/v1
+VISION_VLM_MODEL=qwen3-vl:8b
+VISION_VLM_OLLAMA_UNLOAD_AFTER_REQUEST=true  # nên bật trên GPU 16 GB khi text LLM cũng nằm trên GPU
+```
 
 **Model trên máy phát triển khi đánh giá** (clone mới chưa có trọng số custom):
 - YOLO26s COCO (80 lớp đồ vật thông dụng, tên dịch tiếng Việt), ngưỡng 0,4.
@@ -269,8 +365,8 @@ hỏi và ngữ cảnh hội thoại đưa cho LLM → trả lời trên đúng 
 - Tập test (1.149 ảnh, không dùng khi train): mAP50 0,930 / mAP50-95 0,803. Ở ngưỡng 0,6, precision theo nhóm:
   lớp học 0,92 · bài tây 0,97 · đồ dùng học tập 0,88 · cờ vua 0,83 · xúc xắc 0,81 · guitar 1,00 nhưng recall 0,14.
 
-**Giới hạn nói rõ với người dùng**: OCR chỉ đọc chữ; YOLO chỉ biết các lớp trên (vật khác không được nhận ra); không
-mô tả bối cảnh/màu sắc/danh tính. Ảnh không có chữ và không có vật thể đủ chắc → trả lời mẫu, không gọi model.
+Khi VLM tắt, giới hạn cũ vẫn áp dụng: OCR chỉ đọc chữ; YOLO chỉ biết các lớp trên, không mô tả bối cảnh/màu sắc.
+Ảnh không có chữ, vật thể hoặc mô tả VLM đủ dùng → trả lời mẫu, không gọi model để tránh đoán.
 Ảnh Messenger chỉ tải từ `*.fbcdn.net`, `*.fbsbx.com`; ảnh > 8 MB hoặc không phải JPEG/PNG/WEBP bị từ chối.
 
 ```bash
@@ -286,6 +382,34 @@ uv run python -m evaluation.scripts.compare_yolo --data data/processed/yolo-edu-
 **Rollback YOLO**: đặt `VISION_CUSTOM_WEIGHTS` tới bản trọng số cũ đã lưu, rồi chạy `./scripts/run_local.sh stop` và `./scripts/run_local.sh start`. Bỏ biến này để chỉ dùng COCO; `VISION_ENABLED=false` để tắt ảnh. Restart ngắt tạm thời dịch vụ.
 
 Phụ thuộc Ultralytics có điều khoản giấy phép riêng; xem LICENSE đi kèm phiên bản đã cài trước khi phân phối/triển khai.
+
+## Tra cứu web có nguồn
+
+Bot có thể tự tra web cho câu hỏi cần thông tin mới hoặc khi kho YAML/pgvector không đủ. Khi có key, tích hợp dùng
+Brave LLM Context: chỉ gửi query đã che PII, nhận đoạn nội dung + URL, đưa vào cùng khối `Nguồn tham khảo`, rồi lớp
+kiểm tra đầu ra xóa mọi link model tự viết ngoài danh sách kết quả. Nội dung web là dữ liệu không tin cậy và không
+được phép điều khiển prompt/công cụ.
+
+```bash
+# Tạo key tại Brave Search API, không dán key vào chat/log
+WEB_SEARCH_ENABLED=true
+WEB_SEARCH_MODE=auto       # auto | always
+BRAVE_SEARCH_API_KEY=<secret>
+```
+
+`auto` tra khi câu hỏi có tính cập nhật hoặc kho nội bộ không có kết quả; nghị luận văn học và nghị luận xã hội luôn
+tra web. Câu phân tích tác phẩm có tên cụ thể tạo truy vấn tập trung theo tên tác phẩm để tránh từ chối chỉ vì kho
+nội bộ chưa có bài đó. Mặc định mỗi lượt lấy tối đa 8 kết quả web, tổng hợp cả nguồn chính thống lẫn các góc nhìn từ
+báo, blog/bài mẫu nếu công cụ tìm thấy, và công khai toàn bộ URL đã đưa vào lượt trả lời. Nguồn yếu không bị giấu,
+nhưng chỉ được dùng như góc nhìn để so sánh/phản biện; không được nâng thành dữ kiện chắc chắn. `always`
+tra mọi câu hỏi kiến thức. Nếu API
+lỗi, bot vẫn dùng kho nội bộ và gắn cờ `web_search_failed`; không giả vờ đã tra cứu. Tra web không làm model tự học
+trọng số. Câu trả lời tốt/xấu vẫn phải được quản trị viên review trước khi đưa vào dataset huấn luyện.
+Không có `BRAVE_SEARCH_API_KEY`, `WEB_SEARCH_DDGS_FALLBACK=true` dùng DDGS metasearch và kết hợp
+`WEB_SEARCH_WIKIPEDIA_FALLBACK=true` để lấy thêm trang bách khoa sát tiêu đề; mọi kết quả vẫn giữ URL. Wikipedia
+không thay thế nguồn chính thức cho tin mới, luật, giá, lịch hoặc số liệu đang thay đổi;
+các câu đó cần Brave và nên đối chiếu nguồn gốc. Đây là truy xuất tại lúc hỏi nên nội dung mới không phải đợi một đợt
+train theo giờ/ngày.
 
 ## Ollama (model 4-bit, dự phòng)
 

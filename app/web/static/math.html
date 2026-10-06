@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="StudyScope: phòng luyện đề Toán, Ngữ văn, Tiếng Anh và gia sư AI lớp 1–12.">
+  <meta name="theme-color" content="#7963cc">
+  <title>StudyScope — Phòng luyện đề &amp; gia sư AI</title>
+  <link rel="stylesheet" href="/web/math/style.css?v=coach-2">
+  <link rel="stylesheet" href="/web/math/subjects.css?v=coach-2">
+  <link rel="stylesheet" href="/web/math/upload.css?v=lesson-4">
+</head>
+<body>
+  <div class="app-frame">
+    <aside class="sidebar">
+      <a class="brand" href="/web/chat" aria-label="StudyScope home">
+        <span class="brand-mark">S</span>
+        <span><strong>study<span>scope.</span></strong><small>YOUR SMART LEARNING SPACE</small></span>
+      </a>
+
+      <p class="nav-label">GÓC HỌC TẬP</p>
+      <nav class="main-nav" aria-label="Khu vực học tập">
+        <a class="nav-item" href="/web/chat" data-route="chat"><b>✦</b><span>Chatbot tổng quát</span><i></i></a>
+        <a class="nav-item" href="/web/math" data-route="math"><b>∑</b><span>Phòng thi Toán</span><i></i></a>
+        <a class="nav-item" href="/web/literature" data-route="literature"><b>文</b><span>Phòng thi Ngữ văn</span><i></i></a>
+        <a class="nav-item" href="/web/english" data-route="english"><b>Aa</b><span>Phòng thi Tiếng Anh</span><i></i></a>
+        <button class="nav-item" type="button" data-upload><b>▧</b><span>Giải đề từ ảnh</span><i></i></button>
+      </nav>
+
+      <div class="daily-card">
+        <span>✦</span>
+        <strong>Mỗi ngày một đề,<br>mỗi ngày tiến bộ.</strong>
+        <p>Chọn môn, chọn lớp rồi bắt đầu ngay trong phòng làm bài.</p>
+        <button type="button" data-jump="exam-library">Xem bộ đề <b>→</b></button>
+      </div>
+
+      <div class="sidebar-foot">
+        <span class="avatar mini">S</span>
+        <span><strong>Góc riêng của bạn</strong><small><i></i> Bộ kiểm chứng đang chạy</small></span>
+      </div>
+    </aside>
+
+    <section class="app-main">
+      <header class="topbar">
+        <div class="crumb"><span>Không gian học tập</span><b>›</b><strong id="breadcrumb">Tổng quan</strong></div>
+        <button class="quick-search" type="button" data-jump="tutor-workspace"><span>⌕</span> Tìm đề hoặc hỏi gia sư...</button>
+        <div class="top-actions"><span class="streak">♨ <b>0 ngày</b></span><span class="profile">B</span></div>
+      </header>
+
+      <main class="page-content">
+        <section class="welcome" id="overview">
+          <div class="welcome-copy">
+            <p class="overline">✦ A LITTLE BETTER, EVERY DAY</p>
+            <h1 id="hero-title">Chào bạn, hôm nay<br><em>mình chinh phục môn nào?</em></h1>
+            <p id="hero-copy">Ba phòng luyện đề, một gia sư AI. Chọn môn để làm bài theo đúng cấu trúc đề thi hoặc hỏi tự nhiên — hệ thống vẫn tự nhận diện nội dung.</p>
+            <div class="hero-actions">
+              <button class="primary-action" id="hero-primary" type="button" data-jump="exam-library"><span class="action-copy">Bắt đầu làm đề</span> <span>→</span></button>
+              <button class="secondary-action" type="button" data-jump="tutor-workspace">Hỏi gia sư AI</button>
+            </div>
+          </div>
+          <div class="today-card">
+            <div class="today-head"><span>TIẾN ĐỘ HÔM NAY</span><b>05/10</b></div>
+            <div class="progress-ring"><strong>0</strong><span>bài đã làm</span></div>
+            <div class="today-stats"><span><b>3</b>Môn học</span><span><b>1–12</b>Khối lớp</span><span><b>24/7</b>Gia sư AI</span></div>
+          </div>
+        </section>
+
+        <section class="section-block subject-section">
+          <div class="section-heading">
+            <div><p class="overline">PHÒNG HỌC CỦA BẠN</p><h2>Chọn một môn để bắt đầu</h2></div>
+            <span>Đề thi • Chấm bài • Giải thích chi tiết</span>
+          </div>
+          <div class="subject-grid">
+            <article class="subject-card math-card" data-card-subject="math">
+              <div class="subject-icon">∑</div><span class="subject-chip">KIỂM CHỨNG KÉP</span>
+              <h3>Toán học</h3><p>Luyện từ số học đến giải tích. Đáp án máy tính được thế ngược và có hình minh họa thật.</p>
+              <div class="skill-tags"><span>Đại số</span><span>Hình học</span><span>Đồ thị</span><span>Giải tích</span></div>
+              <button type="button" data-subject="math">Vào phòng Toán <b>→</b></button>
+            </article>
+            <article class="subject-card literature-card" data-card-subject="literature">
+              <div class="subject-icon">文</div><span class="subject-chip">LỚP 1–12</span>
+              <h3>Ngữ văn</h3><p>Đọc hiểu, nghị luận, sáng tác và nghe phần giảng giải bằng giọng Việt neural như một podcast.</p>
+              <div class="skill-tags"><span>Đọc hiểu</span><span>Nghị luận</span><span>Phân tích</span><span>Audio lesson</span></div>
+              <button type="button" data-subject="literature">Vào phòng Văn <b>→</b></button>
+            </article>
+            <article class="subject-card english-card" data-card-subject="english">
+              <div class="subject-icon">Aa</div><span class="subject-chip">TASK 1 COACH STYLE</span>
+              <h3>Tiếng Anh</h3><p>Grammar, Reading, Writing và IELTS với bài đọc neural chuẩn giọng Mỹ hoặc Anh để luyện phát âm.</p>
+              <div class="skill-tags"><span>Reading</span><span>Pronunciation</span><span>US/UK voices</span><span>IELTS</span></div>
+              <button type="button" data-subject="english">Vào phòng Anh <b>→</b></button>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block exam-coach" id="exam-library">
+          <div class="section-heading">
+            <div><p class="overline">BỘ ĐỀ LUYỆN TẬP • PRACTICE LIBRARY • LỚP 1–12</p><h2 id="exam-library-title">Kho đề ôn tập</h2><p id="exam-library-copy" class="section-copy">Chọn lớp để mở bộ đề phù hợp.</p></div>
+            <span class="exam-count" id="exam-count">48 bài luyện</span>
+          </div>
+          <div class="grade-strip" id="grade-strip" aria-label="Chọn lớp">
+            <button class="grade-pill active" type="button" data-grade="all">Tất cả</button>
+            <button class="grade-pill" type="button" data-grade="1">Lớp 1</button><button class="grade-pill" type="button" data-grade="2">Lớp 2</button>
+            <button class="grade-pill" type="button" data-grade="3">Lớp 3</button><button class="grade-pill" type="button" data-grade="4">Lớp 4</button>
+            <button class="grade-pill" type="button" data-grade="5">Lớp 5</button><button class="grade-pill" type="button" data-grade="6">Lớp 6</button>
+            <button class="grade-pill" type="button" data-grade="7">Lớp 7</button><button class="grade-pill" type="button" data-grade="8">Lớp 8</button>
+            <button class="grade-pill" type="button" data-grade="9">Lớp 9</button><button class="grade-pill" type="button" data-grade="10">Lớp 10</button>
+            <button class="grade-pill" type="button" data-grade="11">Lớp 11</button><button class="grade-pill" type="button" data-grade="12">Lớp 12</button>
+          </div>
+          <div class="exam-grid" id="exam-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="literature-submission" id="literature-submission">
+          <div class="submission-head">
+            <div><p class="overline">AI WRITING REVIEW</p><h2>Viết bài và nộp để gia sư chấm</h2><p>AI chấm theo rubric 10 điểm, chỉ lỗi ngay trong bài, gợi ý phát triển ý và đưa bản sửa tham khảo vẫn giữ giọng của bạn.</p></div>
+            <span class="submission-grade" id="submission-grade">Lớp 9</span>
+          </div>
+          <div class="submission-layout">
+            <aside class="selected-prompt">
+              <span>ĐỀ ĐANG LÀM</span><h3 id="submission-title">Chọn một đề trong kho bên trên</h3>
+              <p id="submission-prompt">Sau khi chọn “Viết bài”, đề sẽ xuất hiện tại đây.</p>
+              <div class="rubric-list"><span>Đáp ứng đề</span><span>Luận điểm</span><span>Dẫn chứng</span><span>Bố cục</span><span>Diễn đạt</span><span>Sáng tạo</span></div>
+            </aside>
+            <form id="literature-form" class="submission-form">
+              <label for="literature-answer"><span>BÀI LÀM CỦA BẠN</span><b id="answer-count">0 / 12.000 ký tự</b></label>
+              <textarea id="literature-answer" maxlength="12000" rows="16" placeholder="Viết hoặc dán bài làm của bạn tại đây…" required></textarea>
+              <div class="submission-actions"><span>🔒 Bài làm chỉ được dùng để trả lời trong phiên này.</span><button id="submit-literature" type="submit">Nộp bài để AI chấm <b>→</b></button></div>
+            </form>
+          </div>
+        </section>
+
+        <section class="tutor-section" id="tutor-workspace">
+          <div class="exam-toolbar">
+            <div><span class="room-dot"></span><span id="room-label">Phòng học đa môn</span><small id="room-hint">AI tự nhận diện đề Toán, Văn hoặc Anh</small></div>
+            <div class="timer-wrap"><span>THỜI GIAN</span><b id="timer">45:00</b><button id="timer-toggle" type="button">Bắt đầu</button></div>
+            <span class="verified-status">✓ Toán có bộ kiểm chứng</span>
+          </div>
+
+          <div class="learning-layout">
+            <aside class="question-bank">
+              <p class="overline">DẠNG BÀI NHANH</p>
+              <h2 id="bank-title">Hôm nay bạn muốn luyện gì?</h2>
+              <p id="bank-copy">Chọn một dạng bài hoặc nhập đề riêng ở khung bên cạnh.</p>
+              <div class="subject-tabs" aria-label="Chọn môn học">
+                <button class="subject-tab active" type="button" data-subject="all"><b>✦</b>Tất cả</button>
+                <button class="subject-tab" type="button" data-subject="math"><b>∑</b>Toán</button>
+                <button class="subject-tab" type="button" data-subject="literature"><b>文</b>Văn</button>
+                <button class="subject-tab" type="button" data-subject="english"><b>Aa</b>Anh</button>
+              </div>
+              <div class="example-list">
+                <button class="example" data-subject="math" data-problem="Vẽ đồ thị y = 4x + 9"><span>ĐỒ THỊ HÀM SỐ</span>Vẽ y = 4x + 9</button>
+                <button class="example" data-subject="math" data-problem="Đạo hàm của x^3 - 3x + 1"><span>TOÁN 11</span>Đạo hàm có kiểm chứng</button>
+                <button class="example" data-subject="math" data-problem="Tích phân từ 0 đến 1 của x^2 dx"><span>TOÁN 12</span>Tích phân xác định</button>
+                <button class="example" data-subject="literature" data-problem="Lập dàn ý nghị luận xã hội lớp 9 về lòng biết ơn"><span>NGỮ VĂN 9</span>Nghị luận xã hội</button>
+                <button class="example" data-subject="literature" data-problem="Tạo một bài thơ haiku bằng tiếng Việt, tối giản và buồn về cơn mưa đầu hạ. Chỉ đưa bài thơ."><span>SÁNG TÁC</span>Haiku nguyên bản</button>
+                <button class="example" data-subject="english" data-problem="Giải và giải thích bài tiếng Anh: She ___ to school every day. A. go B. goes C. going D. went"><span>ENGLISH GRAMMAR</span>Chọn đáp án đúng</button>
+                <button class="example" data-subject="english" data-problem="IELTS Writing Task 1: Hướng dẫn cách viết Overview cho biểu đồ đường và cho một ví dụ ngắn"><span>IELTS WRITING</span>Writing Task 1</button>
+              </div>
+              <div class="exam-note"><b>Không cần chọn đúng môn trước.</b><span>Bộ định tuyến vẫn đọc nội dung đề và tự chuyển đến gia sư phù hợp.</span></div>
+            </aside>
+
+            <section class="chat-panel" aria-live="polite">
+              <div id="conversation" class="conversation">
+                <article class="message assistant intro-message">
+                  <div class="avatar">S</div>
+                  <div class="bubble">
+                    <p class="message-label">STUDYSCOPE AI TUTOR</p>
+                    <h2>Gửi đề, mình cùng giải từng bước.</h2>
+                    <p>Với Toán, câu trả lời xác định sẽ có trạng thái kiểm chứng và hình SVG được dựng từ chính dữ liệu của bài. Văn và Anh được trình bày linh hoạt theo yêu cầu.</p>
+                    <div class="intro-tools"><span>✓ Đọc ảnh đề</span><span>✓ Vẽ đồ thị</span><span>✓ Giọng Việt · Mỹ · Anh</span><span>✓ Chấm bài</span><span>✓ Phân tích 2.500–3.000 chữ</span></div>
+                  </div>
+                </article>
+              </div>
+
+              <form id="composer" class="composer">
+                <div class="selectors">
+                  <label>Chương trình
+                    <select id="curriculum"><option value="vi">Việt Nam</option><option value="world">Quốc tế K–12</option></select>
+                  </label>
+                  <label>Lớp
+                    <select id="grade"><option value="">Tự nhận biết</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>
+                  </label>
+                  <button id="long-writing" class="long-writing-button" type="button"><span>✦</span> Viết bài dài <b>2.500+ chữ</b></button>
+                  <span class="auto-route">✦ Tự nhận diện môn</span>
+                </div>
+                <div class="input-row">
+                  <label class="upload" title="Đọc nội dung từ ảnh PNG/JPEG/WEBP">
+                    <input id="image" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+                    <span>Gửi ảnh</span><b>＋</b>
+                  </label>
+                  <textarea id="question" maxlength="1200" rows="3" placeholder="Dán đề Toán, Văn, Tiếng Anh hoặc hỏi bất kỳ chủ đề nào…"></textarea>
+                  <button id="send" type="submit" aria-label="Gửi câu hỏi"><span>Gửi bài</span><b>→</b></button>
+                </div>
+                <p id="file-status" class="privacy">Không dùng câu hỏi của bạn để tự huấn luyện. Ảnh chỉ xử lý trong bộ nhớ.</p>
+              </form>
+            </section>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+  <script src="/web/math/study-bank.js?v=coach-2" defer></script>
+  <script src="/web/math/scenes.js?v=math-lesson-3" defer></script>
+  <script src="/web/math/app.js?v=math-lesson-3" defer></script>
+</body>
+</html>

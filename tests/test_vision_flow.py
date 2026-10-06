@@ -101,7 +101,7 @@ class FakeVision:
         self.fail = fail
         self.calls = 0
 
-    async def analyze(self, data: bytes):  # type: ignore[no-untyped-def]
+    async def analyze(self, data: bytes, *, question: str | None = None):  # type: ignore[no-untyped-def]
         self.calls += 1
         if self.fail:
             raise RuntimeError("model server down")
@@ -183,8 +183,9 @@ async def test_web_image_upload_stores_sanitized_analysis(db, monkeypatch):
     from app.vision.client import VisionClient
     from tests.test_db_flows import scalar
 
-    async def fake_analyze(self, data):  # type: ignore[no-untyped-def]
+    async def fake_analyze(self, data, *, question=None):  # type: ignore[no-untyped-def]
         assert data.startswith(b"\xff\xd8")
+        assert question == "giải giúp"
         return HOMEWORK
 
     monkeypatch.setattr(VisionClient, "analyze", fake_analyze)
@@ -291,7 +292,7 @@ async def test_web_image_errors_are_reported_honestly(db, monkeypatch):
     from app.observability.tracing import Tracer
     from app.vision.client import VisionClient, VisionError
 
-    async def bad(self, data):  # type: ignore[no-untyped-def]
+    async def bad(self, data, *, question=None):  # type: ignore[no-untyped-def]
         raise VisionError("HTTP 400", status=400)
 
     monkeypatch.setattr(VisionClient, "analyze", bad)

@@ -19,6 +19,8 @@ import yaml
 from app.conversation.knowledge import KnowledgeBase
 from app.conversation.profile import FanpageProfile
 from app.conversation.prompts import build_system_prompt
+from app.english_tutor import detect_english_task
+from app.writing_tutor import detect_writing_task
 
 PROMPT_TIME = datetime(2026, 9, 24, 10, 0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh"))
 
@@ -48,28 +50,48 @@ def render(ex: dict[str, Any], kb: KnowledgeBase, profile: FanpageProfile) -> li
     missing = [s for s in ex.get("sources") or [] if s not in by_id]
     if missing:
         raise DatasetError(f"{ex['id']}: nguồn không có trong kho kiến thức: {missing}")
+    first_user = next((m["content"] for m in ex["messages"] if m["role"] == "user"), "")
+    writing_task = detect_writing_task(first_user)
+    english_task = detect_english_task(first_user)
     system = build_system_prompt(
         profile,
         PROMPT_TIME,
         summary=None,
         needs_disclosure=bool(ex.get("disclosure")),
         sources=[by_id[s] for s in ex.get("sources") or []],
+        writing_task=writing_task.to_state() if writing_task.is_writing else None,
+        english_task=english_task.to_state() if english_task.is_english else None,
     )
     return [{"role": "system", "content": system}, *ex["messages"]]
 
 
 def build_splits(
-    path: Path, kb: KnowledgeBase, profile: FanpageProfile
+    paths: Path | list[Path], kb: KnowledgeBase, profile: FanpageProfile
 ) -> tuple[dict[str, list[list[dict[str, str]]]], dict[str, Any]]:
-    examples = load_examples(path)
+    """Gộp một hoặc nhiều tệp SFT, nhưng vẫn lưu checksum của từng tệp để tái lập lần train."""
+    dataset_paths = [paths] if isinstance(paths, Path) else paths
+    if not dataset_paths:
+        raise DatasetError("cần ít nhất một dataset")
+    examples: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for path in dataset_paths:
+        for ex in load_examples(path):
+            if ex["id"] in seen:
+                raise DatasetError(f"trùng id giữa các dataset: {ex['id']}")
+            seen.add(ex["id"])
+            examples.append(ex)
     splits: dict[str, list[list[dict[str, str]]]] = {"train": [], "val": []}
     for ex in examples:
         splits[ex.get("split", "train")].append(render(ex, kb, profile))
-    raw = path.read_bytes()
+    files = [
+        {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()} for path in dataset_paths
+    ]
+    combined_sha = hashlib.sha256(json.dumps(files, sort_keys=True).encode()).hexdigest()
+    dataset_name = "+".join(path.stem for path in dataset_paths)
     manifest = {
-        "dataset_file": str(path),
-        "sha256": hashlib.sha256(raw).hexdigest(),
-        "dataset_version": f"{path.stem}-{hashlib.sha256(raw).hexdigest()[:8]}",
+        "dataset_files": files,
+        "sha256": combined_sha,
+        "dataset_version": f"{dataset_name}-{combined_sha[:8]}",
         "counts": {k: len(v) for k, v in splits.items()},
         "categories": _count(examples, "category"),
         "synthetic": True,

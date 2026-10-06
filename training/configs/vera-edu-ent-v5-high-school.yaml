@@ -1,0 +1,31 @@
+# Ứng viên VeRA v5: mở rộng hành vi gia sư lớp 10-12; chỉ promote nếu vượt eval tách biệt.
+name: edu-ent-v5-high-school
+method: vera
+base_model: Qwen/Qwen3-4B-Instruct-2507
+base_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+datasets:
+  - training/datasets/edu_ent_sft_v1.yaml
+  - training/datasets/edu_ent_sft_v2_rich.yaml
+  - training/datasets/writing_sft_v1.yaml
+  - training/datasets/english_tutor_sft_v1.yaml
+  - training/datasets/high_school_10_12_sft_v1.yaml
+seed: 20261005
+max_seq_len: 4096
+vera:
+  r: 256
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  projection_prng_key: 20261005
+  save_projection: true
+  vera_dropout: 0.05
+  d_initial: 0.1
+lr: 1.8e-3
+weight_decay: 0.0
+grad_accum: 4
+epochs: 2
+max_steps: 40
+warmup_ratio: 0.1
+eval_every_steps: 8
+early_stopping_patience: 3
+validation_max_examples: 18
+max_grad_norm: 1.0
+output_root: artifacts/adapters

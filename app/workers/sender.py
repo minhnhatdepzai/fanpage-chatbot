@@ -89,6 +89,9 @@ async def send_turn(
         # --- pending: kiểm tra lại điều kiện gửi
         gate = await repo.send_gate(conv_id, turn_id)
         reason = gate_decision(settings, gate, bool(row["allow_during_handoff"]))
+        if is_web(gate.page_id) and reason == "cancelled_rate_limited_locally":
+            # Bài Văn dài được chia thành nhiều mảnh để widget ghép lại; đây là một câu trả lời, không phải spam.
+            reason = None
         if reason:
             await repo.cancel_pending_outbound(turn_id, reason)
             report.outcome = reason

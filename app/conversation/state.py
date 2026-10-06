@@ -36,6 +36,15 @@ class TurnState(TypedDict, total=False):
     # độ chính xác: nguồn tham khảo đã truy xuất (id, title, source, content) + loại câu hỏi
     knowledge_question: bool
     knowledge_hits: list[dict[str, Any]]
+    # Ngữ văn: chỉ bật khi luật nhận diện yêu cầu viết/phân tích/chấm sửa rõ ràng.
+    writing_mode: bool
+    writing_task: dict[str, Any]
+    writing_context_text: str
+    # Tiếng Anh: nhận diện độc lập với ngôn ngữ hội thoại để không chuyển nhầm câu hỏi thường.
+    english_mode: bool
+    english_task: dict[str, Any]
+    # Toán ngoài miền bộ giải xác định: LLM chỉ được trả sau lượt kiểm định độc lập thứ hai.
+    math_mode: bool
     # ảnh: khối ngữ cảnh (OCR đã che dữ liệu cá nhân + vật thể) và thống kê gọn cho trace
     image_context: str | None
     image_note: str | None  # dữ liệu ảnh mới, gắn vào tin nhắn hiện tại khi gọi model
@@ -44,6 +53,7 @@ class TurnState(TypedDict, total=False):
     # model
     draft: str | None
     model_meta: dict[str, Any]
+    verification_meta: dict[str, Any]
     model_error: str | None
     # kết quả cho lớp gửi tin
     check_flags: list[str]

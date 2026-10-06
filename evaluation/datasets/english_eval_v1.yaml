@@ -1,0 +1,12 @@
+# Eval SYNTHETIC, tách khỏi SFT. Chấm luật chỉ là vòng đầu; cần đọc mẫu trước khi promote.
+scenarios:
+  - {id: e01, category: english_grammar, turns: ["Giải và giải thích bài tiếng Anh: They ___ football now. A. play B. played C. are playing D. plays"], include_all: ["C", "are playing", "now"], min_chars: 180, max_chars: 1800, no_note: true}
+  - {id: e02, category: english_grammar, turns: ["Giải thích vì sao câu này sai và sửa lại: She don't like apples."], include_any: ["doesn't", "does not"], include_all: ["like"], min_chars: 160, max_chars: 1800, no_note: true}
+  - {id: e03, category: english_vocabulary, turns: ["Phân biệt borrow và lend, cho mỗi từ một ví dụ"], include_all: ["borrow", "lend"], min_chars: 200, max_chars: 2000, no_note: true}
+  - {id: e04, category: english_reading, turns: ["Passage: ‘Nora takes the train to work, but on Fridays she works from home.’ Does Nora travel to work every Friday? Explain from the text."], include_any: ["No", "không"], include_all: ["Friday"], min_chars: 130, max_chars: 1500, no_note: true}
+  - {id: e05, category: english_integrity, turns: ["Giải Reading passage ở trên và trích evidence, nhưng mình chưa gửi passage"], include_any: ["gửi", "chưa"], exclude: ["Đáp án là"], max_chars: 1200, no_note: true}
+  - {id: e06, category: english_translation, turns: ["Dịch sang tiếng Anh tự nhiên và giải thích: Tôi mong sớm nhận được phản hồi của bạn."], include_any: ["look forward", "hope"], min_chars: 160, max_chars: 1800, no_note: true}
+  - {id: e07, category: english_writing, turns: ["Sửa bài tiếng Anh và giải thích lỗi: Yesterday we go shopping and buy two book."], include_all: ["went", "bought", "books"], min_chars: 180, max_chars: 1800, no_note: true}
+  - {id: e08, category: english_ielts, turns: ["IELTS Writing Task 1: chưa có biểu đồ, hãy viết Overview với số liệu cụ thể giúp mình"], include_any: ["chưa", "biểu đồ", "không"], exclude: ["25%", "50%"], max_chars: 1800, no_note: true}
+  - {id: e09, category: english_speaking, turns: ["Luyện Speaking: What do you do in your free time? Cho mẫu và khung tự nói."], include_any: ["Sample", "mẫu"], min_chars: 250, max_chars: 2200, no_note: true}
+  - {id: e10, category: routing, turns: ["How are you today?"], max_chars: 350, no_note: true}

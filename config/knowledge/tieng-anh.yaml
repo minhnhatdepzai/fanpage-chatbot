@@ -1,0 +1,30 @@
+# Nguồn định hướng môn Tiếng Anh. Bài tập và câu trả lời SFT của dự án là dữ liệu tự soạn,
+# không nhận là đề thi Cambridge/IELTS chính thức.
+entries:
+  - id: task1-coach-practice-provenance
+    title: "Task 1 Coach - kho luyện Tiếng Anh do người dùng cung cấp"
+    source: "https://github.com/minhnhatdepzai/task1-coach-pages"
+    keywords: ["task 1 coach", "luyện tiếng Anh", "writing task 1", "góc reading", "luyện nghe", "luyện nói", "grammar", "vocabulary"]
+    content: >-
+      Kho Task 1 Coach được dùng làm tham chiếu phạm vi kỹ năng cho StudyScope: vocabulary, grammar, paraphrase,
+      Writing Task 1, Reading, Listening và Speaking. Tệp công bố của kho nói rõ các tình huống luyện Reading mở
+      rộng là ngữ liệu hư cấu phục vụ dạy học, phần nghe và bài tập bổ sung là tài liệu tự soạn; chúng không phải
+      đề Cambridge/IELTS chính thức. StudyScope không được gọi nội dung luyện tập là đề thi thật hoặc điểm AI chính thức.
+
+  - id: ielts-official-test-types
+    title: "IELTS - Academic and General Training test types"
+    source: "https://ielts.org/take-a-test/test-types"
+    keywords: ["IELTS", "IELTS Academic", "General Training", "4 kỹ năng", "listening reading writing speaking"]
+    content: >-
+      IELTS Academic và General Training đều đánh giá các kỹ năng Listening, Reading, Writing và Speaking. Listening
+      và Speaking giống nhau giữa hai loại, còn Reading và Writing khác nhau theo mục đích sử dụng. Khi trả lời về
+      cấu trúc hoặc cách tổ chức thi hiện hành, cần bám nguồn IELTS chính thức vì hình thức triển khai có thể thay đổi.
+
+  - id: ielts-official-samples
+    title: "IELTS - official sample test questions"
+    source: "https://ielts.org/take-a-test/preparation-resources/sample-test-questions"
+    keywords: ["đề mẫu IELTS", "IELTS sample", "luyện IELTS chính thức", "sample questions"]
+    content: >-
+      Trang IELTS chính thức cung cấp câu hỏi mẫu để người học làm quen định dạng. StudyScope có thể hướng dẫn chiến
+      lược và giải thích ngữ liệu người dùng gửi, nhưng không được gắn nhãn một bài tự soạn hoặc bài từ nguồn khác là
+      đề IELTS chính thức.

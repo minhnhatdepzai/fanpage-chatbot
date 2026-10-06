@@ -118,6 +118,11 @@ class OutputCheckContext:
     sources: list[tuple[str, str]] = field(default_factory=list)
     allowed_urls: set[str] = field(default_factory=set)
     knowledge_question: bool = False
+    writing_mode: bool = False
+    english_mode: bool = False
+    creative_writing: bool = False
+    # Văn học/NLXH cần công khai toàn bộ tập nguồn đã tổng hợp, kể cả nguồn chỉ dùng để đối chiếu/phản biện.
+    attach_all_sources: bool = False
     has_image_context: bool = False
     source_text: str = (
         ""  # nội dung các nguồn đã đưa vào prompt (để biết nguồn có nói "chưa ra mắt" hay không)
@@ -135,6 +140,24 @@ class OutputCheckResult:
 def mentions_ai(text: str) -> bool:
     norm = strip_diacritics(text.lower())
     return bool(_AI_MENTION.search(norm) or _AI_SELF.search(norm))
+
+
+def _has_unverified_figure(text: str, ctx: OutputCheckContext) -> bool:
+    """Bỏ số thứ tự dàn ý và con số người dùng đã yêu cầu khỏi tín hiệu số liệu.
+
+    Ví dụ ``1. Mở bài`` hay ``180 chữ`` không phải một khẳng định thực tế mới. Một con số mới như
+    ``15 phút mỗi ngày`` vẫn phải có nguồn/ghi chú theo chính sách chung.
+    """
+    if ctx.creative_writing:
+        return False
+    if not (ctx.writing_mode or ctx.english_mode):
+        return bool(_FIGURE.search(text))
+    without_list_numbers = re.sub(r"(?m)^\s*\d{1,2}[.)]\s+", "", text)
+    user_numbers = set(re.findall(r"\d+(?:[.,]\d+)?%?", ctx.user_text or ""))
+    return any(
+        match.group(0).replace(" ", "") not in user_numbers
+        for match in _FIGURE.finditer(without_list_numbers)
+    )
 
 
 def _sentences(text: str) -> list[str]:
@@ -167,19 +190,22 @@ def _apply_grounding(text: str, ctx: OutputCheckContext, flags: list[str]) -> tu
         return "".join(f"[{n}]" for n in valid)
 
     text = _CITATION.sub(_cite, text)
-    if not cited:
+    if not cited and not ctx.creative_writing:
         out = _drop_segments(text, lambda n: bool(_VERIFY_CLAIM.search(n)))
         if out != text:
             text = out
             flags.append("false_verification_claim_removed")
     # khẳng định "chưa ra mắt..." chỉ giữ khi nguồn được đưa vào cũng nói về việc chưa/sắp ra mắt
-    if not (cited and _STALE_CLAIM.search(strip_diacritics(ctx.source_text.lower()))):
+    if not ctx.creative_writing and not (
+        cited and _STALE_CLAIM.search(strip_diacritics(ctx.source_text.lower()))
+    ):
         text = _remove_stale_claims(text, flags)
     # model 4B hay tính sai khoảng thời gian ("ra mắt cách đây hơn 1 năm 8 tháng") -> bỏ câu tự tính không có nguồn
-    out = _drop_segments(text, lambda n: bool(_DERIVED_DURATION.search(n)) and not _CITATION.search(n))
-    if out != text:
-        text = out
-        flags.append("derived_duration_removed")
+    if not ctx.creative_writing:
+        out = _drop_segments(text, lambda n: bool(_DERIVED_DURATION.search(n)) and not _CITATION.search(n))
+        if out != text:
+            text = out
+            flags.append("derived_duration_removed")
     if _MODEL_SOURCE_LINE.search(text):
         text = _MODEL_SOURCE_LINE.sub("", text)
         flags.append("model_source_line_removed")
@@ -230,7 +256,13 @@ def _remove_stale_claims(text: str, flags: list[str]) -> str:
 
 
 def _unsourced_title_list(text: str, ctx: OutputCheckContext, cited: list[int], user_norm: str) -> str | None:
-    if cited or ctx.has_image_context:
+    # Phân tích văn học có nguồn thường đặt chi tiết/cách gọi trong ngoặc kép; coi mọi cụm ấy là tên tác phẩm sẽ
+    # chặn nhầm toàn bộ bài. Luồng này đã có kiểm định grounding riêng và citations được kiểm tra ở phía trước.
+    # Luồng Ngữ văn đã quyết định nguồn ở bước định tuyến: tác phẩm có thật phải
+    # được tra cứu trước, còn đoạn/câu do người dùng cung cấp được phân tích trực
+    # tiếp. Dấu ngoặc kép trong bài phân tích là chi tiết ngữ liệu, không phải một
+    # danh sách sách/phim do model bịa ra.
+    if cited or ctx.has_image_context or ctx.writing_mode:
         return None
     kind = next((v for k, v in _TITLE_TOPIC.items() if re.search(rf"\b{k}\b", user_norm)), None)
     if not kind:
@@ -299,7 +331,7 @@ def check_output(draft: str | None, ctx: OutputCheckContext) -> OutputCheckResul
         flags.append("emoji_trimmed")
     # --- độ chính xác: link/nguồn chỉ từ kho kiến thức; câu hỏi kiến thức không nguồn phải có ghi chú
     text, cited = _apply_grounding(text, ctx, flags)
-    blocked_titles = _unsourced_title_list(text, ctx, cited, user_norm)
+    blocked_titles = None if ctx.creative_writing else _unsourced_title_list(text, ctx, cited, user_norm)
     if blocked_titles:
         return OutputCheckResult(
             NO_VERIFIED_TITLES_REPLY.format(kind=blocked_titles),
@@ -312,11 +344,16 @@ def check_output(draft: str | None, ctx: OutputCheckContext) -> OutputCheckResul
     if ctx.needs_disclosure and not mentions_ai(text):
         text = f"{DISCLOSURE_SENTENCE} {text}"
         flags.append("disclosure_added")
-    if cited:
-        refs = "\n".join(f"[{n}] {ctx.sources[n - 1][0]}: {ctx.sources[n - 1][1]}" for n in sorted(cited))
+    attached = list(range(1, len(ctx.sources) + 1)) if ctx.attach_all_sources else sorted(cited)
+    if attached:
+        refs = "\n".join(f"[{n}] {ctx.sources[n - 1][0]}: {ctx.sources[n - 1][1]}" for n in attached)
         text = f"{text}\n\n{SOURCES_FOOTER_TITLE}\n{refs}"
         flags.append("sources_attached")
-    elif ctx.knowledge_question or (_FIGURE.search(text) and not is_capability_question(ctx.user_text)):
+        if ctx.attach_all_sources:
+            flags.append("all_sources_attached")
+    elif (ctx.knowledge_question and not ctx.english_mode) or (
+        _has_unverified_figure(text, ctx) and not is_capability_question(ctx.user_text)
+    ):
         # model tự chép/bắt chước ghi chú (vd. "Lưu ý: nhận diện từ ảnh ... có thể sai") -> bỏ, chỉ giữ 1 ghi chú
         paras = [x for x in text.split("\n\n") if not _MODEL_NOTE.match(strip_diacritics(x.strip().lower()))]
         text = "\n\n".join(paras).strip() or text

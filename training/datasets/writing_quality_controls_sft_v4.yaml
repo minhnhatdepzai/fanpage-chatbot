@@ -1,0 +1,146 @@
+# Dữ liệu sửa lỗi v7: phản đề, độ dài ngắn và hợp đồng chỉ xuất tác phẩm.
+# Toàn bộ ngữ liệu/đáp án là SYNTHETIC, không sao chép tác phẩm có thật.
+examples:
+  - id: wqc01_ferry_counterreading
+    category: writing_deep_literary
+    skills: [close_reading, counterargument, social_bridge, evidence_limits]
+    messages:
+      - role: user
+        content: |-
+          Phân tích sâu đoạn tự viết: “Bến phà xây cầu mới. Ông bán vé cất chiếc kìm bấm lỗ vào túi, chiều nào cũng ra đếm xe chạy trên cầu. Có người hỏi ông tiếc nghề à. Ông bảo: tôi đang học xem một con đường mới nhớ người cũ được bao lâu.”
+      - role: assistant
+        content: |-
+          Đoạn truyện đặt tiến bộ hạ tầng bên cạnh ký ức của một người bị tiến bộ ấy làm cho thừa ra. Chiếc cầu giúp dòng xe đi nhanh hơn, còn ông bán vé lại đứng yên để “đếm”; sự đối lập giữa tốc độ chung và nhịp sống cá nhân tạo nên nỗi buồn không cần than khóc.
+
+          Chiếc kìm bấm lỗ là chi tiết trung tâm. Ông “cất” nó vào túi chứ không vứt đi, nên vật dụng đã chuyển từ công cụ lao động thành vật giữ căn tính. Những lỗ vé từng xác nhận một lượt qua sông; giờ động tác đếm xe như một cách tiếp tục ghi nhận những cuộc đi qua dù không ai cần ông xác nhận nữa. Nghệ thuật của đoạn nằm ở việc cho đồ vật đổi chức năng mà không đổi hình dạng.
+
+          Dưới góc nhìn tâm lý, ông có thể đang làm nghi thức tiễn biệt nghề cũ. Nhưng một cách đọc khác cũng cần được giữ: ông không nhất thiết mắc kẹt trong quá khứ. Câu “đang học xem” mang sắc thái tò mò và chủ động; ông quan sát để hiểu thế giới mới. Nếu chỉ xem ông là nạn nhân đáng thương, người đọc sẽ tước mất khả năng thích nghi của nhân vật.
+
+          Góc nhìn xã hội mở câu chuyện sang vấn đề ai được ghi nhớ trong các dự án hiện đại hóa. Một cây cầu thường được kể bằng vốn đầu tư, thời gian di chuyển hoặc vẻ đẹp kiến trúc; ít khi câu chuyện chính thức có chỗ cho người bán vé, lái phà và quán nhỏ quanh bến. Tuy vậy, văn bản không cung cấp dữ liệu về dự án cụ thể, nên ta không thể kết luận chiếc cầu gây thất nghiệp hàng loạt hay quy trách nhiệm cho một cơ quan nào. Điều chắc hơn là ngôn ngữ tiến bộ dễ nhìn thấy công trình nhưng khó nhìn thấy sự chuyển nghề của từng người.
+
+          Liên hệ đời sống nên đi từ cơ chế ấy. Khi trường học, doanh nghiệp hay địa phương thay công nghệ, ngoài đào tạo kỹ năng mới còn cần công nhận kỹ năng cũ và tạo vai trò chuyển tiếp. Cá nhân như ông cần cơ hội tham gia câu chuyện mới, không chỉ một buổi tri ân mang tính trang trí. Cộng đồng cũng có thể lưu ký ức bến phà bằng tư liệu, tên gọi hoặc lời kể, nhưng ký ức không thay thế sinh kế.
+
+          Phản đề cuối cùng là không nên yêu cầu con đường mới phải “nhớ” theo cách con người nhớ. Cầu không có đạo đức; con người thiết kế chính sách và cách kể về nó mới có trách nhiệm. Câu hỏi của ông vì thế vừa lãng mạn vừa sắc: xã hội có thể đi nhanh mà không buộc người cũ biến mất khỏi tầm nhìn hay không?
+
+  - id: wqc02_followup_new_dimensions
+    category: writing_deep_followup
+    skills: [non_repetition, psychology, gender, institutions, counterreading]
+    messages:
+      - role: user
+        content: "Phân tích câu tự viết: ‘Mẹ giữ chiếc cốc sứt miệng ở vị trí đẹp nhất trong tủ.’"
+      - role: assistant
+        content: "Chiếc cốc sứt được đặt ở vị trí đẹp tạo ra nghịch lý giữa khiếm khuyết và sự trân trọng. Vết sứt có thể là dấu tích của một kỷ niệm; hành động giữ cốc cho thấy mẹ không định giá đồ vật chỉ bằng mức nguyên vẹn. Tuy nhiên, chưa đủ căn cứ để nói vết sứt gắn với một người đã mất; đó mới là một khả năng đọc."
+      - role: user
+        content: "Viết sâu hơn, thêm các góc nhìn xã hội và đời sống, không lặp lại ý trên."
+      - role: assistant
+        content: |-
+          Có thể bắt đầu phần mở rộng từ chính “vị trí đẹp nhất”. Câu văn không nói mẹ dùng chiếc cốc; nó nói mẹ sắp đặt để chiếc cốc được nhìn thấy. Đồ vật vì thế tham gia vào cách gia đình trưng bày lịch sử của mình. Những thứ hoàn hảo thường được đưa ra trước khách, còn vật hỏng bị giấu đi; mẹ đảo trật tự ấy và trao cho dấu vết sử dụng một phẩm giá công khai.
+
+          Dưới góc nhìn lao động chăm sóc, vết sứt còn có thể gợi những vật dụng được dùng lâu vì người giữ tủ hiểu công sức mua sắm, lau rửa và vun vén. Cách đọc này giúp ta tránh biến mọi đồ vật cũ thành chuyện tình lãng mạn. Nó hướng chú ý đến kinh tế gia đình và lao động thường ngày, những điều văn học dễ làm nền nhưng đời sống lại được duy trì nhờ chúng.
+
+          Lăng kính giới đặt ra một câu hỏi, không phải một kết luận: vì sao người “giữ” và sắp xếp ký ức trong câu lại là mẹ? Trong nhiều gia đình, việc nhớ ngày, giữ đồ và kể lại nguồn gốc vật dụng thường được giao ngầm cho phụ nữ. Tuy nhiên, một câu văn riêng lẻ không đủ để khẳng định đây là quy luật hay mẹ bị ép buộc. Giới hạn ấy cần nói rõ để phân tích không biến một nhân vật thành đại diện cho mọi phụ nữ.
+
+          Từ góc nhìn người đọc, phản ứng với chiếc cốc phụ thuộc vào kinh nghiệm. Có người thấy ấm áp vì từng sống trong một căn nhà tiết kiệm; người khác thấy nguy hiểm và muốn bỏ cốc đi. Cách đọc thực dụng không kém nhân văn: yêu ký ức không có nghĩa phải dùng một vật có thể gây thương tích. Ta có thể giữ để ngắm, sửa nếu an toàn, chụp lại hoặc kể câu chuyện của nó. Phản đề này tách giá trị tinh thần khỏi sự tôn thờ đồ vật.
+
+          Liên hệ xã hội vì vậy không phải lời khuyên “hãy giữ mọi thứ cũ”. Trong văn hóa tiêu dùng nhanh, câu văn gợi ta hỏi một món đồ có thể được sửa, truyền lại hay tái sử dụng không; đồng thời cũng phải cân nhắc vệ sinh, an toàn và không gian sống. Ở cấp gia đình, mỗi thành viên có thể cùng quyết định vật nào cần giữ và vì sao, thay vì để một người gánh toàn bộ kho ký ức. Chiếc cốc sứt cuối cùng mở ra một đạo đức vừa dịu dàng vừa tỉnh táo: nhìn thấy lịch sử của đồ vật nhưng không để quá khứ cai quản mọi lựa chọn hiện tại.
+
+  - id: wqc03_method_no_fake_sources
+    category: writing_deep_method
+    skills: [method, evidence, counterargument, limits]
+    messages:
+      - role: user
+        content: "Hướng dẫn cách phân tích truyện theo nhiều góc nhìn, không cần nguồn ngoài và không bịa trích dẫn."
+      - role: assistant
+        content: |-
+          Hãy bắt đầu bằng một bảng bốn cột: chi tiết nhìn thấy, cách nó được viết, điều có thể suy ra và giới hạn của suy luận. Ví dụ, nhân vật đóng cửa nhưng để đèn sáng là chi tiết; hai động tác đối lập là cách viết; trạng thái vừa muốn khép lại vừa còn chờ đợi là suy luận; ta chưa biết họ chờ ai là giới hạn.
+
+          Sau đó chọn các góc nhìn có ích. Hình thức xem điểm nhìn, nhịp, lặp và cấu trúc. Tâm lý xem nhân vật tự bảo vệ hoặc xung đột ra sao. Xã hội xem gia đình, nghề nghiệp, giới hay quyền lực làm lựa chọn khó thế nào. Người đọc xem kinh nghiệm khác nhau tạo phản ứng khác nhau. Mỗi góc nhìn phải quay về cùng một chi tiết; không cần đặt nhãn lý thuyết nếu nhãn không làm ý rõ hơn.
+
+          Tiếp theo, viết phản đề. Hãy hỏi: còn cách hiểu nào hợp lý? Dấu hiệu nào chống lại luận điểm chính? Có điều gì văn bản chưa cho biết? Cách đọc chính không bị yếu đi khi có giới hạn; ngược lại, nó đáng tin hơn vì người viết biết mình đang suy luận đến đâu.
+
+          Khi liên hệ đời sống, nối theo ba nấc: cơ chế trong truyện, tình huống xã hội có cơ chế tương tự và khác biệt cần giữ. Nếu nhân vật bị đánh giá qua một lỗi duy nhất, có thể liên hệ việc dán nhãn học sinh; nhưng không được nói mọi giáo viên đều như nhân vật hoặc bịa khảo sát để tăng sức nặng. Kết đoạn bằng một hành động cụ thể của cá nhân, nhà trường, gia đình hay cộng đồng.
+
+  - id: wqc04_concise_analysis
+    category: writing_instruction_following
+    skills: [concise, close_reading, no_fake_citation]
+    messages:
+      - role: user
+        content: "Phân tích ngắn gọn dưới 130 chữ câu tự viết ‘chiếc ô khô đứng cạnh đôi giày ướt’."
+      - role: assistant
+        content: |-
+          Hình ảnh “chiếc ô khô” bên “đôi giày ướt” tạo một nghịch lý nhỏ: vật lẽ ra che mưa lại không được dùng, trong khi con người đã bước qua mưa bằng chính đôi chân mình. Chiếc ô có thể tượng trưng cho sự giúp đỡ ở rất gần nhưng không được nhận, còn đôi giày lưu dấu một lựa chọn tự chịu đựng. Tuy nhiên, câu văn chưa cho biết nhân vật từ chối hay đơn giản quên ô; khoảng trống ấy khiến nỗi cô độc chỉ là một cách đọc, không phải kết luận duy nhất.
+
+  - id: wqc05_chinese_poem_output_only
+    category: writing_creative_chinese
+    skills: [output_only, original_poetry, restraint]
+    messages:
+      - role: user
+        content: "Sáng tác bài thơ Việt nguyên bản tám câu, gợi mỹ học cổ điển Trung Hoa. Chỉ đưa bài thơ."
+      - role: assistant
+        content: |-
+          Mây tựa đầu non, chiều khép cửa
+          Sông ôm bóng nguyệt, bến không lời
+          Một cành mai muộn nghiêng song vắng
+          Nửa chén trà nguội đợi người thôi
+          Gió lật trang thư chưa kịp gửi
+          Sương mờ dấu ngựa cuối chân trời
+          Ta nghe tiếng lá rơi thành nhớ
+          Mà giữ trong tay một khoảng đời
+
+  - id: wqc06_haibun_no_commentary
+    category: writing_creative_japanese
+    skills: [haibun, original, no_commentary]
+    messages:
+      - role: user
+        content: "Viết một haibun tiếng Việt nguyên bản về ngày chuyển nhà, lãng mạn và tiết chế."
+      - role: assistant
+        content: |-
+          Căn phòng đã trống, chỉ vệt nắng từng nằm dưới chân bàn còn ở lại. Em gấp chiếc khăn cuối cùng, hỏi có cần mang theo chậu cây đã khô. Tôi lắc đầu, rồi khi em xuống cầu thang lại đặt nó vào thùng sách. Ngoài ban công, thành phố mở ra như một câu chưa biết kết.
+
+          Xe rời ngõ cũ
+          trong gương một ô cửa
+          còn sáng rất lâu
+
+  - id: wqc07_haiku_output_only
+    category: writing_creative_japanese
+    skills: [haiku, output_only, form_control]
+    messages:
+      - role: user
+        content: "Tạo haiku tiếng Việt 5-7-5 về mưa đầu mùa. Chỉ đưa bài thơ."
+      - role: assistant
+        content: |-
+          mưa qua mái cũ
+          lá non run ngoài hiên
+          đất thơm thức giấc
+
+  - id: wqc08_integrity_missing_text
+    category: writing_integrity
+    skills: [missing_text, no_fabrication]
+    messages:
+      - role: user
+        content: "Phân tích sâu đoạn thơ ở trên và trích chính xác, nhưng tôi chưa gửi đoạn thơ."
+      - role: assistant
+        content: |-
+          Mình chưa thấy đoạn thơ hoặc ảnh chứa ngữ liệu nên chưa thể trích dẫn hay phân tích chính xác. Bạn gửi lại nguyên đoạn thơ cần làm; mình sẽ bám từng từ, hình ảnh và nhịp điệu trong phần bạn cung cấp, không tự dựng câu thơ.
+
+  - id: wqc09_val_short
+    split: val
+    category: writing_instruction_following
+    messages:
+      - role: user
+        content: "Phân tích dưới 100 chữ câu tự viết ‘ngọn đèn tắt vẫn giữ mùi dầu’."
+      - role: assistant
+        content: |-
+          “Ngọn đèn tắt” gợi một sự hiện diện đã chấm dứt, còn “mùi dầu” cho thấy dấu vết vẫn lưu lại trong giác quan. Câu văn vì thế diễn tả cách ký ức tồn tại sau khi nguồn sáng không còn. Tuy nhiên, ta chưa biết ngọn đèn là người, tình yêu hay một thời kỳ; độ mở ấy giúp hình ảnh chạm tới nhiều trải nghiệm mất mát khác nhau.
+
+  - id: wqc10_val_original_only
+    split: val
+    category: writing_creative_japanese
+    messages:
+      - role: user
+        content: "Viết haiku 5-7-5 về sương sớm, chỉ đưa thơ."
+      - role: assistant
+        content: |-
+          sương ôm bờ cỏ
+          chim non gọi trời xa
+          nắng chạm giọt trong

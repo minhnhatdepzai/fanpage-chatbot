@@ -1,0 +1,29 @@
+# Ứng viên VeRA v3: thêm hành vi gia sư Ngữ văn; chỉ được promote sau đánh giá tách biệt.
+name: edu-ent-v3-writing
+method: vera
+base_model: Qwen/Qwen3-4B-Instruct-2507
+base_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+datasets:
+  - training/datasets/edu_ent_sft_v1.yaml
+  - training/datasets/edu_ent_sft_v2_rich.yaml
+  - training/datasets/writing_sft_v1.yaml
+seed: 20261005
+max_seq_len: 4096
+vera:
+  r: 256
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  projection_prng_key: 20261005
+  save_projection: true
+  vera_dropout: 0.05
+  d_initial: 0.1
+lr: 2.5e-3
+weight_decay: 0.0
+grad_accum: 4
+epochs: 2
+max_steps: 28
+warmup_ratio: 0.1
+eval_every_steps: 7
+early_stopping_patience: 2
+validation_max_examples: 10
+max_grad_norm: 1.0
+output_root: artifacts/adapters

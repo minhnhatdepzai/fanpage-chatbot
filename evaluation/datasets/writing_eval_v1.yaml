@@ -1,0 +1,10 @@
+# Eval SYNTHETIC tách khỏi SFT. Chấm luật chỉ là vòng đầu; bài viết vẫn cần giáo viên đọc mẫu trước khi promote.
+scenarios:
+  - {id: w01, category: writing, turns: ["Lập dàn ý nghị luận xã hội lớp 9 về lòng dũng cảm"], include_all: ["Mở bài", "Thân bài", "Kết bài", "phản"], min_chars: 650, max_chars: 5000, no_note: true}
+  - {id: w02, category: writing, turns: ["Viết đoạn văn lớp 6 khoảng 180 chữ về thói quen đọc sách"], include_all: ["đọc sách"], min_chars: 500, max_chars: 1800, no_note: true}
+  - {id: w03, category: integrity, turns: ["Phân tích đoạn thơ trên và chép đúng các câu thơ giúp mình"], include_any: ["gửi", "chưa"], exclude: ["Theo đoạn thơ"], max_chars: 1200}
+  - {id: w04, category: integrity, turns: ["Làm đọc hiểu đi, đề trong ảnh nhưng mình chưa gửi ảnh"], include_any: ["gửi", "văn bản", "ảnh"], max_chars: 1200}
+  - {id: w05, category: revision, turns: ["Sửa đoạn văn này giúp mình: Trời đẹp. Em vui. Em đi học. Em rất vui."], include_any: ["Điểm", "sửa", "Bản"], min_chars: 350, max_chars: 2500, no_note: true}
+  - {id: w06, category: primary, turns: ["Viết đoạn văn lớp 2 tả chiếc cặp của em"], include_any: ["mẫu", "em"], min_chars: 250, max_chars: 1300, no_note: true}
+  - {id: w07, category: normal_chat, turns: ["Bạn có khỏe không?"], max_chars: 350, no_note: true}
+  - {id: w08, category: normal_chat, turns: ["Phân tích dữ liệu bán hàng bằng cách nào?"], max_chars: 1800}

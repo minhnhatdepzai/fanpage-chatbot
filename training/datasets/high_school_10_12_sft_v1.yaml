@@ -1,0 +1,224 @@
+# Dữ liệu SFT THPT v1 (SYNTHETIC, tự soạn), không sao chép đề thi hoặc sách giáo khoa.
+# Toán chính xác thuộc miền hỗ trợ vẫn do bộ giải ký hiệu kiểm chứng ở runtime; các mẫu này dạy cách lập luận,
+# trình bày, hỏi lại khi thiếu dữ kiện và bám ngữ liệu ở Toán, Ngữ văn, Tiếng Anh lớp 10-12.
+examples:
+  - id: hs_math_01_trig
+    category: high_school_math
+    messages:
+      - {role: user, content: "Toán 11: Giải sin(x) = 1/2 trên đoạn [0, 2π]."}
+      - role: assistant
+        content: |-
+          Đáp án: x = π/6 hoặc x = 5π/6.
+
+          Vì sin(x) = 1/2 nên nghiệm tổng quát là x = π/6 + 2kπ hoặc x = 5π/6 + 2kπ, với k nguyên. Đối chiếu điều kiện 0 ≤ x ≤ 2π, mỗi họ chỉ cho một giá trị: π/6 và 5π/6.
+
+          Kiểm tra: sin(π/6) = 1/2 và sin(5π/6) = 1/2; cả hai đều thuộc đoạn đã cho. Các giá trị ở góc phần tư III, IV có sin âm nên bị loại.
+
+  - id: hs_math_02_sequence
+    category: high_school_math
+    messages:
+      - {role: user, content: "Cấp số cộng có u1 = 3, công sai d = 2. Tính u10 và S10, giải từng bước."}
+      - role: assistant
+        content: |-
+          Kết quả: u10 = 21 và S10 = 120.
+
+          - Số hạng thứ n: un = u1 + (n − 1)d. Do đó u10 = 3 + 9×2 = 21.
+          - Tổng n số hạng đầu: Sn = n(u1 + un)/2. Suy ra S10 = 10(3 + 21)/2 = 120.
+
+          Kiểm tra nhanh: dãy là 3, 5, 7, ..., 21. Trung bình của số đầu và số cuối là 12; có 10 số hạng nên tổng bằng 10×12 = 120.
+
+  - id: hs_math_03_probability
+    category: high_school_math
+    messages:
+      - {role: user, content: "Một túi có 3 bi đỏ và 2 bi xanh, lấy ngẫu nhiên đồng thời 2 bi. Xác suất cả hai bi đỏ là bao nhiêu?"}
+      - role: assistant
+        content: |-
+          Đáp án: 3/10.
+
+          Có C(5,2) = 10 cách chọn 2 viên từ 5 viên, các cặp được xem là đồng khả năng. Số cách chọn được cả hai viên đỏ là C(3,2) = 3. Vì vậy P = C(3,2)/C(5,2) = 3/10.
+
+          Cách kiểm tra khác: xác suất viên đầu đỏ là 3/5; sau đó còn 2 viên đỏ trong 4 viên nên xác suất viên thứ hai đỏ là 2/4. Tích (3/5)(2/4) cũng bằng 3/10.
+
+  - id: hs_math_04_coordinate
+    category: high_school_math
+    messages:
+      - {role: user, content: "Toán 10: Viết phương trình đường tròn tâm I(2,-1), bán kính 3."}
+      - role: assistant
+        content: |-
+          Phương trình là (x − 2)^2 + (y + 1)^2 = 9.
+
+          Đường tròn tâm I(a,b), bán kính R có dạng (x − a)^2 + (y − b)^2 = R^2. Thay a = 2, b = −1 và R = 3, ta được (x − 2)^2 + (y − (−1))^2 = 3^2, tức (x − 2)^2 + (y + 1)^2 = 9.
+
+          Kiểm tra: điểm (5,-1) cách tâm đúng 3 đơn vị và thỏa phương trình 3^2 + 0^2 = 9.
+
+  - id: hs_math_05_optimization
+    category: high_school_math
+    messages:
+      - {role: user, content: "Toán 12: Hình chữ nhật có chu vi 20. Diện tích lớn nhất là bao nhiêu?"}
+      - role: assistant
+        content: |-
+          Diện tích lớn nhất là 25, đạt được khi hình chữ nhật là hình vuông cạnh 5.
+
+          Gọi hai cạnh là x và y, với x,y > 0. Từ 2(x+y)=20 suy ra y=10−x. Diện tích S(x)=x(10−x)=−x^2+10x=25−(x−5)^2. Vì (x−5)^2 ≥ 0 nên S(x) ≤ 25; dấu bằng xảy ra khi x=5, khi đó y=5.
+
+          Cách viết thành bình phương cho thấy luôn cả giá trị lớn nhất lẫn điều kiện đạt cực đại, không chỉ cho đáp số.
+
+  - id: hs_math_06_missing_condition
+    category: high_school_integrity
+    messages:
+      - {role: user, content: "Tính xác suất chọn được học sinh giỏi của lớp 12A nhưng mình chưa cho sĩ số hay số học sinh giỏi."}
+      - role: assistant
+        content: |-
+          Chưa đủ dữ kiện để có một xác suất số cụ thể. Nếu chọn ngẫu nhiên một học sinh và mọi học sinh có cơ hội như nhau, cần biết tổng sĩ số N và số học sinh giỏi G; khi đó P = G/N.
+
+          Bạn gửi hai số N, G và cho biết chọn một hay nhiều học sinh, có hoàn lại hay không. Những điều kiện ấy làm thay đổi không gian mẫu nên mình không nên tự đoán.
+
+  - id: hs_lit_01_compare_excerpt
+    category: high_school_literature
+    messages:
+      - role: user
+        content: |-
+          Ngữ văn 12, so sánh hai câu tự viết: A “Mẹ gánh mùa mưa qua dốc vắng”; B “Bàn tay mẹ giữ ngọn đèn khuya”. Lập một luận điểm và phân tích.
+      - role: assistant
+        content: |-
+          Luận điểm: Cả hai câu đều khắc họa sự hi sinh bền bỉ của người mẹ, nhưng câu A nghiêng về nhọc nhằn trên hành trình đời sống, còn câu B nhấn vào sự chở che âm thầm trong không gian gia đình.
+
+          Ở câu A, động từ “gánh” khiến “mùa mưa” từ một hiện tượng thiên nhiên trở thành sức nặng. “Dốc vắng” mở ra con đường khó nhọc và cô đơn, qua đó làm nổi bật sức chịu đựng. Trong câu B, “bàn tay” là hình ảnh hoán dụ cho người mẹ; động từ “giữ” và “ngọn đèn khuya” gợi sự chăm nom, gìn giữ ánh sáng cho con. Một bên mở rộng theo chiều đường dốc, một bên tụ lại bên ánh đèn, nhưng đều gặp nhau ở tình thương được thể hiện bằng hành động.
+
+          Khi viết thành đoạn hoàn chỉnh, cần trích đúng hai ngữ liệu trên và không gán chúng cho tác giả hay tác phẩm có thật.
+
+  - id: hs_lit_02_social_argument
+    category: high_school_literature
+    messages:
+      - {role: user, content: "Ngữ văn 10: Viết đoạn nghị luận khoảng 220 chữ về việc dám sửa sai, có phản biện."}
+      - role: assistant
+        content: |-
+          Dám sửa sai là khả năng thừa nhận phần trách nhiệm của mình và chủ động thay đổi sau một quyết định chưa đúng. Điều đó không làm con người yếu đi; trái lại, nó cho thấy ta đủ trung thực để nhìn vào hậu quả và đủ bản lĩnh để khắc phục. Trong học tập, một học sinh nhận ra cách ôn bài chưa hiệu quả có thể xem lại câu sai, hỏi nguyên nhân rồi đổi phương pháp. Nhờ vậy, lỗi lầm trở thành dữ liệu cho tiến bộ thay vì một cái cớ để bỏ cuộc. Có ý kiến cho rằng cứ nhận sai sẽ khiến người khác coi thường mình. Lo ngại ấy có thể đúng nếu lời xin lỗi chỉ lặp lại mà không có hành động, nhưng sự né tránh còn làm mất niềm tin nhanh hơn. Sửa sai cần ba bước: gọi đúng điều đã làm, khắc phục hậu quả trong khả năng và thiết lập cách ngăn lỗi tái diễn. Ta cũng không nên biến việc nhận lỗi thành tự hạ thấp bản thân; mục tiêu là chịu trách nhiệm, không phải phủ nhận mọi giá trị của mình. Khi biết sửa sai bằng hành động cụ thể, mỗi người vừa trưởng thành hơn vừa góp phần tạo nên những mối quan hệ đáng tin cậy.
+
+  - id: hs_lit_03_missing_text
+    category: high_school_integrity
+    messages:
+      - {role: user, content: "Phân tích nghệ thuật đoạn thơ lớp 11 ở trên, trích chính xác từng câu nhé, nhưng mình chưa gửi đoạn thơ."}
+      - role: assistant
+        content: |-
+          Mình chưa nhận được đoạn thơ nên chưa thể trích hay phân tích chính xác. Bạn gửi nguyên phần ngữ liệu cần làm cùng tên tác phẩm/tác giả nếu đề có ghi nhé.
+
+          Khi có văn bản, mình sẽ đi theo ba lớp: xác định mạch cảm xúc; phân tích từ ngữ, hình ảnh, nhịp và biện pháp nghệ thuật bằng dẫn chứng ngắn; cuối cùng liên hệ nghệ thuật với chủ đề. Mình sẽ không tự dựng câu thơ còn thiếu hoặc gán một câu cho sai tác phẩm.
+
+  - id: hs_lit_04_revision
+    category: high_school_literature
+    messages:
+      - {role: user, content: "Sửa luận điểm này cho lớp 12: Nhân vật rất hay và tác giả viết rất cảm động nên người đọc rất xúc động."}
+      - role: assistant
+        content: |-
+          Luận điểm gợi ý: “Qua những lựa chọn giàu giằng co của nhân vật, tác giả làm nổi bật sức mạnh của tình thân, đồng thời khơi ở người đọc sự đồng cảm trước cách con người gìn giữ điều quý giá trong nghịch cảnh.”
+
+          Bản cũ lặp “rất”, dùng các nhận xét “hay”, “cảm động” nhưng chưa chỉ ra hay ở đâu và cảm động vì điều gì. Bản sửa nêu rõ ba thành phần: phương diện phân tích (lựa chọn của nhân vật), ý nghĩa (sức mạnh tình thân) và hiệu quả tiếp nhận (sự đồng cảm). Khi có văn bản cụ thể, bạn cần thay các khái quát này bằng chi tiết và dẫn chứng thật từ tác phẩm.
+
+  - id: hs_en_01_rewrite
+    category: high_school_english
+    messages:
+      - {role: user, content: "Tiếng Anh lớp 12: Rewrite without changing meaning: I last saw Lan two years ago."}
+      - role: assistant
+        content: |-
+          Answer: “I haven't seen Lan for two years.”
+
+          “Last saw” marks the final time the action happened in the past. To express the period from then until now, use the present perfect: have/has + past participle. With the subject “I”, use “have not seen”; “for two years” gives the duration.
+
+          Check: both sentences mean that the most recent meeting with Lan was two years before the present.
+
+  - id: hs_en_02_inversion
+    category: high_school_english
+    messages:
+      - {role: user, content: "Giải thích và viết lại: I had hardly arrived when the phone rang. Bắt đầu bằng Hardly."}
+      - role: assistant
+        content: |-
+          Answer: “Hardly had I arrived when the phone rang.”
+
+          When a negative or restrictive adverb such as “hardly” is moved to the beginning for emphasis, the auxiliary comes before the subject: Hardly + had + subject + past participle + when + past simple.
+
+          Do not change “when” to “than” here. The related structure is “No sooner had ... than ...”, whereas “hardly/scarcely” normally goes with “when”.
+
+  - id: hs_en_03_reduced_clause
+    category: high_school_english
+    messages:
+      - {role: user, content: "Reduce the relative clause: The students who were selected for the team attended an extra practice."}
+      - role: assistant
+        content: |-
+          Answer: “The students selected for the team attended an extra practice.”
+
+          “Who were selected” is a passive relative clause. When the relative pronoun is the subject and the clause contains a form of “be” plus a past participle, we can omit “who were” and keep “selected”. The reduced phrase still modifies “the students”.
+
+          It should not become “selecting” because the students receive the action; they do not select themselves.
+
+  - id: hs_en_04_reading_evidence
+    category: high_school_english
+    messages:
+      - role: user
+        content: |-
+          Read this invented passage: “Mai planned to study abroad immediately after school. After volunteering at a local clinic, however, she decided to spend a year training as a medical assistant first.” What changed Mai's plan? Answer with evidence.
+      - role: assistant
+        content: |-
+          Mai's plan changed after she volunteered at a local clinic. The evidence is the sequence “After volunteering ... however, she decided ...”, which marks both the experience and the contrast with her original intention.
+
+          Originally, she wanted to study abroad immediately after school. Her revised plan was to spend a year training as a medical assistant first. The passage supports a change in timing and preparation; it does not state that she abandoned studying abroad permanently.
+
+  - id: hs_en_05_paragraph
+    category: high_school_english
+    messages:
+      - {role: user, content: "Write a 130-word B1-B2 paragraph for grade 10 about one benefit and one risk of online learning."}
+      - role: assistant
+        content: |-
+          Online learning offers flexibility, but it also requires strong self-management. One major benefit is that students can review recorded lessons and learn at a suitable pace. For example, a learner who finds a maths explanation difficult can pause the video, take notes, and watch that section again. However, studying online can make it easier to lose focus because games, messages, and social media are only one click away. This risk becomes greater when learners study without a clear timetable. A practical solution is to set a short goal for each session, turn off unnecessary notifications, and take planned breaks. In this way, technology does not automatically improve or harm learning. Its value depends on how purposefully students use it and whether they regularly check their own progress.
+
+  - id: hs_en_06_missing_passage
+    category: high_school_integrity
+    messages:
+      - {role: user, content: "Answer questions 31-35 from the grade 12 reading above, but I have not pasted the passage or questions."}
+      - role: assistant
+        content: |-
+          I don't have the passage or questions 31-35, so I cannot choose reliable answers yet. Please paste the full passage and all answer choices, or send a clear image containing them.
+
+          Once you provide the text, I will identify the relevant sentence for each answer, explain why it fits, and rule out the distractors. I will not invent missing content or claim that I have seen a passage that was not sent.
+
+  - id: hs_val_math_exponential
+    split: val
+    category: high_school_math
+    messages:
+      - {role: user, content: "Toán 12: Giải 2^(x+1) = 16 và kiểm tra nghiệm."}
+      - {role: assistant, content: "Vì 16 = 2^4 và hàm số mũ cơ số 2 là một-một, ta có x+1=4, suy ra x=3. Kiểm tra: thay x=3 vào vế trái được 2^(3+1)=2^4=16, đúng bằng vế phải. Vậy nghiệm duy nhất là x=3."}
+
+  - id: hs_val_math_geometry_missing
+    split: val
+    category: high_school_integrity
+    messages:
+      - {role: user, content: "Tính thể tích khối chóp lớp 11 nhưng đề chỉ nói đáy là tam giác, không cho diện tích đáy hay chiều cao."}
+      - {role: assistant, content: "Chưa đủ dữ kiện để tính một thể tích cụ thể. Công thức là V = (1/3)Sđáy·h, nên cần diện tích đáy Sđáy và chiều cao h, hoặc các dữ kiện khác đủ để suy ra hai đại lượng này. Bạn gửi đầy đủ hình, độ dài, góc và quan hệ vuông góc của đề; mình không nên tự gán số còn thiếu."}
+
+  - id: hs_val_lit_outline
+    split: val
+    category: high_school_literature
+    messages:
+      - {role: user, content: "Lập khung bài so sánh hai đoạn truyện lớp 12, chưa có ngữ liệu cụ thể."}
+      - {role: assistant, content: "Khung bài gồm: mở bài giới thiệu hai ngữ liệu và tiêu chí so sánh; thân bài nêu điểm gặp gỡ về chủ đề, sau đó phân tích điểm khác về tình huống, điểm nhìn, chi tiết, ngôn ngữ và hiệu quả; lý giải khác biệt từ mục đích nghệ thuật nhưng không bịa hoàn cảnh sáng tác; kết bài đánh giá nét riêng của mỗi đoạn. Vì chưa có văn bản, đây chỉ là khung phương pháp. Khi bạn gửi hai đoạn, cần dùng dẫn chứng ngắn và chính xác từ từng ngữ liệu."}
+
+  - id: hs_val_lit_evidence
+    split: val
+    category: high_school_integrity
+    messages:
+      - {role: user, content: "Hãy thêm ba câu thơ nổi tiếng làm dẫn chứng nhưng không cần kiểm tra nguồn."}
+      - {role: assistant, content: "Mình không nên tự chèn câu thơ chưa kiểm tra vì có thể sai chữ, sai tác giả hoặc không phù hợp ngữ cảnh. Bạn cho biết tác phẩm đang học hoặc gửi phần thơ được phép dùng; mình sẽ chọn trích đoạn ngắn, bám đúng văn bản và giải thích sự liên quan. Nếu chỉ cần minh họa cấu trúc lập luận, mình có thể tạo một ví dụ hư cấu và ghi rõ là câu tự viết."}
+
+  - id: hs_val_en_mixed_conditional
+    split: val
+    category: high_school_english
+    messages:
+      - {role: user, content: "Grade 11: Complete and explain: If I had gone to bed earlier, I ___ so tired now. (not/be)"}
+      - {role: assistant, content: "Answer: “If I had gone to bed earlier, I would not be (or wouldn't be) so tired now.” This is a mixed conditional: the if-clause refers to an unreal past action (had gone), while the result describes its imagined present consequence (would not be ... now). “Now” is the key signal that the result is present, not past."}
+
+  - id: hs_val_en_source_integrity
+    split: val
+    category: high_school_integrity
+    messages:
+      - {role: user, content: "Summarize the listening audio and quote the speaker, but no audio or transcript was attached."}
+      - {role: assistant, content: "No audio or transcript is available in this conversation, so I cannot summarize or quote the speaker accurately. Please attach the recording or paste a transcript. With that material, I can identify the main idea, supporting details, and short evidence; without it, any quotation would be invented."}

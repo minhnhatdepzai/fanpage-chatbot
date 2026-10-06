@@ -1,5 +1,119 @@
 # Tiến độ
 
+## Cổng giảm sai số Toán — 05/10/2026
+
+- Giữ hai mức tin cậy riêng: `verified` chỉ dành cho kết quả đi qua bộ giải xác định; `math_review` dành cho bài
+  ngoài miền. Nhánh `math_review` bắt buộc sinh lời giải rồi gọi một lượt kiểm định độc lập ở nhiệt độ 0 để giải lại,
+  kiểm tra điều kiện, nghiệm ngoại lai và phép thế ngược.
+- Giao thức kiểm định fail-closed: chỉ nhận JSON có verdict `pass|corrected|insufficient`; lỗi model, JSON hỏng hoặc
+  thiếu căn cứ đều loại bỏ bản nháp và trả lời rằng chưa thể kiểm chứng, không chốt đáp số có thể sai.
+- Kiến thức thực tế mặc định dùng `GROUNDING_MODE=strict`: không có nguồn thì không cho model đoán. Câu có nguồn được
+  đối chiếu lần hai theo từng khẳng định và citation. Cổng này không áp dụng cho sáng tác Ngữ văn hay bài Tiếng Anh.
+- Langfuse tiếp tục nhận trace metadata `answer-verification` khi được cấu hình; môi trường hiện không có credential,
+  nên chưa tạo annotation queue/dataset live. Đánh giá cục bộ dùng code-based checks cho giao thức và routing.
+
+## Mở rộng lớp 10–12 — 05/10/2026
+
+- Bộ giải xác định thêm đạo hàm, tích phân xác định, giới hạn, bất phương trình một ẩn, phương trình mũ đưa được về
+  cùng cơ số, tổ hợp/chỉnh hợp và các hàm lượng giác/logarit an toàn. Kết quả đều mang phương pháp kiểm chứng; đầu
+  vào vẫn qua AST whitelist, không dùng `eval`/`sympify` trực tiếp.
+- Router nhận thêm khuôn bài THPT như `complete and explain`, `rewrite` và so sánh câu thơ tự viết; prompt production
+  v13 yêu cầu nêu điều kiện, trình bày phép biến đổi, tự kiểm tra, không bịa passage/audio/trích dẫn còn thiếu.
+- Thêm 22 hội thoại THPT tổng hợp tự soạn (16 train, 6 validation). Bộ gộp có 115 train / 36 validation, manifest
+  `edu_ent_sft_v1+edu_ent_sft_v2_rich+writing_sft_v1+english_tutor_sft_v1+high_school_10_12_sft_v1-15b09c11`.
+- Train thật `vera-edu-ent-v5-high-school-20261005-073853`: 40 bước, 615,7 giây, validation loss 3,3050 → 2,3427,
+  peak VRAM 15,14 GB; nạp lại trên base sạch thành công, loss mẫu 1,2150 hữu hạn.
+- Eval tách biệt 13 tình huống: base 9/13, v5 8/13, cả hai 0 tín hiệu bịa; 4/4 bài đi qua bộ giải xác định đạt ở
+  cả hai. V5 **FAIL gate** (yêu cầu tốt hơn baseline ít nhất 2), đã register `candidate` và không promote. Production
+  tiếp tục dùng VeRA v1; năng lực Toán xác định/router/prompt mới triển khai độc lập và đã qua test.
+- Kiểm thử cuối: `pytest -q` **334 passed**, Ruff sạch; local và URL public đều trả đúng tích phân `1/3`, health xác
+  nhận production đang dùng `vera-edu-ent-v1-20260923-175339`.
+
+## Gia sư Tiếng Anh + giao diện đa môn — 05/10/2026
+
+- StudyScope có điều hướng trực quan theo Toán, Ngữ văn, Tiếng Anh và Kiến thức. Đây là bộ lọc câu hỏi mẫu; router
+  vẫn tự nhận biết từ nội dung, đúng với yêu cầu người học không phải chọn chế độ trước.
+- Thêm `app/english_tutor/`: nhận diện ngữ pháp, từ vựng, Reading, Listening, Speaking, phát âm, dịch, Writing và
+  IELTS; có trả lời song ngữ, giải phương án nhiễu, bám evidence trong passage, không giả nghe audio và không cấp
+  band chính thức. Thiếu passage/transcript/ảnh đề thì trả lời xác định, không gọi model để đoán.
+- Đối chiếu repo `task1-coach-pages` commit `7fcac40`: dùng các trục Vocabulary, Grammar, paraphrase, Writing Task 1,
+  Reading, Listening và Speaking làm phạm vi; giữ nguyên tuyên bố provenance rằng bài tự soạn không phải đề IELTS/
+  Cambridge chính thức. Không sao chép bundle build hoặc nội dung không có giấy phép rõ vào runtime.
+- Dữ liệu Tiếng Anh v1 gồm 24 hội thoại tổng hợp tự soạn (18 train, 6 validation). Bộ gộp toàn năng lực có 99 train,
+  30 validation, manifest `edu_ent_sft_v1+edu_ent_sft_v2_rich+writing_sft_v1+english_tutor_sft_v1-a56e3540`.
+- Train thật `vera-edu-ent-v4-english-20261005-060531`: 32 bước, 435,6 giây, validation loss 3,2258 → 2,2915,
+  peak VRAM 14,83 GB; nạp lại từ base sạch thành công, loss mẫu 1,3428 hữu hạn.
+- Eval tách biệt 10 tình huống: base 3/10, v4 4/10, cả hai 0 tín hiệu bịa. Gate yêu cầu ứng viên tốt hơn ít nhất
+  2 tình huống, nên v4 **FAIL gate** và chỉ được register ở trạng thái `candidate`; production giữ VeRA v1. Phần
+  router/prompt/guard v12 vẫn được triển khai độc lập vì có unit test và không phụ thuộc adapter v4.
+- Prompt v12 và output guard coi bài ngôn ngữ dựa trên câu/passage người dùng cung cấp là tác vụ học tập, không gắn
+  cảnh báo “chưa có nguồn” sai ngữ cảnh; câu hỏi về quy định IELTS mới vẫn đi RAG/web và nguồn chính thức.
+
+## Sáng tác nguyên bản đa truyền thống — 05/10/2026
+
+- Prompt production v11 tách rõ “sáng tác mới” khỏi “phân tích tác phẩm có thật”: nhánh sáng tác được tự tạo câu thơ,
+  tiêu đề, nhân vật, lời thoại và dữ kiện hư cấu; nhánh phân tích vẫn bắt buộc bám văn bản/nguồn.
+- Thêm hồ sơ sở thích có cấu trúc trong state/trace: hình thức, truyền thống, ngôn ngữ đầu ra và tối đa ba sắc thái.
+  Các dạng được hướng dẫn trực tiếp gồm thơ Trung Hoa cổ điển, haiku/tanka/senryu/haibun, sijo, sonnet,
+  villanelle, pantoum, ballad, ode, elegy, spoken word, thơ tự do và lục bát.
+- Output guard phân biệt hư cấu với khẳng định sự kiện: tiêu đề/con số/câu thoại được sáng tác không bị chặn như tên
+  tác phẩm hay số liệu bịa; lọc bí mật, URL lạ và các rào chắn hệ thống vẫn giữ nguyên.
+- Quy tắc đa văn hóa ưu tiên đặc trưng hình thức, tránh khuôn mẫu dân tộc; quy tắc âm vị Nhật/Hàn/Hán khi viết bằng
+  tiếng Việt phải được coi là chuyển thể. Phân tích đa chiều phải có căn cứ văn bản, không tạo phản biện giả.
+- Thêm bộ kiểm tra hình thức trước khi gửi: haiku/senryu/tanka/sijo/lục bát và các dạng cố định được đếm dòng/tiếng;
+  nếu hai lượt biên tập model vẫn sai, fallback điền ô rồi cắt phần dư. Smoke model thật xác nhận haiku 5-7-5.
+
+## Gia sư Ngữ văn + StudyScope thống nhất — 05/10/2026
+
+- Thêm bộ định tuyến xác định cho viết bài/đoạn, lập dàn ý, nghị luận xã hội, nghị luận văn học, đọc hiểu, viết sáng
+  tạo và chấm sửa. Câu “phân tích dữ liệu bán hàng” vẫn là chat thường; Toán vẫn đi bộ giải xác định.
+- Prompt production v10 có hướng dẫn theo cấp lớp 1–12, cấu trúc luận điểm-dẫn chứng-phân tích, phản biện, sửa bài giữ
+  giọng học sinh và rào chắn không bịa câu thơ/chi tiết tác phẩm. Bài Ngữ văn có trần 1.400 token riêng.
+- Giao diện `/web/math` đổi tên hiển thị thành StudyScope, thêm câu hỏi mẫu Ngữ văn nhưng vẫn giữ API/URL tương thích.
+- Thêm khung chương trình có nguồn Bộ GD&ĐT, không sao chép toàn văn sách giáo khoa/tác phẩm còn bản quyền. Phân tích
+  sát văn bản dùng đoạn học sinh cung cấp hoặc nguồn truy xuất; thiếu ngữ liệu phải hỏi lại.
+- Dữ liệu SFT Ngữ văn v1 gồm 12 mẫu tổng hợp; sau khi gộp toàn bộ có 81 train, 24 validation. Đây không phải kho toàn
+  bộ tác phẩm. Rubric đánh giá gồm đúng đề, bố cục, lập luận, toàn vẹn dẫn chứng, phù hợp cấp lớp và giá trị học tập.
+- Train thật ứng viên `vera-edu-ent-v3-writing-20261004-192436`: 28 bước, 350,2 giây, validation loss 3,1860 →
+  2,1430, peak VRAM 13,59 GB; nạp lại từ base sạch thành công, loss mẫu 1,3779 hữu hạn.
+- Eval tách biệt 8 tình huống: base 6/8; VeRA v1 6/8, 0 tín hiệu bịa; VeRA v3 6/8 và 1 tín hiệu trích dẫn không hợp
+  lệ. V3 **FAIL gate**, nên không promote; production tiếp tục dùng VeRA v1 cùng prompt/routing mới. Cần dữ liệu do
+  giáo viên duyệt và đánh giá thủ công trước lần fine-tune tiếp theo.
+
+## Trả lời sâu + fine-tune VeRA v2 — 05/10/2026
+
+- Prompt production v9: câu kiến thức mặc định 220-380 từ, trả lời trực tiếp rồi mở rộng bằng nguyên lý/ví dụ/so
+  sánh/hành động; chào hỏi và yêu cầu "ngắn" vẫn có luật 1-3 câu. Tin mới dùng web/RAG có nguồn, không dạy model nhớ
+  tin tức.
+- Dữ liệu SFT v2 là dữ liệu tổng hợp: gộp 72 hội thoại v1 với 21 hội thoại bổ sung; 73 train / 20 validation. Manifest
+  lưu SHA-256 của từng file. Nội dung AI soạn là mục tiêu hành vi, không được coi là ground truth con người.
+- Train thật `vera-edu-ent-v2-rich-20261004-180414`: 24 bước, 288,3 giây, 1.170.432 tham số train; validation loss
+  2,7975 → 1,8142; peak VRAM 13,31 GB. Reload từ base sạch thành công, loss mẫu validation 1,4089 hữu hạn.
+- Eval tách biệt 17 kịch bản, chạy cùng process cho base/v1/v2. Base 14/17; adapter active v1 14/17 (10/10 câu sâu,
+  citation 100%, 0 tín hiệu bịa); v2 14/17 (9/10 câu sâu, citation 90%, 1 tín hiệu bịa). V2 **FAIL gate** vì cần
+  tối thiểu 16/17 và không được giảm citation, nên không register/promote; production vẫn là VeRA v1.
+- Kết quả quan trọng: prompt mới + adapter v1 hiện có đã nâng nhóm câu kiến thức sâu lên 10/10, trung bình 1.469 ký
+  tự trong lần so sánh chung. Adapter v2 không chứng minh được tốt hơn nên được giữ làm artifact thử nghiệm.
+- Web grounding đã có code nhưng chưa thể cung cấp dữ liệu mới liên tục khi chưa có Brave API key. Không giả vờ rằng
+  model tự cập nhật hoặc đã tra web.
+
+## Hiểu ảnh đa phương thức + web grounding — 05/10/2026
+
+- Thêm VLM OpenAI-compatible vào pipeline ảnh, đã bật local bằng `qwen3-vl:8b` trên Ollama. VLM cung cấp mô tả cảnh,
+  màu sắc, vị trí, quan hệ, số lượng và câu trả lời theo câu hỏi; OCR/YOLO vẫn chạy để đối chiếu và fallback.
+- Không ghi/lưu pixel ảnh; chỉ lưu phân tích đã che PII. Ảnh không gửi lên Langfuse. Với GPU 16 GB, cấu hình local dỡ
+  VLM khỏi Ollama sau mỗi ảnh để text LLM không OOM.
+- Smoke thật trên ảnh bài tây: phân tích ảnh 18,18–18,39 s; lượt đầy đủ ảnh → text LLM khoảng 25,07 s; text model chính
+  + VeRA trả lời sau khi VLM được dỡ. VLM/YOLO có lúc mâu thuẫn (VLM đếm 2–3, YOLO tạo 4 phát hiện và VLM đọc sai
+  chất lá), nên prompt bắt buộc nêu mâu thuẫn, không quảng cáo khả năng “nhìn đúng mọi thứ”.
+- Thêm Brave LLM Context client: query che PII, nguồn web đi qua cùng citation/output guardrail, mode `auto|always`,
+  lỗi web không làm hỏng lượt chat. Contract và graph đã test bằng mock; **chưa chạy API Brave thật vì chưa có key**.
+- Langfuse synthetic trace `6bf5eb2415c9b8a04c3805bf0c64c407` đã kiểm tra: `describe-image` là generation,
+  `grounding-retrieval` là retriever, output check là guardrail, content capture vẫn tắt.
+- Kiểm thử cuối: `ruff check .` sạch; `pytest -q` → **251 passed**.
+- Không fine-tune trọng số VLM trong đợt này: chưa có tập ảnh/câu hỏi/đáp án được người duyệt và tập test tách biệt.
+  Model đa phương thức tạo năng lực nhìn ảnh ngay; feedback được review mới được phép đưa vào lần QLoRA/LoRA sau.
+
 ## Kiểm tra trước khi xuất bản GitHub — 24/09/2026
 
 - Hoàn thiện README cho cài máy mới, cấu hình, khởi động, Messenger/web, model, RAG, train, Docker và sao lưu.
@@ -189,3 +303,24 @@ vẫn có thể thêm chi tiết không có trong ảnh/nguồn (vd. đoán ý n
 - `serving/runtime.py`: sửa lỗi Transformers 5 trả `BatchEncoding` từ `apply_chat_template` (do phiên Codex trước).
 - `.env`: `MESSENGER_SEND_MODE` all → allowlist (chỉ trả lời PSID kiểm thử).
 - Cài `cloudflared` 2026.9.1 vào `~/.local/bin` (đã đối chiếu SHA-256 với release chính thức).
+
+## Đợt 05/10/2026: MathScope, nhập Math Lab và tra cứu web fallback
+
+- Thêm trang `/web/math` và API `/web/math/solve`, `/web/math/read-image`. Bộ giải dùng AST allowlist + SymPy,
+  tính chính xác và thế ngược nghiệm; không chạy `eval`/`sympify` trên đầu vào. Phạm vi đã kiểm thử: số học, phân số,
+  căn, phương trình đa thức một ẩn đến bậc 4, hệ tuyến tính 2-3 ẩn, một số họ bài lời văn cộng/trừ/nhóm/chia đều,
+  diện tích/chu vi hình chữ nhật.
+- SVG phía trình duyệt: trục số, phân số, nhóm vật, cân bằng, đồ thị/hệ tọa độ, hình chữ nhật; tải được tệp SVG.
+- Ảnh đề: OCR/VLM chép đề, bộ giải xác định mới quyết định đáp án. Thử ảnh thật từ Math Lab: đọc đúng bài 6 viên bi
+  thêm 2 viên, trả 8, `deterministic-word-rules/pass=true`, kèm văn bản OCR để đối chiếu.
+- Nhập 7.469 tệp / 396 MB từ EduVisionAI vào `artifacts/math_lab_import` với SHA-256. Selector trực quan được giữ cho
+  vai trò chọn view; LoRA GSM8K Qwen3-0.6B giữ làm bằng chứng nhưng khóa khỏi runtime vì base/adapter cùng 14/50 và
+  checkpoint tự đánh dấu `accepted_for_runtime=false`.
+- Khi không có Brave key, MediaWiki API hoạt động làm fallback có URL cho kiến thức phổ thông. Đã thử live truy vấn
+  “định lý Pythagore” và nhận 4 kết quả. Tin mới/luật/giá/lịch vẫn cần Brave và nguồn chính thức.
+- Kiểm chứng cuối: Ruff sạch, JavaScript parse sạch, **275 test Python qua**; `/ready=true`, DB và heartbeat worker OK;
+  model Qwen3-4B + VeRA v1, API, worker và Cloudflare tunnel chạy dưới systemd user transient units.
+- Bổ sung phân luồng tự động thống nhất: `/web/math/route` chỉ giữ câu toán đã kiểm chứng ở MathScope; câu hỏi thường
+  dùng `/web/messages` và cùng session chatbot/RAG/web. Graph chính cũng dùng MathScope cho phương trình/lời văn trước
+  khi gọi LLM. Kiểm tra end-to-end: “Transformer hoạt động như thế nào?” trả lời dài kèm nguồn arXiv; “Giải phương
+  trình 3x + 5 = 20” trả `x = 5` và thế ngược. Tổng test sau thay đổi: **280 passed**.

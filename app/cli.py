@@ -572,11 +572,21 @@ def vision_ask(
     from serving.vision import load_image, summarize_objects
 
     s = get_settings()
-    analysis = _vision_runtime().analyze(load_image(image.read_bytes(), s.vision_max_image_mb * 1_000_000))
+    image_bytes = image.read_bytes()
+    analysis = _vision_runtime().analyze(load_image(image_bytes, s.vision_max_image_mb * 1_000_000))
     user_text = question.strip() or "(Người dùng gửi ảnh, không kèm câu hỏi.)"
     query = f"{question}\n{ocr_text(analysis)[:300]}".strip()
 
     async def go() -> dict[str, Any]:
+        if s.vision_vlm_enabled:
+            from app.vision.client import VisionClient, VisionError
+            from app.vision.context import sanitize_analysis
+
+            try:
+                analysis["vlm"] = await VisionClient(s).describe(image_bytes, question=question or None)
+                analysis.update(sanitize_analysis(analysis))
+            except VisionError as exc:
+                typer.echo(f"[cảnh báo] VLM không phản hồi: {exc}", err=True)
         if nothing_recognized([analysis]):
             return {"answer": NOTHING_RECOGNIZED_REPLY, "flags": ["image_nothing_recognized"]}
         kb = load_knowledge(s.knowledge_dir)
@@ -592,6 +602,9 @@ def vision_ask(
             needs_disclosure=False,
             sources=entries,
             image_context=image_context_block([analysis]),
+            vision_available=True,
+            rich_vision_available="vlm" in analysis,
+            docs_available=True,
         )
         res = await generate_with_retry(
             build_provider(s),
@@ -612,6 +625,7 @@ def vision_ask(
                 sources=[(e.title, e.source) for e in entries],
                 allowed_urls={u for e in entries for u in extract_urls(e.source)},
                 knowledge_question=bool(question),
+                has_image_context=True,
             ),
         )
         return {"answer": checked.text, "flags": checked.flags}

@@ -49,6 +49,13 @@ class GroundingMode(StrEnum):
     strict = "strict"
 
 
+class WebSearchMode(StrEnum):
+    """Khi nào dùng nguồn web (chỉ có hiệu lực khi WEB_SEARCH_ENABLED=true)."""
+
+    auto = "auto"  # câu hỏi cần thông tin mới hoặc kho nội bộ không có kết quả
+    always = "always"  # mọi câu hỏi kiến thức
+
+
 class LLMProvider(StrEnum):
     openai_compatible = "openai_compatible"
     anthropic = "anthropic"
@@ -114,7 +121,8 @@ class Settings(BaseSettings):
     # --- Độ chính xác: kho kiến thức có nguồn ---
     knowledge_dir: Path = PROJECT_ROOT / "config" / "knowledge"
     knowledge_top_k: int = 3
-    grounding_mode: GroundingMode = GroundingMode.annotate
+    # Mặc định fail-closed: câu hỏi kiến thức không có nguồn sẽ không được model đoán.
+    grounding_mode: GroundingMode = GroundingMode.strict
 
     # --- RAG tài liệu PDF/Word (pgvector) ---
     rag_docs_enabled: bool = True
@@ -148,10 +156,36 @@ class Settings(BaseSettings):
     vision_min_conf: float = 0.4  # YOLO COCO
     vision_custom_min_conf: float = 0.6  # YOLO tự train (precision 0.89 trên tập test ở ngưỡng này)
     vision_ocr_min_conf: float = 0.4
+    # VLM đa phương thức (OpenAI-compatible, ví dụ Ollama/vLLM chạy Qwen3-VL). Tắt mặc định vì ảnh có thể
+    # chứa dữ liệu riêng tư; chỉ bật khi endpoint và chính sách lưu/chuyển dữ liệu đã được người vận hành duyệt.
+    vision_vlm_enabled: bool = False
+    vision_vlm_base_url: str = "http://127.0.0.1:11434/v1"
+    vision_vlm_api_key: SecretStr = SecretStr("")
+    vision_vlm_model: str = "qwen3-vl:8b"
+    vision_vlm_timeout_seconds: float = 90.0
+    vision_vlm_max_output_tokens: int = 700
+    # Máy GPU nhỏ chạy đồng thời text LLM + VLM: yêu cầu Ollama dỡ VLM sau mỗi ảnh để tránh OOM ở lượt trả lời chữ.
+    # Chỉ bật khi VISION_VLM_BASE_URL là Ollama do chính deployment này quản lý.
+    vision_vlm_ollama_unload_after_request: bool = False
     # host được phép tải ảnh Messenger (hậu tố tên miền); chống SSRF
     vision_allowed_image_hosts: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: ["fbcdn.net", "fbsbx.com"]
     )
+
+    # --- Tra cứu web có nguồn (Brave LLM Context API) ---
+    web_search_enabled: bool = True
+    web_search_mode: WebSearchMode = WebSearchMode.auto
+    brave_search_api_key: SecretStr = SecretStr("")
+    web_search_timeout_seconds: float = 30.0
+    # Đủ rộng để Văn/NLXH đối chiếu nhiều góc nhìn, nhưng vẫn hữu hạn để không làm tràn context/độ trễ.
+    web_search_max_results: int = 8
+    web_search_max_context_tokens: int = 4096
+    web_search_country: str = "vn"
+    web_search_language: str = "vi"
+    # Metasearch không cần API key (Google/Bing/Brave/DuckDuckGo... tùy backend khả dụng), sau đó mới rơi về Wiki.
+    web_search_ddgs_fallback: bool = True
+    # Không cần API key: Wikipedia là fallback cho kiến thức phổ thông có URL; không thay thế nguồn tin mới/chính thức.
+    web_search_wikipedia_fallback: bool = True
 
     # --- Worker ---
     worker_concurrency: int = 4
@@ -167,11 +201,24 @@ class Settings(BaseSettings):
     llm_base_url: str = "http://127.0.0.1:8100/v1"
     llm_api_key: SecretStr = SecretStr("")
     llm_model: str = "qwen3-4b-instruct-2507"
-    llm_timeout_seconds: float = 45.0
+    llm_timeout_seconds: float = 180.0
     llm_max_retries: int = 1
     llm_temperature: float = 0.3  # thấp để giảm bịa; model card Qwen gợi ý 0.7 cho hội thoại tự do
     llm_top_p: float = 0.8
     llm_max_output_tokens: int = 900
+    # Bài Ngữ văn dài trên web; Messenger vẫn bị chia/cắt theo giới hạn riêng ở lớp giao tin.
+    writing_max_output_tokens: int = 4096
+    # Phần giải thích Tiếng Anh dùng cho chế độ đọc/podcast cần đủ chiều sâu như Ngữ văn.
+    english_max_output_tokens: int = 1400
+    # TTS neural chỉ nhận văn bản câu trả lời; không lưu âm thanh hay nội dung sau request.
+    tts_enabled: bool = True
+    tts_timeout_seconds: float = 120.0
+    tts_max_chars: int = 24_000
+    tts_max_audio_mb: int = 36
+    # Kiểm định lần hai chỉ cho Toán ngoài miền xác định và câu kiến thức có nguồn; không áp dụng sáng tác/Văn/Anh.
+    answer_verification_enabled: bool = True
+    answer_verification_max_tokens: int = 4096
+    answer_verification_timeout_seconds: float = 180.0
     anthropic_api_key: SecretStr = SecretStr("")
     # model dự phòng khi model server không phản hồi (vd. Ollama Q4: http://127.0.0.1:11434/v1). Trống = tắt.
     llm_fallback_base_url: str = ""

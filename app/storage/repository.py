@@ -668,6 +668,24 @@ async def conversation_psid(conv_id: uuid.UUID) -> tuple[str, str, bool]:
     return r[0], r[1], r[2]
 
 
+async def turn_queue_metadata(conv_id: uuid.UUID, turn_id: uuid.UUID) -> tuple[str, int]:
+    """Kênh và thời gian chờ của lượt; chỉ metadata, không đọc nội dung tin nhắn."""
+    async with session_scope() as s:
+        row = (
+            await s.execute(
+                text(
+                    """SELECT c.page_id,
+                              GREATEST(0, (extract(epoch FROM (now() - min(m.created_at))) * 1000)::bigint)
+                       FROM conversations c JOIN messages m ON m.conversation_id = c.id
+                       WHERE c.id = :cid AND m.turn_id = :tid AND m.role = 'user'
+                       GROUP BY c.page_id"""
+                ),
+                {"cid": conv_id, "tid": turn_id},
+            )
+        ).one()
+    return str(row[0]), int(row[1])
+
+
 async def write_heartbeat(worker_id: str, info: dict[str, Any]) -> None:
     async with session_scope() as s:
         await s.execute(

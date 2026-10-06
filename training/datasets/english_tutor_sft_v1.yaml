@@ -1,0 +1,276 @@
+# Dữ liệu SFT Tiếng Anh v1 (SYNTHETIC, tự soạn).
+# Không chứa đề Cambridge/IELTS có bản quyền và không tuyên bố điểm thi chính thức.
+examples:
+  - id: en01_present_simple_g6
+    category: english_grammar
+    messages:
+      - {role: user, content: "Giải và giải thích bài tiếng Anh lớp 6: She ___ to school every day. A. go B. goes C. going D. went"}
+      - role: assistant
+        content: |-
+          Đáp án: B. goes.
+
+          Câu hoàn chỉnh: “She goes to school every day.” “Every day” là dấu hiệu của thì hiện tại đơn. Chủ ngữ “she” là ngôi thứ ba số ít nên động từ “go” thêm “-es” thành “goes”.
+
+          - A. go: dùng với I/you/we/they.
+          - C. going: cần trợ động từ “is” nếu dùng hiện tại tiếp diễn.
+          - D. went: là quá khứ, không phù hợp với thói quen “every day”.
+
+          Mẹo tự kiểm tra: hãy tìm dấu hiệu thời gian, xác định thì, rồi mới chia động từ theo chủ ngữ.
+
+  - id: en02_articles
+    category: english_grammar
+    messages:
+      - {role: user, content: "Điền mạo từ và giải thích: I saw ___ elephant at the zoo."}
+      - role: assistant
+        content: |-
+          Đáp án: “I saw an elephant at the zoo.”
+
+          Dùng “an” vì “elephant” bắt đầu bằng âm nguyên âm /e/. Việc chọn “a/an” dựa vào âm đầu khi phát âm, không chỉ dựa vào chữ cái. So sánh: “an hour” nhưng “a university”, vì “university” bắt đầu bằng âm /j/ như “y”.
+
+  - id: en03_conditional
+    category: english_grammar
+    messages:
+      - {role: user, content: "Giải thích câu điều kiện loại 1 và làm câu: If it ___ tomorrow, we will stay home. (rain)"}
+      - role: assistant
+        content: |-
+          Đáp án: “If it rains tomorrow, we will stay home.”
+
+          Câu điều kiện loại 1 diễn tả khả năng có thể xảy ra trong tương lai:
+          - Mệnh đề if: If + hiện tại đơn
+          - Mệnh đề chính: will + động từ nguyên mẫu
+
+          Vì chủ ngữ “it” là ngôi thứ ba số ít, “rain” thành “rains”. Ta không dùng “will rain” ngay sau “if” trong cấu trúc cơ bản này.
+
+  - id: en04_word_form
+    category: english_vocabulary
+    messages:
+      - {role: user, content: "Word formation: Her explanation was very ___. (HELP)"}
+      - role: assistant
+        content: |-
+          Đáp án: helpful.
+
+          Sau “was very” cần một tính từ. Từ gốc “help” thêm hậu tố “-ful” thành “helpful”, nghĩa là hữu ích. Câu hoàn chỉnh: “Her explanation was very helpful.”
+
+          Phân biệt: “helpful” là tính từ; “helpfully” là trạng từ; “helpless” nghĩa là không thể tự xoay xở hoặc bất lực trong tình huống nào đó.
+
+  - id: en05_collocation
+    category: english_vocabulary
+    messages:
+      - {role: user, content: "Phân biệt do homework và make homework, cho ví dụ tiếng Anh"}
+      - role: assistant
+        content: |-
+          Cụm tự nhiên là “do homework”, không phải “make homework”.
+
+          - do homework: làm bài tập về nhà — “I do my homework after dinner.”
+          - make thường đi với việc tạo ra thứ gì, như “make a plan”, “make a mistake”, “make a cake”.
+
+          Đây là collocation: các từ thường đi cùng nhau theo thói quen ngôn ngữ. Vì vậy, không nên dịch từng từ từ tiếng Việt sang tiếng Anh.
+
+  - id: en06_reading_evidence
+    category: english_reading
+    messages:
+      - role: user
+        content: |-
+          Đọc và trả lời: “Mia cycles to school because it is faster than the bus in the morning. On rainy days, her father drives her.” How does Mia usually travel to school, and when does that change?
+      - role: assistant
+        content: |-
+          Mia usually cycles to school. This changes on rainy days, when her father drives her.
+
+          Căn cứ:
+          - “Mia cycles to school” cho biết cách đi học thường ngày.
+          - “On rainy days, her father drives her” nêu điều kiện ngoại lệ.
+
+          Từ “because” giải thích lý do Mia đạp xe: buổi sáng cách này nhanh hơn xe buýt.
+
+  - id: en07_reading_tfng
+    category: english_reading
+    messages:
+      - role: user
+        content: |-
+          Passage: “The library opens at 8 a.m. on weekdays and at 10 a.m. on Saturdays. It is closed on Sundays.” Statement: The library opens at 8 a.m. every day. True, False or Not Given?
+      - role: assistant
+        content: |-
+          Đáp án: False.
+
+          Passage nói thư viện mở lúc 8 giờ vào ngày thường, nhưng thứ Bảy mở lúc 10 giờ và Chủ nhật đóng cửa. Từ “every day” mâu thuẫn trực tiếp với hai chi tiết đó, nên không phải Not Given.
+
+  - id: en08_translation_nuance
+    category: english_translation
+    messages:
+      - {role: user, content: "Dịch sang tiếng Anh tự nhiên: Mỗi bước nhỏ đều đáng tự hào."}
+      - role: assistant
+        content: |-
+          Bản dịch tự nhiên: “Every small step is worth being proud of.”
+
+          Một cách gọn và giàu tính động viên hơn là: “Every little step is something to be proud of.” “Little” tạo cảm giác gần gũi hơn, còn “small” trung tính hơn. Cả hai đều giữ ý rằng tiến bộ nhỏ vẫn đáng được ghi nhận.
+
+  - id: en09_translation_context
+    category: english_translation
+    messages:
+      - {role: user, content: "Dịch câu ‘Bạn cứ tự nhiên nhé’ sang tiếng Anh, cho 2 ngữ cảnh"}
+      - role: assistant
+        content: |-
+          Tùy ngữ cảnh, không có một bản dịch duy nhất:
+
+          1. Mời khách thoải mái dùng đồ hoặc sinh hoạt: “Make yourself at home.”
+          2. Cho phép ai đó cứ làm điều họ định làm: “Go ahead.” hoặc “Feel free.”
+
+          Ví dụ: “Feel free to ask questions” nghĩa là “Bạn cứ tự nhiên đặt câu hỏi nhé.” Dịch thành “Be natural” sẽ không đúng sắc thái trong các ngữ cảnh này.
+
+  - id: en10_writing_email
+    category: english_writing
+    messages:
+      - {role: user, content: "Viết email tiếng Anh lớp 8 khoảng 80 từ mời bạn đến sinh nhật, rồi chỉ ra bố cục"}
+      - role: assistant
+        content: |-
+          Subject: My birthday party
+
+          Hi Alex,
+
+          I’m having a small birthday party at my house this Saturday at 5 p.m. I’d love you to come. We’re going to play games, listen to music, and have dinner together. You don’t need to bring anything—just come and have fun! Could you let me know if you are free? I hope to see you there.
+
+          Best,
+          Minh
+
+          Bố cục gồm: lời chào; thời gian và địa điểm; hoạt động; lời mời/xác nhận; lời kết. Bạn nên đổi tên, thời gian và hoạt động theo tình huống thật của mình.
+
+  - id: en11_revision
+    category: english_writing
+    messages:
+      - {role: user, content: "Sửa bài tiếng Anh và giải thích lỗi: Yesterday I go to park. I see many child and they was happy."}
+      - role: assistant
+        content: |-
+          Bản sửa: “Yesterday, I went to the park. I saw many children, and they were happy.”
+
+          Các lỗi chính:
+          - “Yesterday” báo hiệu quá khứ: go → went, see → saw.
+          - Dùng “the park” khi nói tới công viên cụ thể trong tình huống.
+          - Số nhiều bất quy tắc: child → children.
+          - Chủ ngữ “they” đi với “were”, không đi với “was”.
+
+          Nội dung ban đầu đã rõ; chỉ cần giữ nhất quán thì và hòa hợp chủ-vị.
+
+  - id: en12_speaking
+    category: english_speaking
+    messages:
+      - {role: user, content: "Luyện Speaking: Do you enjoy reading? Cho câu trả lời mẫu và khung tự nói"}
+      - role: assistant
+        content: |-
+          Sample answer: “Yes, I do. I usually read short stories before bed because they help me relax. I also learn new words from them, so reading is both enjoyable and useful for me.”
+
+          Khung tự nói:
+          1. Trả lời trực tiếp: Yes/No/It depends.
+          2. Nêu thói quen cụ thể: loại sách, thời điểm, tần suất.
+          3. Giải thích lý do hoặc cho một ví dụ.
+
+          Bạn nên thay “short stories” và “before bed” bằng trải nghiệm thật, thay vì học thuộc nguyên mẫu.
+
+  - id: en13_pronunciation
+    category: english_pronunciation
+    messages:
+      - {role: user, content: "Phân biệt cách phát âm ship và sheep bằng IPA"}
+      - role: assistant
+        content: |-
+          - ship /ʃɪp/: nguyên âm /ɪ/ ngắn, miệng thả lỏng hơn.
+          - sheep /ʃiːp/: nguyên âm /iː/ dài hơn, môi hơi kéo sang hai bên.
+
+          Luyện theo cặp: “a big ship” / “three sheep”. Độ dài không phải khác biệt duy nhất; vị trí lưỡi và độ căng của môi cũng khác. Hãy thu âm từng cặp rồi so sánh, không thêm âm /ə/ ở cuối từ.
+
+  - id: en14_ielts_task1_overview
+    category: english_ielts
+    messages:
+      - {role: user, content: "IELTS Writing Task 1: Hướng dẫn cách viết Overview cho biểu đồ đường, không có biểu đồ cụ thể"}
+      - role: assistant
+        content: |-
+          Overview nên tóm tắt 2-3 đặc điểm lớn nhất, không liệt kê từng số liệu. Khi chưa có biểu đồ cụ thể, bạn có thể dùng quy trình:
+
+          1. Xác định xu hướng chung: tăng, giảm, ổn định hay dao động.
+          2. Tìm nhóm cao/thấp nhất hoặc hai đường có diễn biến đối lập.
+          3. Kiểm tra điểm giao nhau hay thay đổi thứ hạng đáng chú ý.
+
+          Khung minh họa: “Overall, X showed an upward trend, while Y declined over the period. X also became the highest category by the end.” Đây chỉ là khung tự soạn; phải thay X/Y và xu hướng bằng dữ liệu thật từ biểu đồ, không được tự bịa số.
+
+  - id: en15_ielts_band_honesty
+    category: english_ielts
+    messages:
+      - {role: user, content: "Chấm IELTS Writing của mình band chính xác tuyệt đối được không?"}
+      - role: assistant
+        content: |-
+          Mình có thể ước lượng theo các nhóm tiêu chí và chỉ ra cách cải thiện, nhưng không thể cấp một band chính thức hay bảo đảm “chính xác tuyệt đối”. Điểm thật do quy trình chấm thi IELTS quyết định.
+
+          Bạn gửi đề và toàn bộ bài viết nhé. Mình sẽ nhận xét lần lượt về mức độ đáp ứng nhiệm vụ, tổ chức ý, từ vựng và ngữ pháp; sau đó đưa khoảng band tham khảo kèm lý do và bản sửa các lỗi tiêu biểu.
+
+  - id: en16_missing_reading
+    category: english_integrity
+    messages:
+      - {role: user, content: "Giải Reading passage ở trên và chọn đáp án giúp mình"}
+      - role: assistant
+        content: |-
+          Mình chưa nhận được passage và các lựa chọn trong cuộc trò chuyện này, nên chưa thể chọn đáp án chính xác. Bạn gửi đầy đủ đoạn đọc cùng câu hỏi (hoặc ảnh rõ chữ) nhé. Khi có ngữ liệu, mình sẽ giải từng câu và chỉ ra cụm từ làm căn cứ, không đoán phần còn thiếu.
+
+  - id: en17_missing_audio
+    category: english_integrity
+    messages:
+      - {role: user, content: "Nghe audio này và làm bài Listening nhưng mình chưa gửi file"}
+      - role: assistant
+        content: |-
+          Mình chưa có audio hoặc transcript nên chưa thể nghe và chọn đáp án. Bạn gửi file/ảnh đề nếu khung chat hỗ trợ, hoặc dán transcript cùng câu hỏi. Mình sẽ dựa đúng nội dung nhận được và không giả vờ đã nghe phần chưa có.
+
+  - id: en18_ambiguous_answer
+    category: english_reasoning
+    messages:
+      - {role: user, content: "Câu này chọn can hay could: ___ you help me with this bag?"}
+      - role: assistant
+        content: |-
+          Cả “Can you help me with this bag?” và “Could you help me with this bag?” đều đúng.
+
+          - can: trực tiếp và thân mật hơn.
+          - could: lịch sự, mềm hơn trong lời nhờ.
+
+          Nếu bài kiểm tra yêu cầu chọn cách lịch sự hơn, “could” thường là đáp án phù hợp. Nếu không có ngữ cảnh hay tiêu chí, không nên khẳng định chỉ một đáp án đúng.
+
+  - id: en19_reading_val
+    split: val
+    category: english_reading
+    messages:
+      - role: user
+        content: |-
+          Passage: “Leo planted two seeds. He put one pot by the window and the other in a dark cupboard. Only the seed by the window grew.” Why did Leo use two pots?
+      - role: assistant
+        content: |-
+          Leo used two pots to compare what happened under different light conditions. The details “by the window” and “in a dark cupboard” show the variable being compared. The passage supports the conclusion that the seed with light grew; it does not by itself prove that light is the only factor in every situation.
+
+  - id: en20_grammar_val
+    split: val
+    category: english_grammar
+    messages:
+      - {role: user, content: "Giải bài tiếng Anh: My brother ___ TV now. A. watches B. watched C. is watching D. watch"}
+      - {role: assistant, content: "Đáp án: C. is watching. Từ “now” cho biết hành động đang diễn ra, nên dùng hiện tại tiếp diễn: am/is/are + V-ing. Chủ ngữ “my brother” là số ít nên dùng “is”. Câu hoàn chỉnh: “My brother is watching TV now.”"}
+
+  - id: en21_vocab_val
+    split: val
+    category: english_vocabulary
+    messages:
+      - {role: user, content: "Phân biệt say, tell và speak bằng ví dụ ngắn"}
+      - {role: assistant, content: "“Say” tập trung vào lời được nói: “She said hello.” “Tell” thường cần người nhận: “She told me the truth.” “Speak” nói về hành động nói hoặc ngôn ngữ: “He speaks English.” Không nói “tell hello” và thường không dùng “say me” trong các cấu trúc này."}
+
+  - id: en22_writing_val
+    split: val
+    category: english_writing
+    messages:
+      - {role: user, content: "Sửa câu và giải thích: Although it was raining, but we went out."}
+      - {role: assistant, content: "Bản sửa: “Although it was raining, we went out.” Hoặc: “It was raining, but we went out.” Trong một cấu trúc nhượng bộ cơ bản, không dùng đồng thời “although” và “but” để nối cùng hai mệnh đề. Hãy chọn một trong hai cách."}
+
+  - id: en23_integrity_val
+    split: val
+    category: english_integrity
+    messages:
+      - {role: user, content: "Làm câu hỏi Reading trong ảnh trên nhưng mình chưa gửi ảnh"}
+      - {role: assistant, content: "Mình chưa nhận được ảnh hoặc passage nên chưa thể trả lời chính xác. Bạn gửi ảnh rõ toàn bộ đoạn đọc và câu hỏi, hoặc dán văn bản vào đây nhé. Mình sẽ chỉ ra căn cứ cho từng đáp án và không tự dựng phần đề bị thiếu."}
+
+  - id: en24_normal_chat_val
+    split: val
+    category: routing
+    messages:
+      - {role: user, content: "How are you today?"}
+      - {role: assistant, content: "I'm doing well, thanks! How can I help you today?"}

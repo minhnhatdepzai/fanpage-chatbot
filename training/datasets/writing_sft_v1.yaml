@@ -1,0 +1,129 @@
+# Dữ liệu SFT Ngữ văn v1 (SYNTHETIC), không sao chép sách giáo khoa hay toàn văn tác phẩm.
+# Mục tiêu là hành vi sư phạm, cấu trúc lập luận và chống bịa trích dẫn; không phải kho tri thức tác phẩm.
+examples:
+  - id: w01_social_outline_g9
+    category: writing_social
+    messages:
+      - {role: user, content: "Lập dàn ý nghị luận xã hội lớp 9 về lòng biết ơn"}
+      - role: assistant
+        content: |-
+          Dàn ý tham khảo
+
+          Mở bài: Dẫn từ những điều tốt đẹp ta nhận được trong gia đình, nhà trường và cộng đồng; nêu luận đề: lòng biết ơn là cách con người ghi nhận và đáp lại những điều tốt đẹp ấy.
+
+          Thân bài:
+          1. Giải thích: Biết ơn không chỉ là nói “cảm ơn”, mà còn là trân trọng công sức, tình cảm và sự giúp đỡ của người khác.
+          2. Biểu hiện: lễ phép với ông bà, cha mẹ, thầy cô; giữ lời hứa; giúp đỡ lại khi có thể; bảo vệ thành quả chung.
+          3. Ý nghĩa: giúp mỗi người sống có trách nhiệm, nuôi dưỡng quan hệ tốt và tạo ra sự tử tế nối tiếp.
+          4. Phản đề: phê phán thái độ coi sự giúp đỡ là điều đương nhiên, chỉ biết nhận mà không trân trọng. Cũng cần phân biệt biết ơn với phục tùng mù quáng.
+          5. Bài học: tập chú ý tới đóng góp cụ thể của người khác; thể hiện lời cảm ơn bằng hành động phù hợp mỗi ngày.
+
+          Kết bài: Khẳng định lòng biết ơn làm con người trưởng thành và cộng đồng ấm áp hơn.
+
+          Khi viết, bạn nên thêm một trải nghiệm thật của mình, chẳng hạn một lần được bạn bè hoặc thầy cô giúp đỡ. Chi tiết riêng sẽ khiến bài chân thành hơn một ví dụ chung chung.
+
+  - id: w02_social_paragraph_g7
+    category: writing_social
+    messages:
+      - {role: user, content: "Viết đoạn văn lớp 7 khoảng 180 chữ về tinh thần tự học"}
+      - role: assistant
+        content: |-
+          Tự học là khả năng chủ động tìm hiểu và rèn luyện mà không chờ người khác nhắc nhở. Với học sinh, tinh thần ấy bắt đầu từ những việc rất gần: chuẩn bị bài, tự đặt câu hỏi, làm lại câu sai và tìm cách giải thích điều mình chưa hiểu. Tự học không có nghĩa là học một mình trong mọi tình huống. Khi gặp khó, ta vẫn có thể hỏi thầy cô, bạn bè hoặc tra cứu tài liệu; điều quan trọng là biết mình đang thiếu gì và chủ động lấp chỗ trống ấy. Nhờ tự học, kiến thức không còn là phần phải ghi nhớ tạm thời mà dần trở thành năng lực của chính ta. Trái lại, nếu chỉ chép đáp án hoặc học khi bị thúc ép, ta dễ quên và khó tiến bộ. Vì vậy, mỗi ngày em có thể dành một khoảng thời gian ngắn để ôn lại bài, tự kiểm tra rồi ghi ra một điều chưa rõ. Những bước nhỏ nhưng đều đặn sẽ tạo nên thói quen học tập bền vững.
+
+          Bạn có thể thay hai hoạt động trong đoạn bằng thói quen thật của mình để bài có dấu ấn cá nhân hơn.
+
+  - id: w03_literary_missing_text
+    category: writing_integrity
+    messages:
+      - {role: user, content: "Phân tích đoạn thơ mình vừa nói ở trên và trích những câu hay nhất"}
+      - role: assistant
+        content: |-
+          Mình chưa thấy đoạn thơ trong cuộc trò chuyện này, nên nếu phân tích hoặc trích câu ngay thì rất dễ bịa sai văn bản. Bạn gửi lại đoạn thơ, tên tác phẩm và yêu cầu độ dài nhé. Khi có ngữ liệu, mình sẽ giúp bạn theo ba phần: xác định mạch cảm xúc; phân tích hình ảnh, từ ngữ, biện pháp nghệ thuật; rồi liên hệ những yếu tố ấy với chủ đề của đoạn thơ. Nếu tác phẩm còn bản quyền, mình chỉ trích những câu ngắn thật sự cần cho phân tích, không chép lại toàn bài.
+
+  - id: w04_reading_invented
+    category: writing_reading
+    messages:
+      - role: user
+        content: |-
+          Đọc hiểu đoạn sau: “Sáng ấy, Lan đặt chậu cây nhỏ bên cửa sổ. Em tưới vừa đủ nước rồi đánh dấu chiều cao của mầm non vào tờ giấy.” Nêu hai việc Lan đã làm và phẩm chất thể hiện.
+      - role: assistant
+        content: |-
+          1. Hai việc Lan đã làm là đặt chậu cây bên cửa sổ và tưới nước vừa đủ. Em còn đánh dấu chiều cao của mầm non để theo dõi cây lớn lên.
+
+          2. Những hành động ấy cho thấy Lan chăm chỉ, cẩn thận và biết quan sát. Căn cứ nằm ngay ở các chi tiết “tưới vừa đủ nước” và “đánh dấu chiều cao”, chứ không phải suy đoán từ thông tin ngoài đoạn văn.
+
+  - id: w05_descriptive_g3
+    category: writing_primary
+    messages:
+      - {role: user, content: "Viết bài văn tả cây em thích cho học sinh lớp 3"}
+      - role: assistant
+        content: |-
+          Trước sân nhà em có một cây hoa giấy nhỏ. Thân cây màu nâu, hơi cong và có nhiều cành vươn lên hàng rào. Lá hoa giấy bé xinh, xanh mướt. Khi nắng lên, những chùm hoa hồng rung rinh trong gió, trông như đàn bướm đang đậu sát bên nhau.
+
+          Mỗi buổi chiều, em thường cùng ông tưới cây. Em thích nhìn những giọt nước đọng trên lá lấp lánh dưới ánh nắng. Cây hoa giấy không chỉ làm sân nhà đẹp hơn mà còn gợi cho em nhớ những giờ phút vui vẻ bên ông. Em sẽ chăm sóc cây thật tốt để cây luôn xanh và nở nhiều hoa.
+
+          Đây là bài mẫu. Em hãy đổi màu hoa, vị trí cây và kỉ niệm bên cây theo điều em thật sự quan sát; như vậy bài sẽ tự nhiên và đúng với trải nghiệm của em hơn.
+
+  - id: w06_revision
+    category: writing_revision
+    messages:
+      - {role: user, content: "Sửa đoạn văn này giúp mình: Em rất thích đọc sách. Sách rất hay. Sách cho em nhiều thứ. Vì vậy em rất thích sách."}
+      - role: assistant
+        content: |-
+          Điểm tốt là đoạn đã nêu rõ tình cảm với sách và có câu kết. Điểm cần sửa là từ “sách” và “rất thích” lặp nhiều; ý “cho em nhiều thứ” còn chung chung.
+
+          Bản sửa gợi ý: “Em yêu thích việc đọc sách vì mỗi trang sách đều mở ra một điều mới mẻ. Có cuốn giúp em hiểu thêm về thiên nhiên, có câu chuyện lại dạy em biết quan tâm đến người khác. Nhờ đọc đều đặn, em học được nhiều từ hay và có thêm ý tưởng cho bài viết của mình. Vì thế, đọc sách đã trở thành một thói quen đáng quý của em.”
+
+          Bạn có thể thay một lợi ích chung bằng tên thể loại sách mình thường đọc, nhưng không cần bịa tên cuốn sách nếu không nhớ chính xác.
+
+  - id: w07_literary_invented_excerpt
+    category: writing_literary
+    messages:
+      - role: user
+        content: |-
+          Phân tích hình ảnh trong đoạn thơ tự viết sau: “Giọt mưa gõ nhịp hiên nhà / Mầm xanh hé mắt, sân xa sáng dần.” Lớp 8.
+      - role: assistant
+        content: |-
+          Hai câu thơ dựng nên khoảnh khắc thiên nhiên chuyển mình sau mưa. “Giọt mưa gõ nhịp” là cách nhân hóa âm thanh: mưa không rơi vô định mà như đang tạo một tiết tấu vui trên mái hiên. Nhờ động từ “gõ”, cảnh vật trở nên có chuyển động và gần gũi với đời sống con người.
+
+          Hình ảnh “mầm xanh hé mắt” tiếp tục dùng phép nhân hóa. Mầm cây được hình dung như một sinh thể vừa thức dậy, gợi sức sống non trẻ và niềm hi vọng. Từ “hé” diễn tả một chuyển động rất nhẹ, phù hợp với vẻ mong manh của mầm mới. Ở cuối câu, “sân xa sáng dần” mở rộng không gian từ mái hiên ra khoảng sân và cho thấy ánh sáng đang trở lại.
+
+          Sự kết hợp giữa âm thanh, màu xanh và ánh sáng tạo nên một bức tranh trong trẻo. Qua đó, đoạn thơ không chỉ tả mưa mà còn gợi cảm giác khởi đầu: sau khoảng trời ẩm tối, sự sống vẫn lặng lẽ vươn lên.
+
+  - id: w08_counterargument
+    category: writing_social
+    messages:
+      - {role: user, content: "Viết giúp phần phản biện cho bài nghị luận về mạng xã hội, lớp 10"}
+      - role: assistant
+        content: |-
+          Có ý kiến cho rằng chỉ cần tránh hoàn toàn mạng xã hội là sẽ không còn những ảnh hưởng tiêu cực. Cách nhìn này chưa đầy đủ, bởi mạng xã hội vẫn có thể hỗ trợ liên lạc, học tập và chia sẻ thông tin khi được sử dụng có mục đích. Vấn đề không chỉ nằm ở bản thân công cụ mà còn ở thói quen của người dùng: tiếp nhận thông tin thiếu kiểm chứng, so sánh bản thân với hình ảnh đã được chọn lọc, hoặc để thời gian trực tuyến lấn át đời sống thực. Vì vậy, giải pháp hợp lý không phải là phủ nhận tuyệt đối hay sử dụng vô giới hạn, mà là rèn năng lực chọn lọc nguồn tin, đặt giới hạn thời gian và chịu trách nhiệm với điều mình đăng tải.
+
+          Khi ghép vào bài, bạn nên nối đoạn này với luận điểm trước bằng một câu chuyển và tránh nêu số liệu nếu chưa có nguồn kiểm chứng.
+
+  - id: w09_outline_val
+    split: val
+    category: writing_social
+    messages:
+      - {role: user, content: "Lập dàn ý bài nghị luận lớp 12 về trách nhiệm khi phát ngôn trên mạng"}
+      - {role: assistant, content: "Hãy tổ chức dàn ý theo bốn trục: giải thích trách nhiệm trong phát ngôn; phân tích hậu quả của thông tin sai và lời nói gây tổn thương; phản biện quan niệm cho rằng không gian mạng là nơi không cần chịu trách nhiệm; đề xuất cách kiểm chứng nguồn, cân nhắc tác động và sửa sai công khai. Mở bài cần nêu vấn đề, kết bài khẳng định tự do biểu đạt luôn đi cùng trách nhiệm. Khi phát triển dẫn chứng, chỉ dùng sự kiện hoặc số liệu có nguồn; nếu chưa có, hãy dùng tình huống giả định và nói rõ đó là ví dụ."}
+
+  - id: w10_reading_missing_val
+    split: val
+    category: writing_integrity
+    messages:
+      - {role: user, content: "Làm phần đọc hiểu văn bản này giúp mình nhưng mình chưa gửi ảnh"}
+      - {role: assistant, content: "Mình chưa có văn bản hoặc ảnh đề nên chưa thể trả lời chính xác từng câu. Bạn gửi ảnh rõ toàn bộ ngữ liệu và câu hỏi, hoặc chép nội dung vào đây nhé. Khi nhận được, mình sẽ trả lời theo đúng thứ tự câu hỏi và chỉ ra căn cứ trực tiếp trong văn bản, không tự đoán phần bị thiếu."}
+
+  - id: w11_quote_integrity_val
+    split: val
+    category: writing_integrity
+    messages:
+      - {role: user, content: "Phân tích một bài thơ nổi tiếng bất kỳ và chép nguyên bài luôn"}
+      - {role: assistant, content: "Mình có thể giúp phân tích một tác phẩm cụ thể, nhưng không nên tự chọn rồi chép nguyên bài khi chưa rõ tình trạng bản quyền và phiên bản văn bản. Bạn cho mình tên bài thơ, tác giả và mục tiêu học tập nhé. Nếu bạn gửi ngữ liệu, mình sẽ bám sát ngữ liệu đó; nếu không, mình có thể tóm tắt, phân tích chủ đề và nghệ thuật, chỉ dùng trích đoạn ngắn có nguồn thay vì chép toàn văn."}
+
+  - id: w12_primary_val
+    split: val
+    category: writing_primary
+    messages:
+      - {role: user, content: "Viết đoạn văn lớp 2 kể một việc tốt em đã làm"}
+      - {role: assistant, content: "Chiều qua, em thấy bạn Nam làm rơi hộp bút ở sân trường. Em nhặt hộp bút lên và gọi bạn lại. Nam vui vẻ cảm ơn em. Em cũng rất vui vì đã giúp bạn tìm lại đồ dùng. Em tự nhủ sẽ luôn chú ý giúp đỡ mọi người khi có thể. Đây là đoạn mẫu; em hãy đổi tên bạn, đồ vật và việc đã xảy ra theo kỉ niệm thật của mình nhé."}

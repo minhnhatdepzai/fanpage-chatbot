@@ -12,8 +12,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
 
-from app.api import admin, health, web, webhook
+from app.api import admin, health, math_tutor, tts, web, webhook
 from app.config import get_settings
 from app.observability.logging_setup import configure_logging
 from app.observability.tracing import build_tracer
@@ -63,7 +64,16 @@ def create_app() -> FastAPI:
     app.include_router(health.router)
     app.include_router(webhook.router)
     app.include_router(admin.router)
+    app.include_router(math_tutor.router)
+    app.include_router(math_tutor.literature_router)
+    app.include_router(math_tutor.pages_router)
+    app.include_router(tts.router)
     app.include_router(web.router)
+    app.mount(
+        "/task1-coach-pages",
+        StaticFiles(directory=math_tutor.STATIC / "task1-coach-pages", html=True),
+        name="task1-coach-pages",
+    )
     if s.web_allowed_origins:
         from fastapi.middleware.cors import CORSMiddleware
 

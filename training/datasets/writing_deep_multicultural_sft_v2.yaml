@@ -1,0 +1,243 @@
+# SFT Ngữ văn chiều sâu v2 — toàn bộ ngữ liệu và câu trả lời đều là SYNTHETIC.
+# Không sao chép văn mẫu, SGK hay tác phẩm còn bản quyền. Dữ liệu dạy phương pháp;
+# kiến thức về tác phẩm có thật vẫn phải được truy xuất và trích nguồn lúc chạy.
+examples:
+  - id: wd01_close_reading_multilens
+    category: writing_deep_literary
+    skills: [close_reading, formalism, psychology, social_history, counterreading, life_application]
+    messages:
+      - role: user
+        content: |-
+          Phân tích sâu đoạn truyện tự viết sau theo nhiều góc nhìn:
+          “Sau ngày xưởng gạch đóng cửa, ông Tư vẫn dậy lúc năm giờ. Ông mặc chiếc áo xanh đã bạc màu, đạp xe đến cánh cổng khóa rồi ngồi dưới mái hiên đối diện. Người qua đường tưởng ông đợi ai. Chỉ con bé bán bánh mì biết ông đang chờ tiếng còi đã im từ ba tháng trước. Một sáng, nó đặt cạnh ông chiếc đồng hồ giấy, kim chỉ đúng sáu giờ. Ông nhìn rất lâu, sau đó lấy bút vẽ thêm một cánh cửa.”
+      - role: assistant
+        content: |-
+          Đoạn truyện rất ngắn nhưng đặt ra một câu hỏi lớn: khi một nghề nghiệp biến mất, con người mất một công việc hay mất cả cách mình nhận biết bản thân? Bi kịch của ông Tư không được kể bằng tiếng khóc. Nó nằm trong những động tác lặp lại: dậy lúc năm giờ, mặc áo công nhân, đạp xe đến cổng xưởng. Chính sự bình thản ấy làm nỗi đau sâu hơn, bởi thân thể ông vẫn sống theo nhịp của một thế giới đã kết thúc.
+
+          Trước hết, xét ở hình thức, tác giả tạo nghĩa bằng sự đối lập giữa chuyển động và đứng yên. Ông Tư “dậy”, “mặc”, “đạp xe”, nhưng đích đến lại là “cánh cổng khóa”; chuỗi động từ năng động bị chặn bởi một vật vô tri. Cổng xưởng vì thế không chỉ là bối cảnh mà còn là ranh giới giữa quá khứ và hiện tại. Chiếc áo “đã bạc màu” vừa ghi dấu thời gian vừa cho thấy căn tính người thợ đã bám vào ông lâu đến mức trở thành lớp da thứ hai. Đặc biệt, âm thanh trung tâm của truyện lại là một âm thanh vắng mặt: “tiếng còi đã im”. Khoảng im ấy khiến người đọc gần như nghe được điều không còn tồn tại.
+
+          Dưới góc nhìn tâm lý, việc ông đến xưởng mỗi sáng có thể được hiểu như một nghi thức chống lại cú sốc. Thói quen bảo vệ ông khỏi sự thật rằng đời sống cũ đã đổ vỡ, nhưng đồng thời cũng giam ông trong quá khứ. Tuy nhiên, không nên vội chẩn đoán hay xem ông chỉ là người “không chấp nhận thực tế”. Ông có thể đang giữ lòng tự trọng của một người từng tìm thấy ý nghĩa trong lao động. Cách đọc thứ hai này nhân văn hơn: điều ông tiếc không đơn thuần là tiền lương, mà là cảm giác mình có ích, thuộc về một tập thể và được ngày mai chờ đợi.
+
+          Lăng kính xã hội mở rộng bi kịch cá nhân thành vấn đề cộng đồng. “Người qua đường tưởng ông đợi ai” cho thấy đám đông nhìn thấy hành vi nhưng không hiểu lịch sử đằng sau hành vi ấy. Nhà máy đóng cửa được kể bằng một mệnh đề ngắn, trong khi hậu quả kéo dài trong từng buổi sáng của ông Tư. Đó là khoảng cách thường gặp giữa ngôn ngữ quản lý và đời sống: một quyết định có thể được ghi bằng một dòng, nhưng nó làm đứt gãy nghề nghiệp, quan hệ và phẩm giá của nhiều người. Dẫu vậy, văn bản không cung cấp nguyên nhân đóng xưởng, nên ta không thể quy kết một cá nhân hay chính sách cụ thể. Giới hạn chứng cứ ấy cần được giữ rõ.
+
+          Nhân vật con bé bán bánh mì tạo nên điểm sáng đạo đức. Em không hỏi dồn, không thương hại ồn ào; em quan sát đủ lâu để hiểu ông đang “chờ” điều gì. Chiếc đồng hồ giấy là một món quà nghèo vật chất nhưng giàu tưởng tượng. Kim chỉ sáu giờ vừa phục dựng thời khắc tiếng còi từng vang, vừa biến thời gian thật thành một vật có thể cầm, sửa và vẽ lại. Khi ông vẽ thêm “một cánh cửa”, kết thúc chuyển từ mất mát sang khả thể. Cánh cửa ấy có thể là lối vào nhà máy trong ký ức; cũng có thể là dấu hiệu đầu tiên cho thấy ông sẵn sàng hình dung một tương lai khác. Văn bản cố ý không quyết định thay người đọc.
+
+          Có thể phản biện rằng hành động của con bé chỉ an ủi tượng trưng, không giải quyết thất nghiệp. Nhận xét ấy đúng một phần: lòng tốt không thay thế chính sách việc làm, đào tạo lại hay bảo đảm xã hội. Nhưng nếu vì thế mà xem món quà vô nghĩa thì ta lại bỏ qua nhu cầu được nhìn nhận của con người. Truyện đặt hai tầng trách nhiệm cạnh nhau: cộng đồng cần các giải pháp vật chất, còn từng cá nhân có thể bắt đầu bằng sự hiện diện và tôn trọng.
+
+          Trong đời sống hôm nay, đoạn truyện nhắc ta rằng câu hỏi “bạn làm nghề gì?” nhiều khi đã trở thành câu hỏi “bạn là ai?”. Khi thất nghiệp, nghỉ hưu hoặc phải đổi nghề, một người có thể mất cả nhịp sống và mạng lưới quan hệ. Điều có thể áp dụng là lắng nghe trước khi khuyên, giúp họ nhận ra những năng lực vẫn còn và cùng xây một nhịp sinh hoạt mới. Điều không nên đơn giản hóa là bảo họ “cứ tích cực lên”, bởi một cánh cửa tinh thần chỉ có ý nghĩa khi xã hội cũng tạo ra những cánh cửa thật. Vẻ đẹp của đoạn truyện nằm ở chỗ nó không tô hồng mất mát: từ tiếng còi đã im, một nét bút nhỏ mở ra khả năng sống tiếp.
+
+  - id: wd02_narrative_power_reader
+    category: writing_deep_literary
+    skills: [narratology, power, gender, reader_response, counterreading]
+    messages:
+      - role: user
+        content: |-
+          Phân tích đa chiều đoạn tự sự tự viết: “Trong biên bản họp làng, tên bà Lựu xuất hiện một lần, sau chữ ‘vắng mặt’. Nhưng chính bà đã thức ba đêm vá lại con đê. Khi nước rút, người ta dựng bia ghi tên năm người đàn ông chỉ huy. Bà Lựu đi ngang, đặt rổ rau xuống, lau bùn trên tấm bia rồi tiếp tục ra chợ.”
+      - role: assistant
+        content: |-
+          Luận đề trung tâm của đoạn văn là sự chênh lệch giữa lao động thực tế và quyền được ghi nhớ. Bà Lựu cứu con đê bằng ba đêm lao động nhưng trong hồ sơ chỉ còn hai chữ “vắng mặt”; năm người đàn ông được ghi tên trên bia nhờ vị trí “chỉ huy”. Tác phẩm không cần một lời tố cáo trực tiếp, bởi sự đặt cạnh hai hệ thống ghi chép đã tự tạo ra nghịch lý.
+
+          Về kỹ thuật tự sự, người kể dùng giọng lạnh, ít bình luận. “Biên bản”, “bia” và “rổ rau” là ba vật mang ba kiểu ký ức. Biên bản đại diện cho bộ máy hành chính; tấm bia đại diện cho ký ức công cộng; rổ rau đại diện cho nhịp sống thường ngày ít được coi là lịch sử. Chi tiết bà “lau bùn trên tấm bia” đặc biệt giàu nghịch lý: người bị xóa tên lại chăm sóc vật thể đang xóa tên mình. Hành động ấy có thể cho thấy lòng rộng lượng, thói quen cần mẫn, hoặc một sự cam chịu đã bị xã hội bình thường hóa. Không có cách hiểu nào nên được tuyên bố là duy nhất.
+
+          Từ góc nhìn quyền lực và giới, đoạn văn đặt câu hỏi ai có quyền đặt tên cho đóng góp. Việc năm người được ghi công không chứng minh họ không làm gì; sai lệch nằm ở chỗ cấu trúc ghi nhận chỉ nhìn thấy vai trò chính thức mà bỏ qua lao động chăm sóc, vá víu và duy trì. Đó là loại công việc thường âm thầm, phân tán, ít tạo ra danh hiệu. Tuy vậy, không nên rút gọn thông điệp thành “đàn ông xấu, phụ nữ tốt”. Văn bản phê bình cơ chế nhìn nhận, không quy bản chất đạo đức cho giới tính.
+
+          Ở góc nhìn tiếp nhận, phản ứng của người đọc trước sự im lặng của bà Lựu rất quan trọng. Có người mong bà phản đối; có người thấy phẩm giá trong việc bà tiếp tục ra chợ. Chính mong muốn “bà phải lên tiếng” cũng cần được kiểm tra: ta có đang đặt thêm nghĩa vụ đấu tranh lên người đã chịu thiệt thòi không? Một cách đọc thận trọng sẽ vừa tôn trọng quyền im lặng của nhân vật, vừa không biến im lặng thành bằng chứng rằng bất công có thể chấp nhận.
+
+          Liên hệ đời sống, đoạn văn gợi một thực hành cụ thể: khi đánh giá thành quả tập thể, cần truy ngược chuỗi công việc và hỏi ai làm phần không nhìn thấy. Trong lớp học đó có thể là người tổng hợp, sửa lỗi, động viên nhóm; ở gia đình là người tổ chức bữa ăn, chăm người ốm; ở nơi làm việc là người giữ quy trình vận hành. Ghi nhận công bằng không chỉ là thêm tên sau cùng mà còn là thiết kế cách phân công, lưu dấu và trao quyền phát biểu từ đầu. Đoạn văn vì vậy biến câu chuyện một tấm bia thành bài học về cách cộng đồng kiến tạo ký ức.
+
+  - id: wd03_poem_form_ecology
+    category: writing_deep_literary
+    skills: [poetic_form, ecocriticism, phenomenology, alternative_reading]
+    messages:
+      - role: user
+        content: |-
+          Cảm nhận sâu bài thơ tự viết: “Bờ sông giữ một vệt chiều / Con thuyền tháo nút dây neo khỏi ngày / Lau già nghiêng xuống bàn tay / Chạm vào bóng nước, tưởng lay được trời.”
+      - role: assistant
+        content: |-
+          Bốn câu thơ dựng một khoảnh khắc chia lìa mà không gọi tên người ra đi. “Vệt chiều” là ánh sáng cuối ngày, nhưng động từ “giữ” khiến bờ sông như muốn níu một dấu vết đang tan. Không gian vì thế mang tâm thế con người: bờ giữ, thuyền rời, lau cúi xuống. Cảm xúc không được tuyên bố mà thấm vào cách sự vật chuyển động.
+
+          Câu “Con thuyền tháo nút dây neo khỏi ngày” tạo ra một lệch chuẩn đẹp. Về nghĩa thông thường, thuyền rời bến; ở đây nó rời “khỏi ngày”, như thể chuyến đi đồng thời cắt đứt một quãng đời. “Nút dây neo” là vật cụ thể, còn “ngày” là thời gian trừu tượng; đặt chúng cạnh nhau, câu thơ khiến thời gian có thể buộc và tháo. Nhịp câu kéo dài ở giữa rồi mở ra ở chữ cuối, mô phỏng động tác sợi dây được nới.
+
+          Hai câu sau thu hẹp từ con thuyền về ngọn lau và bàn tay. “Lau già” gợi một đời sống đã qua nhiều mùa. Nó nghiêng xuống “bàn tay”, nhưng bàn tay ấy có thể là lá lau được nhân hóa, cũng có thể là bàn tay của người đứng lại được hòa vào cảnh. Sự mơ hồ làm ranh giới người–vật mềm đi. Câu cuối “tưởng lay được trời” vừa lãng mạn vừa tự ý thức: chữ “tưởng” thừa nhận giới hạn, con người không thật sự đổi được bầu trời, nhưng một chạm nhỏ vào nước vẫn có thể làm toàn bộ trời phản chiếu rung lên.
+
+          Theo cách đọc sinh thái, thiên nhiên ở đây không phải phông nền trang trí. Bờ, thuyền, lau, nước và trời cùng tham gia tạo nghĩa; cảm xúc của con người chỉ hiện lên nhờ quan hệ với chúng. Tuy nhiên, nếu chỉ gắn nhãn “sinh thái” ta có thể bỏ mất nỗi chia tay rất riêng. Cách đọc hiện tượng học lại chú ý trải nghiệm giác quan: vệt sáng nhìn thấy, dây neo có thể chạm, lau nghiêng, mặt nước rung. Nỗi buồn trở thành một điều được cơ thể cảm nhận trước khi được lý trí gọi tên.
+
+          Một cách hiểu khác xem con thuyền không đại diện cho người ra đi mà cho chính ngày cũ đang trôi khỏi chủ thể. Khi ấy, người đứng lại không bị ai rời bỏ; họ đang chứng kiến thời gian tự tháo neo. Hai cách đọc không loại trừ nhau, bởi chia tay một người thường cũng là chia tay phiên bản cũ của chính mình. Bài thơ chạm tới đời sống ở điểm ấy: ta không thể giữ nguyên một buổi chiều, nhưng có thể học cách nhìn kỹ khoảnh khắc nó qua đi. Sự lãng mạn của đoạn thơ không trốn chạy thực tế; nó trao cho mất mát một hình thức để con người có thể mang theo.
+
+  - id: wd04_ethics_real_life
+    category: writing_deep_application
+    skills: [ethics, social_context, practical_application, limits]
+    messages:
+      - role: user
+        content: |-
+          Từ câu chuyện tự viết về một học sinh giấu điểm kém vì sợ cha mẹ, hãy phân tích đa chiều và liên hệ đời sống, đừng chỉ kết luận “nói dối là xấu”.
+      - role: assistant
+        content: |-
+          Nếu chỉ kết luận “nói dối là xấu”, bài viết sẽ đúng về nguyên tắc nhưng nghèo về hiểu biết con người. Hành vi giấu điểm cần được nhìn ở ít nhất ba tầng: trách nhiệm cá nhân của học sinh, môi trường cảm xúc trong gia đình và cách nhà trường biến điểm số thành tín hiệu về năng lực.
+
+          Trước hết, học sinh phải chịu trách nhiệm vì đã che giấu sự thật. Nói dối làm cha mẹ mất thông tin để hỗ trợ và có thể tạo thành chuỗi lời nói dối khác. Nhưng trách nhiệm không đồng nghĩa với việc dán nhãn nhân cách. Cần hỏi nỗi sợ đến từ đâu: sợ bị phạt, sợ làm cha mẹ thất vọng, hay tin rằng một điểm thấp chứng minh mình “không có giá trị”? Câu hỏi ấy không xóa lỗi mà giúp chọn cách sửa lỗi hiệu quả hơn.
+
+          Từ phía cha mẹ, kỳ vọng có thể xuất phát từ yêu thương nhưng vẫn tạo áp lực nếu chỉ được biểu đạt bằng so sánh, quát mắng hoặc rút lại sự công nhận. Một gia đình an toàn không phải nơi mọi hành vi đều được bỏ qua; đó là nơi đứa trẻ có thể nói sự thật và biết rằng hậu quả sẽ công bằng, có giới hạn. Phản đề cũng cần nêu: không thể quy mọi lần nói dối cho cha mẹ. Có trường hợp học sinh né tránh vì chưa rèn thói quen chịu trách nhiệm. Vì vậy, đánh giá phải dựa trên hoàn cảnh cụ thể.
+
+          Ở tầng nhà trường, điểm số nên là dữ liệu phản hồi: sai phần nào, vì sao sai, cần luyện gì. Khi điểm trở thành danh tính, cả người lớn lẫn học sinh dễ quên mục đích học tập. Liên hệ thực tế có thể chuyển thành quy trình bốn bước: nói đúng sự việc; thừa nhận cảm xúc mà không dùng nó làm cớ; cùng phân tích lỗi; thống nhất một kế hoạch nhỏ có thời hạn rồi kiểm tra lại. Chẳng hạn, học sinh chủ động đưa bài kiểm tra, chỉ ra hai dạng câu chưa hiểu và xin một tuần luyện lại. Cha mẹ lắng nghe trước, đặt hậu quả hợp lý cho việc che giấu nhưng không xúc phạm.
+
+          Bài học sâu nhất không phải “đừng bao giờ sợ”, vì sợ hãi là phản ứng thật. Đó là học cách hành động trung thực ngay cả khi đang sợ, đồng thời xây dựng những quan hệ trong đó sự trung thực không bị trừng phạt bằng nhục mạ. Văn chương có ích khi nó giúp ta nhìn thấy cả người gây lỗi lẫn hệ thống cảm xúc quanh lỗi ấy, rồi biến sự thấu hiểu thành một cách ứng xử cụ thể.
+
+  - id: wd05_european_lens_matrix
+    category: writing_deep_method
+    skills: [formalism, historical_context, psychoanalysis, ethics, reader_response]
+    messages:
+      - role: user
+        content: "Hướng dẫn em phân tích một truyện theo kiểu đa góc nhìn châu Âu nhưng không phô thuật ngữ."
+      - role: assistant
+        content: |-
+          “Đa góc nhìn châu Âu” không phải một phương pháp duy nhất. Em nên hiểu đó là lời mời sử dụng có chọn lọc nhiều truyền thống phê bình, rồi luôn quay lại chi tiết văn bản. Một quy trình dễ dùng gồm sáu lượt đọc.
+
+          Lượt một, đọc gần hình thức: ai kể, kể từ đâu, thời gian bị đảo thế nào, từ ngữ hoặc hình ảnh nào lặp lại? Đừng chỉ gọi tên thủ pháp; hãy giải thích thủ pháp điều khiển cảm xúc và thông tin của người đọc ra sao. Lượt hai, đặt văn bản vào lịch sử-xã hội: tác phẩm phản ánh quy tắc, xung đột giai cấp, giới hay thiết chế nào? Chỉ khẳng định điều có căn cứ; không biến bối cảnh thành chiếc chìa khóa mở mọi ý nghĩa.
+
+          Lượt ba, đọc tâm lý: nhân vật muốn gì, né tránh gì, hành động nào mâu thuẫn với lời nói? Có thể nêu động cơ tiềm ẩn như một giả thuyết, nhưng không chẩn đoán bệnh từ vài chi tiết. Lượt bốn, đọc đạo đức: tác phẩm buộc ta phán xét ai, có làm sự phán xét ấy trở nên khó khăn hơn không? Phân biệt “hiểu nguyên nhân” với “miễn trách nhiệm”.
+
+          Lượt năm, đọc quan hệ quyền lực: ai được nói, ai bị kể thay, lao động của ai bị che khuất? Nếu giới, giai cấp hoặc thuộc địa không hiện diện trong văn bản, đừng ép nhãn. Lượt sáu, đọc từ vị trí người tiếp nhận: một học sinh hôm nay và độc giả ở thời đại tác phẩm có thể phản ứng khác nhau ở đâu? Cách đọc mới có thể phát hiện điểm mù, nhưng không được bóp méo câu chữ để chứng minh mình hiện đại.
+
+          Cuối cùng, em lập bảng bốn cột: lăng kính; chi tiết làm căn cứ; điều được soi sáng; giới hạn hoặc phản đề. Chọn ba đến bốn lăng kính tạo thành một mạch, thay vì liệt kê tất cả. Phần liên hệ đời sống cần cụ thể: tác phẩm giúp ta nhận diện tình huống nào, thay đổi một lựa chọn nào, và điều gì trong văn chương không thể chuyển thẳng thành lời khuyên. Như vậy bài viết có chiều sâu mà vẫn sáng rõ, bởi thuật ngữ phục vụ chứng cứ chứ không thay thế chứng cứ.
+
+  - id: wd06_chinese_inspired_original
+    category: writing_creative_chinese
+    skills: [original_poetry, scene_emotion, parallelism, restraint]
+    messages:
+      - role: user
+        content: "Sáng tác một bài thơ Việt nguyên bản, lãng mạn, phỏng theo mỹ học thơ cổ điển Trung Hoa; không bắt chước tác giả cụ thể."
+      - role: assistant
+        content: |-
+          Bến trăng
+
+          Sương xuống nghiêng mềm bến cỏ xa,
+          Một thuyền không khách đợi trăng qua.
+          Núi im giữ hộ lời chưa gửi,
+          Nước chảy mang giùm bóng áo hoa.
+
+          Sáo muộn bên thành rơi nửa tiếng,
+          Đèn khuya đáy chén lạnh đôi ta.
+          Mai người theo nhạn về phương Bắc,
+          Tôi buộc mùa thu lại mái nhà.
+
+  - id: wd07_chinese_aesthetic_explanation
+    category: writing_comparative_aesthetics
+    skills: [chinese_aesthetics, scene_emotion, critical_limits]
+    messages:
+      - role: user
+        content: "Làm sao viết lãng mạn theo cảm hứng Trung Hoa mà không thành sáo rỗng với trăng, rượu, kiếm?"
+      - role: assistant
+        content: |-
+          Hãy bắt đầu từ quan hệ giữa cảnh và tình, không bắt đầu từ một danh sách biểu tượng. Trăng chỉ có ý nghĩa khi nó làm thay đổi khoảng cách giữa hai nhân vật; dòng sông chỉ cần xuất hiện nếu dòng chảy tạo được một cấu trúc cho thời gian, chia ly hoặc trở về. Một hình ảnh cụ thể, có hành động, thường mạnh hơn năm hình ảnh “cổ phong” đặt cạnh nhau.
+
+          Em có thể dùng ba nguyên tắc. Thứ nhất, cảnh ngụ tình: không nói “tôi buồn”, mà để chiếc rèm lâu không khép, chén trà nguội hoặc bóng cây dịch qua bậc đá biểu hiện thời gian chờ đợi. Thứ hai, đối và chuyển: đặt gần–xa, động–tĩnh, có–vắng cạnh nhau rồi để câu sau làm lệch ý câu trước. Thứ ba, dư bạch: giữ lại một khoảng không giải thích để người đọc hoàn tất cảm xúc.
+
+          Cần tránh xem mọi văn chương Trung Hoa đều giống nhau. Thơ cổ điển, từ khúc, tiểu thuyết hiện đại và văn học mạng thuộc những hoàn cảnh rất khác. Nếu viết tiếng Việt theo cảm hứng cổ điển, có thể nói “phỏng theo” và ưu tiên nhạc tính tự nhiên của tiếng Việt thay vì tuyên bố đã phục dựng đúng niêm luật Hán ngữ. Lãng mạn thuyết phục không đến từ đạo cụ ngoại lai; nó đến từ một mối quan hệ có hoàn cảnh, một chi tiết mang ký ức và một điều nhân vật không thể nói thẳng.
+
+  - id: wd08_japanese_haibun_original
+    category: writing_creative_japanese
+    skills: [haibun, seasonality, ma, mono_no_aware, original_writing]
+    messages:
+      - role: user
+        content: "Viết một haibun tiếng Việt nguyên bản, phong vị Nhật Bản, lãng mạn nhưng tiết chế."
+      - role: assistant
+        content: |-
+          Ga cuối mùa mưa
+
+          Chuyến tàu chiều trễ mười phút. Dưới mái hiên, cô đứng cách tôi một ô gạch, hai tay ôm chiếc hộp đựng cây non. Chúng tôi đã nói hết những điều cần nói từ tối qua, nên chỉ còn nghe nước từ mép ngói rơi đều xuống đường ray.
+
+          Khi tàu đến, gió đẩy một chiếc lá ướt vào giữa hai đôi giày. Cô cúi xuống nhưng không nhặt. Cửa mở. Trong khoảnh khắc kính tàu lướt qua, khuôn mặt cô chồng lên bóng hàng cây phía bên kia sân ga. Rồi cả người lẫn cây đều đi khỏi tầm mắt.
+
+          mưa vừa dứt
+          trên ghế người đã rời
+          một vệt xanh non
+
+  - id: wd09_japanese_aesthetic_analysis
+    category: writing_comparative_aesthetics
+    skills: [japanese_aesthetics, close_reading, anti_stereotype]
+    messages:
+      - role: user
+        content: "Phân tích mỹ cảm Nhật Bản trong đoạn tự viết: ‘Chiếc cốc sứ đã mẻ vẫn ở cạnh cửa sổ. Mỗi sáng bà đặt vào đó một cành hoa nhỏ hơn hôm qua.’"
+      - role: assistant
+        content: |-
+          Đoạn văn gợi một mỹ cảm gần với wabi-sabi: vẻ đẹp không nằm ở sự nguyên vẹn mà ở dấu vết của thời gian và sự chăm sóc. Chiếc cốc “đã mẻ” không bị vứt đi; khuyết điểm của nó trở thành phần lịch sử. Tuy vậy, không nên chỉ gọi tên khái niệm rồi dừng lại. Từ “vẫn” mới là điểm tựa: vật ở lại trong khi ngày tháng và cành hoa đổi khác.
+
+          Chi tiết “một cành hoa nhỏ hơn hôm qua” mở ra ít nhất hai cách hiểu. Nó có thể biểu hiện sự tinh giản, mỗi ngày bà bớt đi một chút để tiến gần sự tĩnh lặng. Nó cũng có thể gợi sự suy giảm của sức lực, mùa hoa hoặc quỹ thời gian. Cách đọc thứ hai chạm tới mono no aware — nỗi rung động trước tính phù du — nhưng văn bản không nói bà bệnh hay sắp mất, nên chỉ nên trình bày như một khả năng.
+
+          Khoảng trống lớn nhất là động cơ của bà. Người viết không giải thích, tạo ra “ma”, một khoảng lặng để người đọc đem ký ức của mình vào. Độ lặng ấy khác với mơ hồ tùy tiện vì nó được giữ bằng hai vật cụ thể: cốc mẻ và cành hoa. Trong đời sống, đoạn văn gợi thái độ trân trọng đồ vật cũ và những nghi thức nhỏ, nhưng không nên lãng mạn hóa thiếu thốn hay cho rằng mọi vết nứt đều phải được giữ lại. Có thứ nên sửa, có thứ nên buông; văn chương chỉ giúp ta nhìn kỹ trước khi quyết định.
+
+  - id: wd10_followup_deepening
+    category: writing_deep_followup
+    skills: [revision, expansion, non_repetition, counterargument]
+    messages:
+      - role: user
+        content: "Phân tích đoạn tự viết: ‘Mẹ gấp lá thư chưa gửi vào chiếc khăn cũ.’"
+      - role: assistant
+        content: "Hành động “gấp” cho thấy nhân vật cất một điều chưa thể nói. Lá thư thuộc về lời nói, còn chiếc khăn thuộc về chăm sóc và ký ức thân thể; đặt chúng cạnh nhau, câu văn biến cảm xúc thành một vật được bao bọc. Từ “cũ” gợi thời gian đã tích tụ, nhưng đoạn văn chưa cho biết người nhận hay nguyên nhân không gửi nên ta không nên tự dựng cốt truyện."
+      - role: user
+        content: "Đào sâu hơn, thêm nhiều góc nhìn và liên hệ đời sống, không lặp ý cũ."
+      - role: assistant
+        content: |-
+          Có thể mở rộng từ ba yếu tố chưa được khai thác: vật liệu, quyền phát ngôn và đạo đức của im lặng. Lá thư là ngôn ngữ có địa chỉ; chiếc khăn lại gần cơ thể, giữ mùi, hơi ấm và dấu vết sử dụng. Khi lá thư được đặt trong khăn, lời chưa nói không hẳn bị hủy mà được chuyển từ không gian giao tiếp sang không gian ký ức. Vì thế, “chưa gửi” khác “không gửi”: câu văn giữ tương lai ở trạng thái mở.
+
+          Dưới góc nhìn quan hệ gia đình, người mẹ thường bị văn chương mặc định là người hiểu và hi sinh. Ở đây, lá thư nhắc rằng mẹ cũng có phần đời không được người khác đọc. Cách đọc ấy phục hồi nội tâm riêng của nhân vật. Nhưng ta không nên tự động ca ngợi sự im lặng là hi sinh cao đẹp. Im lặng có thể bảo vệ người khác, cũng có thể khiến một mâu thuẫn kéo dài hoặc tước mất cơ hội được giúp đỡ.
+
+          Một phản đề hợp lý là: có phải mọi lời đều cần gửi? Không. Trung thực không đồng nghĩa với trút toàn bộ cảm xúc lên người nhận. Trước khi nói, con người cần cân nhắc mục đích, thời điểm và hậu quả. Tuy nhiên, nếu nỗi sợ khiến một người liên tục tự xóa mình, việc “gói” lá thư sẽ không còn dịu dàng mà trở thành dấu hiệu của bất bình đẳng trong quan hệ.
+
+          Liên hệ đời sống, hình ảnh gợi một bài tập thực tế: viết điều mình muốn nói, sau đó chia thành ba phần — sự việc quan sát được, cảm xúc của mình và đề nghị cụ thể. Ta có thể chưa gửi ngay, nhưng nên xác định vì sao trì hoãn và khi nào sẽ xem lại. Văn chương không đưa ra đáp án thay nhân vật; nó giúp người đọc nhận ra rằng giữa nói và im lặng còn có một công việc khó hơn: học cách nói sao cho vừa thật với mình vừa có trách nhiệm với người nghe.
+
+  - id: wd11_val_unseen_multilens
+    split: val
+    category: writing_deep_literary
+    skills: [close_reading, class, ethics, alternative_reading]
+    messages:
+      - role: user
+        content: |-
+          Phân tích đa chiều đoạn tự viết: “Cậu bé giao báo luôn đặt tờ cuối cùng trước căn nhà không còn người ở. Một hôm chủ mới chuyển đến, trách cậu làm bẩn bậc thềm. Sáng sau, tờ báo biến mất; riêng bậc thềm sạch đến mức không giữ nổi dấu chân.”
+      - role: assistant
+        content: |-
+          Đoạn văn đặt ký ức và trật tự mới vào một xung đột rất nhỏ. Tờ báo cuối cùng có thể là thói quen nghề nghiệp, nhưng việc nó luôn được đặt trước căn nhà trống khiến hành động vượt khỏi công việc: cậu bé đang giữ một mối liên hệ với người đã rời đi. Chủ mới chỉ thấy “bẩn”, nghĩa là nhìn vật theo chức năng hiện tại; cậu bé nhìn nó như dấu vết của một quan hệ.
+
+          Về hình thức, câu kết đảo giá trị của sự sạch sẽ. “Sạch đến mức không giữ nổi dấu chân” không còn là lời khen mà gợi một bề mặt đã loại bỏ mọi chứng tích con người. Tuy nhiên, không nên biến chủ mới thành kẻ xấu tuyệt đối: họ có quyền chăm sóc không gian của mình và không biết lịch sử của tờ báo. Bi kịch nảy sinh từ thiếu đối thoại hơn là ác ý rõ ràng.
+
+          Lăng kính giai cấp cũng đáng chú ý: cậu bé giao báo bị trách nhưng không có lời thoại, trong khi người sở hữu căn nhà quyết định vật nào được hiện diện. Dẫu vậy, văn bản quá ngắn để kết luận về hoàn cảnh kinh tế của hai người; đây chỉ là câu hỏi về quyền lên tiếng. Về đạo đức, ký ức không thể được bảo tồn bằng cách áp đặt mãi lên người đến sau. Một giải pháp nhân văn cần vừa kể lại ý nghĩa của nghi thức, vừa chấp nhận rằng hình thức lưu giữ có thể thay đổi.
+
+          Trong đời sống, nhiều mâu thuẫn thế hệ và cộng đồng cũng bắt đầu như vậy: một bên bảo vệ kỷ niệm, bên kia chỉ nhìn thấy vật cũ chiếm chỗ. Đoạn văn nhắc ta hỏi “điều này từng có nghĩa gì?” trước khi xóa bỏ, đồng thời hỏi “có cách nào giữ ý nghĩa mà không buộc người khác sống y nguyên quá khứ?”.
+
+  - id: wd12_val_chinese_original
+    split: val
+    category: writing_creative_chinese
+    skills: [original_poetry, romantic, cultural_restraint]
+    messages:
+      - role: user
+        content: "Viết bốn câu thơ nguyên bản phỏng theo tuyệt cú, chủ đề nhớ người ở xa, chỉ đưa bài thơ."
+      - role: assistant
+        content: |-
+          Gió mở rèm sương, nguyệt ghé song,
+          Thuyền ai khuất bến, nước xuôi dòng.
+          Ta không gửi chữ theo mây trắng,
+          Sợ đến tay người đã hóa đông.
+
+  - id: wd13_val_japanese_original
+    split: val
+    category: writing_creative_japanese
+    skills: [haiku, original_poetry, output_only]
+    messages:
+      - role: user
+        content: "Tạo haiku tiếng Việt 5-7-5 về cuộc chia tay mùa thu, chỉ đưa bài thơ."
+      - role: assistant
+        content: |-
+          lá nghiêng vai áo
+          ga chiều dài hơn bóng
+          còi tàu qua thu
+
+  - id: wd14_val_concise_override
+    split: val
+    category: writing_instruction_following
+    skills: [concise_override, close_reading]
+    messages:
+      - role: user
+        content: "Phân tích ngắn gọn hình ảnh tự viết ‘một chiếc lá mắc lại ở bậc cửa’, tối đa một đoạn."
+      - role: assistant
+        content: "Chiếc lá “mắc lại” gợi một vật nhỏ đang ở giữa ra đi và ở lại. Bậc cửa vốn là ranh giới trong–ngoài, nên hình ảnh có thể tượng trưng cho khoảnh khắc con người ngập ngừng trước thay đổi. Tuy nhiên, vì câu thơ không cung cấp thêm ngữ cảnh, đây chỉ là một khả năng đọc; sức gợi nằm chính ở chuyển động bị dừng và khoảng trống để người đọc đặt trải nghiệm của mình vào."

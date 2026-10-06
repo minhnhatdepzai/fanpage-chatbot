@@ -26,6 +26,7 @@ from app.rag.retriever import DocSearch
 from app.storage import repository as repo
 from app.storage.db import dispose_db, init_db
 from app.vision.client import VisionClient
+from app.websearch import build_web_search
 from app.workers.housekeeping import housekeeping_loop
 from app.workers.processor import WorkerDeps, process_conversation
 
@@ -89,6 +90,7 @@ async def run_worker(settings: Settings | None = None) -> None:
         knowledge=load_knowledge(s.knowledge_dir),
         docs=DocSearch(s, HttpEmbedder(s)) if s.rag_docs_enabled else None,
         vision=VisionClient(s) if s.vision_enabled else None,
+        web_search=build_web_search(s),
     )
     stop = asyncio.Event()
     loop = asyncio.get_running_loop()
@@ -105,6 +107,8 @@ async def run_worker(settings: Settings | None = None) -> None:
             "tracing": deps.tracer.enabled,
             "knowledge_entries": len(deps.knowledge),
             "grounding_mode": s.grounding_mode.value,
+            "web_search": deps.web_search is not None,
+            "vision_vlm": bool(getattr(deps.vision, "vlm_enabled", False)),
         },
     )
     tasks = [asyncio.create_task(_slot(deps, stop, i)) for i in range(s.worker_concurrency)]

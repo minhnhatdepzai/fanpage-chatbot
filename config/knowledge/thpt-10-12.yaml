@@ -1,0 +1,28 @@
+# Nguồn định hướng phạm vi THPT. Đây không phải dữ liệu đáp án và không thay thế ngữ liệu của đề bài.
+entries:
+  - id: moet-ctgdpt-2018-overview
+    title: "Bộ GD&ĐT - Chương trình giáo dục phổ thông 2018"
+    source: "https://moet.gov.vn/content/tintuc/Lists/News/Attachments/8421/chuong-trinh-tong-the-ctgdpt-2018.pdf"
+    keywords: ["chương trình lớp 10", "chương trình lớp 11", "chương trình lớp 12", "THPT", "ngữ văn THPT", "toán THPT"]
+    content: >-
+      Chương trình giáo dục phổ thông của Bộ Giáo dục và Đào tạo là nguồn định hướng chính thức cho phạm vi giáo dục
+      phổ thông Việt Nam. Khi người học hỏi một bài cụ thể, StudyScope vẫn phải dựa vào đề hoặc ngữ liệu được cung cấp;
+      không được suy ra đáp án chỉ từ tài liệu định hướng chương trình.
+
+  - id: moet-english-upper-secondary
+    title: "Bộ GD&ĐT - Chương trình môn Tiếng Anh cấp THPT"
+    source: "https://moet.gov.vn/content/vanban/Lists/VBDT/Attachments/1582/11-ct-tieng-anh-ngay-29-3-2022.pdf"
+    keywords: ["tiếng Anh lớp 10", "tiếng Anh lớp 11", "tiếng Anh lớp 12", "tiếng Anh THPT"]
+    content: >-
+      Chương trình môn Tiếng Anh cấp trung học phổ thông bao quát lớp 10, 11 và 12, phát triển năng lực giao tiếp qua
+      nghe, nói, đọc, viết cùng kiến thức ngôn ngữ. Nguồn này chỉ xác nhận định hướng phạm vi; bài giải phải bám ngữ liệu
+      người học gửi và không được giả vờ đã nghe audio hoặc đọc passage còn thiếu.
+
+  - id: common-core-high-school-math
+    title: "Common Core State Standards - High School Mathematics"
+    source: "https://corestandards.org/mathematics-standards/"
+    keywords: ["international grade 10 math", "international grade 11 math", "international grade 12 math", "high school math", "Common Core"]
+    content: >-
+      High-school mathematics is organized around conceptual categories including number and quantity, algebra,
+      functions, modeling, geometry, and statistics and probability. StudyScope uses this as an international scope
+      reference, not as evidence that every national grade sequence is identical.

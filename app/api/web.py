@@ -94,9 +94,16 @@ async def post_message(body: MessageIn, request: Request) -> dict[str, Any]:
         raise HTTPException(400, f"Tin nhắn cần từ 1 đến {s.web_max_message_chars} ký tự.")
     # nhiều người có thể chung một IP (trường, công ty) -> giới hạn theo IP rộng hơn giới hạn theo phiên
     _rate_limit_ip(request, "message", 3 * s.web_rate_limit_per_5min)
+    await _ingest_text_message(body.session_id, msg, s)
+    return {"accepted": True, "queue": await _queue_status_for_session(body.session_id)}
+
+
+async def _ingest_text_message(session_id: str, msg: str, settings: Any | None = None) -> None:
+    """Ghi một tin web vào cùng hàng đợi Messenger; dùng lại cho các phòng học chuyên biệt."""
+    s = settings or get_settings()
     ev = UserMessage(
         page_id=WEB_PAGE_ID,
-        psid=body.session_id,
+        psid=session_id,
         mid=f"web-{uuid.uuid4().hex}",
         ts=datetime.now(UTC),
         text=msg,
@@ -109,13 +116,83 @@ async def post_message(body: MessageIn, request: Request) -> dict[str, Any]:
                     "WHERE c.page_id = :p AND c.psid = :sid AND m.role = 'user' "
                     "AND m.created_at > now() - interval '5 minutes'"
                 ),
-                {"p": WEB_PAGE_ID, "sid": body.session_id},
+                {"p": WEB_PAGE_ID, "sid": session_id},
             )
         ).scalar_one()
         if recent >= s.web_rate_limit_per_5min:
             raise HTTPException(429, "Bạn gửi hơi nhanh, đợi một chút rồi nhắn tiếp nhé.")
         await ingest_events(db, [ev], s)  # ghi bền vững TRƯỚC khi trả 202
-    return {"accepted": True}
+
+
+async def _queue_status(db: Any, conv_id: Any) -> dict[str, Any]:
+    """Vị trí công khai, không lộ định danh hay nội dung của người khác trong hàng đợi."""
+    row = (
+        (
+            await db.execute(
+                text(
+                    """
+                WITH live AS (
+                    SELECT c.id, c.next_run_at,
+                           (c.lease_owner IS NOT NULL AND c.lease_expires_at > now()) AS processing
+                    FROM conversations c
+                    WHERE c.next_run_at IS NOT NULL
+                      AND (EXISTS (SELECT 1 FROM messages m WHERE m.conversation_id = c.id
+                                   AND m.role = 'user' AND m.status = 'pending')
+                           OR EXISTS (SELECT 1 FROM turns t WHERE t.conversation_id = c.id
+                                      AND t.status = 'running'))
+                ), ranked AS (
+                    SELECT id, processing,
+                           row_number() OVER (ORDER BY processing DESC, next_run_at, id) AS position,
+                           count(*) OVER () AS total,
+                           count(*) FILTER (WHERE processing) OVER () AS active_jobs
+                    FROM live
+                ), capacity AS (
+                    SELECT COALESCE(sum(slots), 0) AS slots FROM (
+                        SELECT split_part(worker_id, ':', 1) AS host,
+                               max(CASE WHEN info->>'concurrency' ~ '^[0-9]+$'
+                                        THEN (info->>'concurrency')::int ELSE 0 END) AS slots
+                        FROM worker_heartbeats WHERE last_seen > now() - interval '60 seconds'
+                        GROUP BY split_part(worker_id, ':', 1)
+                    ) live_workers
+                )
+                SELECT r.processing, r.position, r.total, r.active_jobs, capacity.slots
+                FROM capacity LEFT JOIN ranked r ON r.id = :cid
+                """
+                ),
+                {"cid": conv_id},
+            )
+        )
+        .mappings()
+        .one()
+    )
+    if row["position"] is None:
+        return {
+            "phase": "idle",
+            "position": None,
+            "total": 0,
+            "active_jobs": 0,
+            "worker_slots": int(row["slots"] or 0),
+        }
+    return {
+        "phase": "processing" if row["processing"] else "queued",
+        "position": int(row["position"]),
+        "total": int(row["total"]),
+        "active_jobs": int(row["active_jobs"]),
+        "worker_slots": int(row["slots"] or 0),
+    }
+
+
+async def _queue_status_for_session(session_id: str) -> dict[str, Any]:
+    async with session_scope() as db:
+        conv_id = (
+            await db.execute(
+                text("SELECT id FROM conversations WHERE page_id = :p AND psid = :sid"),
+                {"p": WEB_PAGE_ID, "sid": session_id},
+            )
+        ).scalar_one_or_none()
+        if conv_id is None:
+            return {"phase": "idle", "position": None, "total": 0, "active_jobs": 0, "worker_slots": 0}
+        return await _queue_status(db, conv_id)
 
 
 class ImageIn(BaseModel):
@@ -127,7 +204,7 @@ class ImageIn(BaseModel):
 
 @router.post("/images", status_code=202)
 async def post_image(body: ImageIn, request: Request) -> dict[str, Any]:
-    """Ảnh từ widget: phân tích ngay (OCR + YOLO) rồi lưu KẾT QUẢ đã che dữ liệu cá nhân, không lưu ảnh."""
+    """Ảnh từ widget: OCR/YOLO/VLM rồi lưu KẾT QUẢ đã che dữ liệu cá nhân, không lưu ảnh."""
     import base64
     import binascii
 
@@ -150,7 +227,7 @@ async def post_image(body: ImageIn, request: Request) -> dict[str, Any]:
     except binascii.Error as exc:
         raise HTTPException(400, "Ảnh không hợp lệ.") from exc
     try:
-        analysis = sanitize_analysis(await VisionClient(s).analyze(data))
+        analysis = sanitize_analysis(await VisionClient(s).analyze(data, question=caption or None))
     except VisionError as exc:
         if exc.status in (400, 413):
             raise HTTPException(
@@ -170,7 +247,7 @@ async def post_image(body: ImageIn, request: Request) -> dict[str, Any]:
     )
     async with session_scope() as db:
         await ingest_events(db, [ev], s)
-    return {"accepted": True}
+    return {"accepted": True, "queue": await _queue_status_for_session(body.session_id)}
 
 
 @router.get("/messages")
@@ -185,13 +262,19 @@ async def get_messages(session_id: str, token: str, after: int = 0) -> dict[str,
             )
         ).scalar_one_or_none()
         if conv is None:
-            return {"messages": [], "pending": False}
+            return {
+                "messages": [],
+                "pending": False,
+                "queue": {"phase": "idle", "position": None, "total": 0, "active_jobs": 0, "worker_slots": 0},
+            }
         rows = (
             (
                 await db.execute(
                     text(
-                        "SELECT id, text, sent_at FROM messages WHERE conversation_id = :c AND role = 'assistant' "
-                        "AND status = 'sent' AND id > :after ORDER BY id LIMIT 50"
+                        "SELECT m.id, m.text, m.sent_at, t.mode FROM messages m "
+                        "LEFT JOIN turns t ON t.id = m.turn_id "
+                        "WHERE m.conversation_id = :c AND m.role = 'assistant' "
+                        "AND m.status = 'sent' AND m.id > :after ORDER BY m.id LIMIT 50"
                     ),
                     {"c": conv, "after": after},
                 )
@@ -209,12 +292,19 @@ async def get_messages(session_id: str, token: str, after: int = 0) -> dict[str,
                 {"c": conv},
             )
         ).scalar_one()
+        queue = await _queue_status(db, conv)
     return {
         "messages": [
-            {"id": r["id"], "text": r["text"], "at": r["sent_at"].isoformat() if r["sent_at"] else None}
+            {
+                "id": r["id"],
+                "text": r["text"],
+                "mode": r["mode"] or "chat",
+                "at": r["sent_at"].isoformat() if r["sent_at"] else None,
+            }
             for r in rows
         ],
         "pending": bool(pending),
+        "queue": queue,
     }
 
 

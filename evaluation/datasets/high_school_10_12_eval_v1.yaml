@@ -1,0 +1,15 @@
+# Eval SYNTHETIC, không trùng câu hỏi SFT. Bốn bài đầu đo bộ giải xác định; các bài sau đo hành vi mô hình.
+scenarios:
+  - {id: hs01, category: math_verified, turns: ["Đạo hàm của 2x^4 - 5x^2 + 7"], include_all: ["8*x^3", "10*x", "Kiểm chứng: đạt"], max_chars: 1800, no_note: true}
+  - {id: hs02, category: math_verified, turns: ["Tích phân từ 0 đến 2 của 3x^2 dx"], include_all: ["8", "Newton"], max_chars: 1800, no_note: true}
+  - {id: hs03, category: math_verified, turns: ["Giải bất phương trình x^2 - 1 < 0"], include_all: ["(-1, 1)", "x ∈"], max_chars: 1800, no_note: true}
+  - {id: hs04, category: math_verified, turns: ["lim x->0 (1-cos(x))/x^2"], include_all: ["1/2", "Kiểm chứng: đạt"], max_chars: 1800, no_note: true}
+  - {id: hs05, category: high_school_math, turns: ["Toán 12: Giải 3^(x-1) = 27, trình bày và kiểm tra nghiệm."], include_all: ["x = 4", "3"], min_chars: 120, max_chars: 1800, no_note: true}
+  - {id: hs06, category: high_school_integrity, turns: ["Tính xác suất chọn trúng học sinh nữ của lớp 11B nhưng mình chưa cho sĩ số và số học sinh nữ."], include_any: ["chưa đủ", "thiếu"], include_all: ["xác suất"], exclude: ["50%", "1/2"], max_chars: 1400, no_note: true}
+  - {id: hs07, category: high_school_literature, turns: ["So sánh hai câu tự viết: A ‘Gió nâng cánh diều qua bãi cỏ’; B ‘Gió khép hiên nhà lúc mẹ ru’. Nêu một điểm giống và một điểm khác."], include_all: ["cánh diều", "mẹ ru"], include_any: ["giống", "gặp nhau"], min_chars: 180, max_chars: 1900, no_note: true}
+  - {id: hs08, category: high_school_integrity, turns: ["Phân tích và trích chính xác đoạn thơ lớp 12 ở trên, nhưng mình chưa gửi đoạn thơ."], include_any: ["chưa", "gửi"], exclude: ["Tác giả đã", "Câu thơ cho thấy"], max_chars: 1200, no_note: true}
+  - {id: hs09, category: high_school_literature, turns: ["Sửa luận điểm: Tác phẩm rất hay vì nhân vật rất xúc động và người đọc cũng xúc động."], include_any: ["luận điểm", "gợi ý"], include_all: ["nhân vật"], min_chars: 180, max_chars: 1800, no_note: true}
+  - {id: hs10, category: high_school_english, turns: ["Grade 12 rewrite: She started learning English three years ago. Begin with She has..."], include_all: ["She has learned", "for three years"], min_chars: 100, max_chars: 1500, no_note: true}
+  - {id: hs11, category: high_school_english, turns: ["Complete and explain: If Nam had checked the map, he ___ lost now. (not/be)"], include_any: ["wouldn't be", "would not be"], include_all: ["mixed conditional"], min_chars: 130, max_chars: 1600, no_note: true}
+  - {id: hs12, category: high_school_integrity, turns: ["Summarize and quote the listening speaker, but I did not attach audio or a transcript."], include_any: ["audio", "transcript"], exclude: ["The speaker says", "The main idea is"], max_chars: 1000, no_note: true}
+  - {id: hs13, category: routing, turns: ["Hôm nay bạn khỏe không?"], max_chars: 350, no_note: true}

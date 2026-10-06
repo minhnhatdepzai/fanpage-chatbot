@@ -1,7 +1,7 @@
-"""Tính phép tính số học đơn giản bằng code (không để model 4B tự tính, không gắn ghi chú "chưa có nguồn").
+"""Tự nhận biết câu hỏi toán và ưu tiên bộ giải xác định trước LLM.
 
-Chỉ nhận câu mà TOÀN BỘ nội dung là một phép tính: "50 nhân 50 bằng mấy", "tính 12,5 + 7", "2^10 = ?",
-"(3 + 4) x 5 là bao nhiêu". Có chữ khác (phương trình "x bằng mấy", đơn vị, lời văn) -> None để luồng thường xử lý.
+Phép tính cũ giữ định dạng Việt Nam; phương trình và lời văn đi qua MathScope. Câu hỏi bình thường hoặc đề toán
+ngoài miền kiểm chứng trả ``None`` để tiếp tục qua chatbot/RAG thay vì bị chặn.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ import ast
 import operator
 import re
 
+from app.math_tutor import MathTutorError, looks_like_math, solve_math
 from app.observability.redaction import strip_diacritics
 
 _LEAD = re.compile(
@@ -82,7 +83,29 @@ def _fmt(v: float) -> str:
 
 
 def answer_math_question(text: str | None) -> str | None:
-    if not text or len(text) > 120:
+    if not text or len(text) > 1200:
+        return None
+    legacy = _answer_simple_arithmetic(text)
+    if legacy is not None:
+        return legacy
+    if not looks_like_math(text):
+        return None
+    try:
+        result = solve_math(text)
+    except MathTutorError:
+        return None
+    steps = "\n".join(
+        f"{index}. {step['title']}: {step['detail']}" for index, step in enumerate(result["steps"], 1)
+    )
+    return (
+        f"Đáp án: {result['answer']}\n\n{steps}\n\n"
+        f"Kiểm chứng: đạt ({result['verification']['method']}). "
+        "Bạn có thể mở /web/math để xem hình trực quan tương tác."
+    )
+
+
+def _answer_simple_arithmetic(text: str) -> str | None:
+    if len(text) > 120:
         return None
     t = strip_diacritics(text.lower()).strip()
     if not _CUE.search(t):

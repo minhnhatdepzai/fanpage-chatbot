@@ -42,6 +42,7 @@ class WorkerDeps:
     knowledge: KnowledgeBase = field(default_factory=KnowledgeBase)
     docs: Any = None
     vision: Any = None
+    web_search: Any = None
 
 
 class LeaseLost(Exception):  # noqa: N818
@@ -111,6 +112,8 @@ async def process_conversation(deps: WorkerDeps, conv_id: uuid.UUID, attempts: i
     lost = asyncio.Event()
     keeper = asyncio.create_task(_keep_lease(deps, conv_id, lost))
     _, uref, _ = await repo.conversation_psid(conv_id)
+    page_id, queue_wait_ms = await repo.turn_queue_metadata(conv_id, turn_id)
+    channel = "web" if is_web(page_id) else "messenger"
     trace_id = deps.tracer.trace_id_for(str(turn_id))
     try:
         with deps.tracer.turn(
@@ -118,8 +121,14 @@ async def process_conversation(deps: WorkerDeps, conv_id: uuid.UUID, attempts: i
             session_id=str(conv_id),
             user_id=uref,
             version=prompts.PROMPT_VERSION,
-            tags=["messenger", s.app_env.value],
-            metadata={"turn_id": str(turn_id), "resumed": not is_new, "attempts": attempts},
+            tags=[channel, s.app_env.value],
+            metadata={
+                "turn_id": str(turn_id),
+                "resumed": not is_new,
+                "attempts": attempts,
+                "queue_wait_ms": queue_wait_ms,
+                "channel": channel,
+            },
             input_text=None,
         ) as trace:
             if is_new:
@@ -132,6 +141,7 @@ async def process_conversation(deps: WorkerDeps, conv_id: uuid.UUID, attempts: i
                 knowledge=deps.knowledge,
                 docs=deps.docs,
                 vision=deps.vision,
+                web_search=deps.web_search,
                 notifier_configured=bool(s.handoff_notify_webhook_url.get_secret_value()),
                 trace=trace,
             )
@@ -180,6 +190,8 @@ async def process_conversation(deps: WorkerDeps, conv_id: uuid.UUID, attempts: i
                 "mode": result.get("mode"),
                 "total_ms": total_ms,
                 "parts": len(parts),
+                "queue_wait_ms": queue_wait_ms,
+                "channel": channel,
             },
         )
     except RetryTurnLater as rl:
