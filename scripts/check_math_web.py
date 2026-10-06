@@ -153,6 +153,54 @@ async def main() -> None:
             "({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,svgWidth:document.querySelector('.math-visual').getBoundingClientRect().width})"
         )
         assert mobile["scrollWidth"] <= mobile["width"] + 1, mobile
+        await command(
+            "Emulation.setDeviceMetricsOverride",
+            {"width": 1440, "height": 1100, "deviceScaleFactor": 1, "mobile": False},
+        )
+        work = await evaluate("""(async()=>{
+          document.querySelector('#conversation').replaceChildren();
+          const question='Một đội máy xúc được thuê đào 20000 m³ đất để mở rộng hồ Dầu Tiếng. Ban đầu đội dự định mỗi ngày đào một lượng đất cố định để hoàn thành công việc, nhưng khi đã đào được 5000 m³ thì đội được tăng cường thêm máy móc nên mỗi ngày đào thêm được 100m³, do đó đã hoàn thành công việc trong 35 ngày. Hỏi ban đầu đội dự định mỗi ngày đào bao nhiêu mét khối đất?';
+          document.querySelector('#question').value=question;
+          document.querySelector('#composer').requestSubmit();
+          for(let i=0;i<60;i++){
+            await new Promise(resolve=>setTimeout(resolve,100));
+            if(document.querySelector('.work-phase-second'))break;
+          }
+          if(!document.querySelector('.work-phase-second'))throw new Error('Bài máy xúc chưa dựng đúng hình');
+          document.querySelectorAll('.step-item')[6].click();
+          const svg=document.querySelector('.math-visual');
+          const phase=document.querySelector('.work-phase-second');
+          const initial=svg.getCurrentTime();
+          document.querySelector('.pause-animation').click();
+          await new Promise(resolve=>setTimeout(resolve,300));
+          const moving=svg.getCurrentTime()>initial;
+          await new Promise(resolve=>setTimeout(resolve,400));
+          document.querySelector('.solution-stage').scrollIntoView({block:'center'});
+          return {answer:document.querySelector('.answer-value').textContent,steps:document.querySelectorAll('.step-item').length,second_phase:getComputedStyle(phase).visibility,moving};
+        })()""")
+        assert "500 m³/ngày" in work["answer"] and work["steps"] == 7, work
+        assert work["second_phase"] == "visible" and work["moving"], work
+        picture = await command("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
+        (out / "math-work-rate-desktop.png").write_bytes(base64.b64decode(picture["data"]))
+        await command(
+            "Runtime.evaluate",
+            {"expression": "document.querySelector('.expand-animation').click()", "userGesture": True},
+        )
+        await asyncio.sleep(0.2)
+        picture = await command("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
+        (out / "math-work-rate-expanded.png").write_bytes(base64.b64decode(picture["data"]))
+        await evaluate("document.exitFullscreen().then(()=>({ok:true}))")
+        refused = await evaluate("""(async()=>{
+          document.querySelector('#conversation').replaceChildren();
+          document.querySelector('#question').value='Lan có 7 quả táo, mẹ cho thêm 5 quả rồi Lan ăn 3 quả. Hỏi còn bao nhiêu?';
+          document.querySelector('#composer').requestSubmit();
+          for(let i=0;i<60;i++){
+            await new Promise(resolve=>setTimeout(resolve,100));
+            if(document.querySelector('.message.error'))break;
+          }
+          return {error:!!document.querySelector('.message.error'),certified:!!document.querySelector('.answer-value')};
+        })()""")
+        assert refused["error"] and not refused["certified"], refused
         assert not errors, errors
         report = {
             "examples": report,
@@ -164,6 +212,8 @@ async def main() -> None:
             "resume": resumed,
             "fullscreen": fullscreen,
             "mobile": mobile,
+            "work_rate": work,
+            "unverified_refused": refused,
             "runtime_errors": errors,
             "base_url": args.base_url,
         }

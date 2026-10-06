@@ -20,14 +20,42 @@ window.STUDYSCOPE_SCENES = (() => {
     root.append(g);
   }
   function create(data, steps) {
-    const supported = ["arithmetic_sequence", "groups", "right_triangle", "cuboid", "bar_chart", "number_journey", "number_comparison", "scale_map", "integral_area", "fraction_sum", "formula"];
+    const supported = ["work_timeline", "arithmetic_sequence", "groups", "right_triangle", "cuboid", "bar_chart", "number_journey", "number_comparison", "scale_map", "integral_area", "fraction_sum", "formula"];
     if (!supported.includes(data.type)) return null;
     const svg = node("svg", { viewBox: "0 0 860 570", class: "math-visual lesson-scene", role: "img", "aria-label": "Hình minh họa toán học theo từng bước" });
     svg.append(node("rect", { width: 860, height: 570, rx: 18, fill: "#fcfbff" }));
     let rowGroups = [];
     let rowLabel = null;
     let selectedRow = 0;
-    if (data.type === "arithmetic_sequence") {
+    if (data.type === "work_timeline") {
+      const left=105,right=755,top=80,bottom=360;
+      const mapX=t=>left+t/data.days*(right-left),mapY=v=>bottom-v/data.total*(bottom-top);
+      caption(svg,36,32,"KHỐI LƯỢNG THEO THỜI GIAN",{"font-size":20,"font-weight":800});
+      caption(svg,28,65,"m³");caption(svg,775,392,"Ngày");
+      svg.append(node("line",{x1:left,y1:bottom,x2:right+10,y2:bottom,stroke:"#9186a6","stroke-width":2}));
+      svg.append(node("line",{x1:left,y1:bottom,x2:left,y2:top-10,stroke:"#9186a6","stroke-width":2}));
+      [0,data.first,data.total].forEach(v=>{
+        const y=mapY(v);svg.append(node("line",{x1:left,y1:y,x2:right,y2:y,stroke:"#ece7f4"}));
+        caption(svg,left-12,y+5,String(v),{"text-anchor":"end","font-size":14});
+      });
+      const middle=[mapX(data.first_days),mapY(data.first)];
+      const first=node("g",{"data-step":2,class:"lesson-object work-phase-first"});
+      first.append(node("path",{d:`M${left} ${bottom} L${middle}`,fill:"none",stroke:colors[0],"stroke-width":5}));
+      first.append(node("circle",{cx:middle[0],cy:middle[1],r:7,fill:colors[0]}));
+      caption(first,middle[0],400,String(data.first_days),{"text-anchor":"middle"});
+      caption(first,40,442,`Giai đoạn 1: ${data.first_days.toFixed(2).replace(/\.00$/,'')} ngày × ${data.initial_rate.toFixed(2).replace(/\.00$/,'')} m³/ngày = ${data.first} m³`,{"font-size":17,fill:colors[0]});svg.append(first);
+      const second=node("g",{"data-step":3,class:"lesson-object work-phase-second"});
+      second.append(node("path",{d:`M${middle} L${right} ${top}`,fill:"none",stroke:colors[2],"stroke-width":5}));
+      second.append(node("circle",{cx:right,cy:top,r:7,fill:colors[2]}));
+      caption(second,right,400,String(data.days),{"text-anchor":"middle"});
+      caption(second,40,475,`Giai đoạn 2: ${data.second_days.toFixed(2).replace(/\.00$/,'')} ngày × ${data.later_rate.toFixed(2).replace(/\.00$/,'')} m³/ngày = ${data.remaining} m³`,{"font-size":17,fill:colors[2]});
+      const point=node("circle",{r:8,fill:colors[1],stroke:"#fff","stroke-width":2,class:"work-moving-point"});
+      const firstLength=Math.hypot(middle[0]-left,middle[1]-bottom),secondLength=Math.hypot(right-middle[0],top-middle[1]);
+      point.append(node("animateMotion",{path:`M${left} ${bottom} L${middle} L${right} ${top}`,dur:"8s",repeatCount:"indefinite",calcMode:"linear",keyPoints:`0;${firstLength/(firstLength+secondLength)};1`,keyTimes:`0;${data.first_days/data.days};1`}));
+      second.append(point);svg.append(second);
+      const check=node("g",{"data-step":5,class:"lesson-object"});
+      caption(check,40,525,`${data.first_days.toFixed(2).replace(/\.00$/,'')} + ${data.second_days.toFixed(2).replace(/\.00$/,'')} = ${data.days} ngày · ${data.first} + ${data.remaining} = ${data.total} m³`,{"font-size":19,"font-weight":800});svg.append(check);
+    } else if (data.type === "arithmetic_sequence") {
       caption(svg, 32, 38, "HỘI TRƯỜNG · MỖI HÌNH LÀ MỘT GHẾ", { "font-size": 16, "font-weight": 800 });
       const shownRows = Math.min(Math.max(data.count, data.nth), 24);
       const maxSeats = Math.max(data.first, data.first + (shownRows - 1) * data.difference, 1);

@@ -15,6 +15,8 @@ from app.conversation.mathcalc import answer_math_question
         ("1.000.000 trừ 1 bằng mấy", "1.000.000 − 1 = 999.999."),
         ("10 chia 3 bằng mấy", "10 : 3 = 3,333333 (làm tròn 6 chữ số thập phân)."),
         ("5 chia 0 bằng mấy", "Phép tính có chia cho 0 nên không có kết quả."),
+        ("tính 999999999999999 + 0,1", "999999999999999 + 0,1 = 999.999.999.999.999,1."),
+        ("tính 1 - 0,9999999", "1 − 0,9999999 = 0 (làm tròn 6 chữ số thập phân)."),
     ],
 )
 def test_arithmetic_is_computed(q, expect):

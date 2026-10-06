@@ -113,7 +113,7 @@ async def _run(text: str, responder):  # type: ignore[no-untyped-def]
     return result, provider
 
 
-async def test_unsupported_math_is_independently_verified_before_reply():
+async def test_unsupported_math_cannot_be_certified_by_two_llm_answers():
     def responder(messages):  # type: ignore[no-untyped-def]
         if "bộ kiểm định Toán độc lập" in str(messages[0].content):
             return (
@@ -123,11 +123,10 @@ async def test_unsupported_math_is_independently_verified_before_reply():
         return "Đáp án chắc chắn là đúng."
 
     result, provider = await _run("Chứng minh tam giác ABC cân", responder)
-    assert result["mode"] == "math_review"
-    assert result["verification_meta"]["verdict"] == "corrected"
-    assert "math_verification_corrected" in result["check_flags"]
-    assert "chưa thể chứng minh" in " ".join(result["reply_parts"])
-    assert len(provider.calls) == 2
+    assert result["mode"] == "math_unverified"
+    assert "math_exact_verification_required" in result["check_flags"]
+    assert MATH_VERIFICATION_FAILED_REPLY in " ".join(result["reply_parts"])
+    assert not provider.calls
 
 
 async def test_invalid_math_verifier_output_refuses_instead_of_using_draft():
@@ -136,8 +135,8 @@ async def test_invalid_math_verifier_output_refuses_instead_of_using_draft():
     sent = " ".join(result["reply_parts"])
     assert MATH_VERIFICATION_FAILED_REPLY in sent
     assert "x = 123" not in sent
-    assert "math_verification_invalid" in result["check_flags"]
-    assert len(provider.calls) == 2
+    assert "math_exact_verification_required" in result["check_flags"]
+    assert not provider.calls
 
 
 async def test_english_and_creative_writing_are_not_sent_to_math_verifier():

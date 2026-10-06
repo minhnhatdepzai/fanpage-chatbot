@@ -410,6 +410,19 @@ async def choose_response(state: TurnState, runtime: Runtime[GraphContext]) -> d
     if writing_task.is_writing:
         math_mode = False
     english_task = detect_english_task(text)
+    if math_mode and not english_task.is_english:
+        # Hai lượt LLM đồng thuận không chứng minh đáp số. Chỉ bộ giải xác định
+        # được chốt kết quả Toán; nhận dạng chưa đủ phải giữ trạng thái chưa kiểm chứng.
+        return {
+            **image_update,
+            "route": "template",
+            "mode": "math_unverified",
+            "template_reply": MATH_VERIFICATION_FAILED_REPLY,
+            "math_mode": True,
+            "knowledge_question": False,
+            "knowledge_hits": [],
+            "check_flags": [*flags, "math_exact_verification_required"],
+        }
     prior_text_available = any(
         m["role"] == "user" and len(m["content"].strip()) >= 120 for m in state.get("window", [])[-4:]
     )

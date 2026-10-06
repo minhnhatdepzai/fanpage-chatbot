@@ -266,9 +266,23 @@ def _word_problem_result(
     }
 
 
+def _require_number_coverage(text: str, matches: list[re.Match[str]]) -> None:
+    """Không cho phép một mẫu lời văn bỏ qua các dữ kiện số ngoài phần đã nhận dạng."""
+    for number in re.finditer(r"(?<![a-z])[-+]?\d+(?:[.,]\d+)?", text):
+        if not any(
+            start <= number.start() and number.end() <= end
+            for match in matches
+            for group in range(1, len(match.groups()) + 1)
+            for start, end in [match.span(group)]
+        ):
+            raise MathTutorError(
+                "Chưa mô hình hóa đủ dữ kiện của đề; không thể chốt đáp án từ một phần câu hỏi."
+            )
+
+
 def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> dict[str, Any] | None:
     """Các họ bài lời văn có quan hệ tường minh; không suy diễn nếu câu không khớp mẫu chặt."""
-    text = _fold_text(question)
+    text = _fold_text(_normalize(question))
     number = r"(\d+(?:[.,]\d+)?)"
 
     seat_sequence = re.search(
@@ -279,6 +293,7 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
     requested_row = re.search(r"(?:so ghe\s+)?hang\s+(?:thu\s+)?(\d+)", text)
     total_rows = re.search(r"tong\s+(?:so\s+)?ghe.*?(?:cua\s+)?(\d+)\s+hang", text)
     if seat_sequence and requested_row and total_rows:
+        _require_number_coverage(text, [seat_sequence, requested_row, total_rows])
         first = int(seat_sequence.group(1))
         difference = int(seat_sequence.group(3))
         if seat_sequence.group(2) in {"it hon", "kem"}:
@@ -355,8 +370,12 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
     probability = re.search(r"(?:hop|tui)(.*?)(?:lay|rut)", text)
     if probability and "khong hoan lai" in text and "khac mau" in text:
         groups = re.findall(r"(\d+)\s+(?:vien\s+)?bi\s+([a-z]+)", probability.group(1))
-        if len(groups) >= 2 and re.search(r"lay\s+(?:ngau nhien\s+)?2\s+(?:vien\s+)?(?:bi)?", text):
+        drawn = re.search(r"lay\s+(?:ngau nhien\s+)?(2)\s+(?:vien\s+)?(?:bi)?", text)
+        if len(groups) >= 2 and drawn:
+            _require_number_coverage(text, [*re.finditer(r"(\d+)\s+(?:vien\s+)?bi\s+([a-z]+)", text), drawn])
             counts = [(int(count), color) for count, color in groups]
+            if len({color for _, color in counts}) != len(counts) or any(count <= 0 for count, _ in counts):
+                raise MathTutorError("Cần các nhóm màu khác nhau, mỗi nhóm có số bi nguyên dương.")
             total_balls = sum(count for count, _ in counts)
             total_pairs = sp.binomial(total_balls, 2)
             favorable = sum(
@@ -433,6 +452,7 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
         text,
     )
     if work_rate and "nang suat" in text:
+        _require_number_coverage(text, [work_rate])
         people, output, hours, target_people, target_hours = map(int, work_rate.groups())
         if not people or not hours:
             raise MathTutorError("Số học sinh và số giờ ban đầu phải lớn hơn 0.")
@@ -465,7 +485,12 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
         text,
     )
     if rectangle:
+        _require_number_coverage(text, [rectangle])
         length, width = (sp.Rational(value.replace(",", ".")) for value in rectangle.groups())
+        if min(length, width) <= 0:
+            raise MathTutorError("Các cạnh hình chữ nhật phải dương.")
+        if ("dien tich" in text or "area" in text) and ("chu vi" in text or "perimeter" in text):
+            raise MathTutorError("Đề yêu cầu cả diện tích và chu vi; cần bộ giải trả đủ hai đại lượng.")
         if "dien tich" in text or "area" in text:
             value = length * width
             return _word_problem_result(
@@ -523,7 +548,26 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
         match = re.search(pattern, text)
         if not match:
             continue
+        _require_number_coverage(text, [match])
+        if len(re.findall(r"(?<![a-z])\d+(?:[.,]\d+)?", text)) != 2 or re.search(
+            r"\b(?:moi ngay|moi gio|du dinh|du kien|ke hoach|nang suat|van toc|"
+            r"hoan thanh|phan tram|hon|kem|gap|cho muon|nhan them)\b|%",
+            text,
+        ):
+            raise MathTutorError(
+                "Đề có quan hệ khác phép tính đơn; chưa thể kiểm chứng toàn bộ bài bằng mẫu này."
+            )
         left, right = (sp.Rational(value.replace(",", ".")) for value in match.groups())
+        if min(left, right) < 0:
+            raise MathTutorError("Số lượng vật trong bài phải không âm.")
+        if operation in {"add", "subtract"}:
+            unit_pattern = r"\s*(?:(?:qua|cai|vien|chiec|cay|quyen|tam)\s+)?(tao|cam|keo|bi|but|sach|truyen|ghe|kg|lit|gio|ngay|m³)\b"
+            first_unit = re.match(unit_pattern, text[match.end(1) :])
+            second_unit = re.match(unit_pattern, text[match.end(2) :])
+            if first_unit and second_unit and first_unit.group(1) != second_unit.group(1):
+                raise MathTutorError(
+                    "Hai số thuộc hai loại đại lượng khác nhau; chưa thể gộp bằng phép tính đơn."
+                )
         if operation == "add":
             value, symbol, topic = left + right, "+", "Bài toán thêm vào"
             visual = {"type": "number_line", "start": float(left), "change": float(right)}
@@ -535,6 +579,8 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
             visual = {"type": "number_line", "start": float(left), "change": -float(right)}
             relation = f"Có {_pretty(left)} đơn vị và bớt {_pretty(right)} đơn vị."
         elif operation == "multiply":
+            if not left.is_Integer or not right.is_Integer or left <= 0:
+                raise MathTutorError("Nhóm vật nguyên cần số nhóm nguyên dương và số phần tử nguyên.")
             value, symbol, topic = left * right, "×", "Bài toán các nhóm bằng nhau"
             visual = {"type": "groups", "groups": int(left), "per_group": int(right)}
             relation = f"Có {_pretty(left)} nhóm, mỗi nhóm {_pretty(right)} phần tử."
@@ -542,6 +588,8 @@ def _solve_word_problem(question: str, curriculum: str, grade: int | None) -> di
             if right == 0:
                 raise MathTutorError("Không thể chia đều cho 0 nhóm.")
             value, symbol, topic = left / right, "÷", "Bài toán chia đều"
+            if not right.is_Integer or not value.is_Integer:
+                raise MathTutorError("Chưa thể chia đều vật nguyên theo số nhóm này; cần xử lý phần dư.")
             visual = {"type": "groups", "groups": int(right), "per_group": float(value)}
             relation = f"Chia đều {_pretty(left)} phần tử cho {_pretty(right)} nhóm."
         return _word_problem_result(
@@ -1314,6 +1362,11 @@ def solve_math(
     if grade is not None and not 1 <= grade <= 12:
         raise MathTutorError("Lớp phải nằm trong khoảng 1-12.")
     _normalize(question)
+    from app.math_tutor.work_rate import solve_two_stage_work
+
+    work_result = solve_two_stage_work(question, curriculum, grade)
+    if work_result is not None:
+        return work_result
     from app.math_tutor.school import solve_school_problem
 
     school_result = solve_school_problem(question, curriculum, grade)

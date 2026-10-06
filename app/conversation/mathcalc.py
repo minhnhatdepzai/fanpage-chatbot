@@ -9,6 +9,8 @@ from __future__ import annotations
 import ast
 import operator
 import re
+from decimal import Decimal, localcontext
+from fractions import Fraction
 
 from app.math_tutor import MathTutorError, looks_like_math, solve_math
 from app.observability.redaction import strip_diacritics
@@ -56,11 +58,11 @@ def _number(tok: str) -> str:
     raise _Unsupported(tok)
 
 
-def _eval(node: ast.AST) -> float:
+def _eval(node: ast.AST) -> Fraction:
     if isinstance(node, ast.Expression):
         return _eval(node.body)
     if isinstance(node, ast.Constant) and type(node.value) in (int, float):
-        return node.value
+        return Fraction(str(node.value))
     if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub | ast.UAdd):
         v = _eval(node.operand)
         return -v if isinstance(node.op, ast.USub) else v
@@ -68,6 +70,8 @@ def _eval(node: ast.AST) -> float:
         a, b = _eval(node.left), _eval(node.right)
         if isinstance(node.op, ast.Pow) and (abs(b) > 64 or abs(a) > 10**6):
             raise _Unsupported("pow")
+        if isinstance(node.op, ast.Pow) and b.denominator != 1:
+            raise _Unsupported("fractional_power")
         r = _OPS[type(node.op)](a, b)
         if isinstance(r, complex) or abs(r) > MAX_ABS:
             raise _Unsupported("range")
@@ -75,10 +79,12 @@ def _eval(node: ast.AST) -> float:
     raise _Unsupported(type(node).__name__)
 
 
-def _fmt(v: float) -> str:
-    if float(v).is_integer():
+def _fmt(v: Fraction) -> str:
+    if v.denominator == 1:
         return f"{int(v):,}".replace(",", ".")
-    s = f"{v:,.6f}".rstrip("0").rstrip(".")
+    with localcontext() as ctx:
+        ctx.prec = max(28, len(str(abs(v.numerator))) + len(str(v.denominator)) + 8)
+        s = f"{Decimal(v.numerator) / Decimal(v.denominator):,.6f}".rstrip("0").rstrip(".")
     return s.replace(",", "_").replace(".", ",").replace("_", ".")
 
 
@@ -125,9 +131,7 @@ def _answer_simple_arithmetic(text: str) -> str | None:
         return None
     shown = re.sub(r"\*\*|[*/-]", lambda m: _SHOW[m.group(0)], body)
     shown = re.sub(r"\s*([×:+−^])\s*", r" \1 ", shown).replace("( ", "(").replace(" )", ")").strip()
-    exact = (
-        ""
-        if float(value).is_integer() or len(_fmt(value).split(",")[-1]) < 6
-        else " (làm tròn 6 chữ số thập phân)"
-    )
+    rendered = _fmt(value)
+    reconstructed = Fraction(rendered.replace(".", "").replace(",", "."))
+    exact = "" if reconstructed == value else " (làm tròn 6 chữ số thập phân)"
     return f"{shown} = {_fmt(value)}{exact}."

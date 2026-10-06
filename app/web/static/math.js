@@ -297,6 +297,7 @@ function setupSolutionAnimation(stage, svg, stepItems, pauseButton, replayButton
   };
   const advance = () => {
     if (state.paused || state.finished) return;
+    if (state.index >= stepItems.length - 1) { finish(); return; }
     state.index += 1;
     setStepState();
     if (state.index >= stepItems.length - 1) state.timer = window.setTimeout(finish, 2600);
@@ -309,12 +310,14 @@ function setupSolutionAnimation(stage, svg, stepItems, pauseButton, replayButton
     svg.classList.remove("is-playing");
     void svg.getBoundingClientRect();
     svg.classList.add("is-playing");
+    svg.setCurrentTime?.(0); svg.unpauseAnimations?.();
     pauseButton.disabled = false;
     pauseButton.textContent = "Ⅱ Tạm dừng";
     replayButton.textContent = "↻ Xem lại";
     setStepState();
     if (reduceMotion) {
       finish();
+      svg.pauseAnimations?.();
     } else {
       state.timer = window.setTimeout(advance, 180);
     }
@@ -324,14 +327,15 @@ function setupSolutionAnimation(stage, svg, stepItems, pauseButton, replayButton
     state.paused = !state.paused;
     stage.classList.toggle("is-paused", state.paused);
     pauseButton.textContent = state.paused ? "▶ Tiếp tục" : "Ⅱ Tạm dừng";
-    if (state.paused) clearTimer();
-    else state.timer = window.setTimeout(advance, 480);
+    if (state.paused) { clearTimer(); svg.pauseAnimations?.(); }
+    else { svg.unpauseAnimations?.(); state.timer = window.setTimeout(advance, 480); }
   });
   replayButton.addEventListener("click", play);
   stepItems.forEach((item, index) => item.addEventListener("click", () => {
     clearTimer();
     state.index = index; state.paused = true; state.finished = false;
     stage.classList.add("is-paused", "is-seeking");
+    svg.pauseAnimations?.();
     pauseButton.disabled = false; pauseButton.textContent = "▶ Tiếp tục";
     setStepState();
   }));
@@ -339,15 +343,19 @@ function setupSolutionAnimation(stage, svg, stepItems, pauseButton, replayButton
 }
 
 function addSolution(result) {
+  if (result.status !== "reviewed" && (result.status !== "verified" || result.verification?.passed !== true)) {
+    addError("Kết quả chưa vượt qua kiểm chứng.", "Chưa thể chốt đáp số cho đề này.");
+    return;
+  }
   const article = el("article", "message assistant");
   article.append(el("div", "avatar", "S"));
   const bubble = el("div", "bubble");
   const head = el("div", "answer-head");
   const answer = el("div");
-  answer.append(el("p", "message-label", result.status === "reviewed" ? "LỜI GIẢI THAM KHẢO" : "ĐÁP ÁN ĐÃ KIỂM CHỨNG"), el("div", "answer-value", result.answer));
+  answer.append(el("p", "message-label", result.status === "reviewed" ? "LỜI GIẢI THAM KHẢO" : "LỜI GIẢI VÀ ĐỐI CHIẾU"), el("div", "answer-value", result.answer));
   const verifiedLabel = result.verification.method === "exact_symbolic_sampling"
     ? "✓ ĐIỂM TÍNH CHÍNH XÁC"
-    : result.status === "reviewed" ? "ĐỐI CHIẾU BẰNG AI" : "✓ KIỂM CHỨNG THÀNH CÔNG";
+    : result.status === "reviewed" ? "ĐỐI CHIẾU BẰNG AI" : "✓ ĐÃ KIỂM TRA KẾT QUẢ";
   head.append(answer, el("span", "badge", verifiedLabel));
   bubble.append(head, el("div", "meta", `${result.topic}${result.grade ? ` • Lớp ${result.grade}` : ""}`));
   if (result.image_analysis) {
@@ -733,6 +741,9 @@ form.addEventListener("submit", async (event) => {
       body = await jsonRequest("/web/math/route", { method: "POST", body: JSON.stringify(payload) });
       if (body.mode === "math") {
         $("#math-loading")?.remove(); addSolution(body.solution);
+      } else if (body.mode === "math_unverified") {
+        $("#math-loading")?.remove();
+        addError("Chưa thể kiểm chứng bài toán", body.notice);
       } else {
         const reply = await askGeneralChat(question);
         $("#math-loading")?.remove();
@@ -818,7 +829,7 @@ const pageConfig = {
     copy: "Bộ đề từ số học, đại số, hình học đến giải tích. Bài trong miền xác định được tính bằng code, thế ngược và dựng hình SVG chuyển động theo từng bước.",
     action: "Chọn đề Toán",
     jump: "exam-library",
-    verified: "✓ Toán có kiểm chứng kép",
+    verified: "✓ Toán có đối chiếu dữ kiện",
   },
   literature: {
     room: "literature",

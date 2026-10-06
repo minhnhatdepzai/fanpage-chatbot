@@ -20,10 +20,11 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
         _normalize,
         _parse_expr,
         _pretty,
+        _require_number_coverage,
         _source,
     )
 
-    text = _fold_text(question)
+    text = _fold_text(_normalize(question))
     number = r"(-?\d+(?:[.,]\d+)?)"
 
     def rational(raw: str) -> sp.Rational:
@@ -53,14 +54,16 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
             "warnings": [],
         }
 
-    comparisons = re.findall(r"([\d\s+*/().,-]+)\s*__\s*([\d\s+*/().,-]+)", text)
+    comparisons = list(re.finditer(r"([\d\s+*/().,-]+)\s*__\s*([\d\s+*/().,-]+)", text))
     if comparisons:
+        _require_number_coverage(text, comparisons)
         solved, markers, steps = [], [], []
-        for left_raw, right_raw in comparisons:
+        for match in comparisons:
+            left_raw, right_raw = match.groups()
             left = _parse_expr(_normalize(left_raw.strip()))
             right = _parse_expr(_normalize(right_raw.strip()))
             relation = ">" if left > right else "<" if left < right else "="
-            solved.append(f"{left_raw.strip()} {relation} {right_raw.strip()}")
+            solved.append(f"{left_raw.strip().rstrip('.')} {relation} {right_raw.strip().rstrip('.')}")
             markers.extend(
                 [{"x": float(left), "label": _pretty(left)}, {"x": float(right), "label": _pretty(right)}]
             )
@@ -72,7 +75,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
             )
         steps.append(("Kiểm tra trên trục số", "Số lớn hơn ở bên phải; số bằng nhau nằm cùng một vị trí."))
         return result(
-            "; ".join(solved),
+            "; ".join(solved) + ".",
             "So sánh số",
             steps,
             {"type": "number_comparison", "markers": markers},
@@ -85,6 +88,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
     initial = re.search(rf"(?:co|la)\s*{number}\s*(?:truyen|°c|do c)", text)
     changes = list(re.finditer(rf"(cho muon|nhan them|tang|giam)\s*{number}", text))
     if initial and changes:
+        _require_number_coverage(text, [initial, *changes])
         start = rational(initial.group(1))
         current = start
         positions = [float(start)]
@@ -114,6 +118,8 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
 
     division = re.search(rf"co\s+{number}.*?chia deu\s+(?:vao|cho)\s+{number}\s+(?:hop|nhom|nguoi)", text)
     if division:
+        extra = re.search(rf"them\s+{number}\s+(?:hop|nhom).*?nhu vay", text)
+        _require_number_coverage(text, [division, *([extra] if extra else [])])
         total, groups = map(rational, division.groups())
         if groups <= 0 or not groups.is_Integer or total < 0:
             raise MathTutorError("Số nhóm phải là số nguyên dương và tổng số lượng không được âm.")
@@ -122,7 +128,6 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
             raise MathTutorError(
                 "Không thể chia đều số vật nguyên theo dữ kiện này; cần nêu cách xử lý phần dư."
             )
-        extra = re.search(rf"them\s+{number}\s+(?:hop|nhom).*?nhu vay", text)
         answer = f"Mỗi hộp: {_pretty(per_group)}"
         values = {"per_group": per_group}
         steps = [
@@ -161,6 +166,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
 
     cake = re.search(r"chia\s+(?:thanh\s+)?(\d+)\s+phan bang nhau.*?an\s+(\d+)\s+phan", text)
     if cake:
+        _require_number_coverage(text, [cake])
         denominator, eaten = map(int, cake.groups())
         if not 1 <= denominator <= 120 or not 0 <= eaten <= denominator:
             raise MathTutorError("Số phần ăn phải từ 0 đến tổng số phần; tổng từ 1 đến 120.")
@@ -185,6 +191,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
 
     average = re.search(r"lan luot\s+([\d\s,.va]+)\s+(?:cay|diem|quyen)", text)
     if average and "trung binh" in text:
+        _require_number_coverage(text, [average])
         quantities = [int(value) for value in re.findall(r"\d+", average.group(1))]
         mean = sp.Rational(sum(quantities), len(quantities))
         return result(
@@ -211,6 +218,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
         text,
     )
     if prices:
+        _require_number_coverage(text, [prices])
         notebook, pen = map(rational, prices.groups()[:2])
         n, p = map(int, prices.groups()[2:])
         notebook_total, pen_total = n * notebook, p * pen
@@ -243,11 +251,12 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
         rf"hinh hop chu nhat dai\s+{number}\s*m.*?rong\s+{number}\s*m.*?cao\s+{number}\s*m", text
     )
     if cuboid:
+        percent = re.search(r"day\s+(\d+(?:[.,]\d+)?)%", text)
+        _require_number_coverage(text, [cuboid, *([percent] if percent else [])])
         length, width, height = map(rational, cuboid.groups())
         if min(length, width, height) <= 0:
             raise MathTutorError("Kích thước hình hộp phải dương.")
         volume = length * width * height
-        percent = re.search(r"day\s+(\d+(?:[.,]\d+)?)%", text)
         fill = rational(percent.group(1)) / 100 if percent else sp.S.One
         if not 0 <= fill <= 1:
             raise MathTutorError("Phần nước phải từ 0% đến 100%.")
@@ -282,6 +291,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
 
     gcd_groups = re.search(r"co\s+(\d+)\s+hoc sinh nam.*?(\d+)\s+hoc sinh nu", text)
     if gcd_groups and "nhieu nhat" in text and "nhom" in text:
+        _require_number_coverage(text, [gcd_groups])
         boys, girls = map(int, gcd_groups.groups())
         if boys <= 0 or girls <= 0:
             raise MathTutorError("Số học sinh mỗi nhóm phải dương.")
@@ -310,10 +320,11 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
             "gcd_divisibility",
         )
 
-    scale = re.search(r"ti le\s+1\s*:\s*([\d.]+).*?cach nhau\s+(\d+(?:[.,]\d+)?)\s*cm", text)
+    scale = re.search(r"ti le\s+(1)\s*:\s*([\d.]+).*?cach nhau\s+(\d+(?:[.,]\d+)?)\s*cm", text)
     if scale:
-        factor = int(scale.group(1).replace(".", ""))
-        distance = rational(scale.group(2))
+        _require_number_coverage(text, [scale])
+        factor = int(scale.group(2).replace(".", ""))
+        distance = rational(scale.group(3))
         if factor <= 0 or distance < 0:
             raise MathTutorError("Tỉ lệ phải dương, khoảng cách không được âm.")
         km = distance * factor / 100_000
@@ -334,6 +345,7 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
 
     triangle = re.search(rf"tam giac abc vuong tai a.*?ab\s*=\s*{number}\s*cm.*?ac\s*=\s*{number}\s*cm", text)
     if triangle:
+        _require_number_coverage(text, [triangle])
         ab, ac = map(rational, triangle.groups())
         if min(ab, ac) <= 0:
             raise MathTutorError("Cạnh tam giác phải dương.")

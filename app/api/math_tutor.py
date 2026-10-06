@@ -192,16 +192,19 @@ async def route_message(body: MathProblemIn, request: Request) -> dict[str, Any]
         solution = solve_math(body.question, curriculum=body.curriculum, grade=body.grade)
     except MathTutorError as exc:
         return {
-            "mode": "math_review",
+            "mode": "math_unverified",
             "math_detected": True,
-            "notice": (
-                f"Đề nằm ngoài bộ giải xác định ({exc}); lời giải chỉ được gửi sau một lượt kiểm định độc lập."
-            ),
+            "notice": f"Chưa thể kiểm chứng toàn bộ đề: {exc}",
+            "safe": True,
         }
     return {"mode": "math", "math_detected": True, "solution": solution}
 
 
 def _math_candidates(text: str) -> list[str]:
+    # Đề lời văn nhiều dòng phải giữ nguyên quan hệ giữa các giai đoạn.
+    # Một phép tính bên trong không phải lời giải của toàn bộ ảnh.
+    if len(text) > 100 and re.search(r"[A-Za-zÀ-ỹ]{3,}", text):
+        return [re.sub(r"^(?:câu|bài)\s*\d*\s*[:.]\s*", "", text.strip(), flags=re.I)]
     candidates = [text.strip()]
     candidates += [line.strip(" -•\t") for line in text.splitlines() if line.strip()]
     candidates += [

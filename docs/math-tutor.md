@@ -12,7 +12,7 @@ số liệu đối chiếu với phép cộng trực tiếp hoặc xác suất l
 biểu đồ trung bình, đổi đơn vị bản đồ, vùng tích phân và trục số nhiều biến đổi. Bài hội trường vẽ đủ 480 ghế
 trên 15 hàng; hình thay đổi theo bước bên trái, có chọn hàng, tạm dừng, phát lại và phóng lớn. Khi giới hạn số
 vật hiển thị, hình ghi rõ là minh họa một phần. Hình chữ nhật và đoạn thẳng tọa độ dùng thang đo đúng tỉ lệ.
-Nhánh `math_review` chỉ có sơ đồ lập luận, nhãn tham khảo; không giả làm hình học hay kiểm chứng ký hiệu.
+Từ bản sửa bài máy xúc, nhánh không đủ căn cứ trả `math_unverified` và chưa chốt đáp số.
 
 HTML trả `Cache-Control: no-store`, URL CSS/JS gắn hash nội dung để tránh renderer cũ không hiểu kiểu hình mới.
 Bộ kiểm tra Chromium thật `scripts/check_math_web.py` chạy 24 đề qua API và renderer, kiểm tra chọn bước có hình
@@ -35,7 +35,7 @@ Các trang chạy tại `GET /web/chat`, `/web/math`, `/web/literature` và `/we
 Trang không ép mọi câu thành toán. `POST /web/math/route` nhận biết đề toán trước: bài thuộc miền kiểm chứng trả cấu
 trúc lời giải/SVG; Ngữ văn và Tiếng Anh được gắn nhãn gia sư tương ứng trước khi gửi qua `/web/messages`; lời chào và
 câu hỏi kiến thức đi vào chatbot đa lĩnh vực. Tất cả giữ session, lịch sử, RAG, web search và nguồn như widget. Đề
-toán ngoài miền xác định được chuyển sang nhánh kiểm định độc lập `math_review`.
+toán ngoài miền xác định được gắn `math_unverified`, yêu cầu làm rõ thay vì cho model tự chốt đáp số.
 
 Giao diện có URL và ngân hàng đề riêng cho Toán, Ngữ văn; chatbot tổng quát nằm ở trang riêng. Việc vào một phòng
 không thay đổi nguyên tắc an toàn: bộ định tuyến vẫn xác định môn từ chính nội dung người dùng nhập. Yêu cầu như
@@ -71,15 +71,25 @@ ngắn. Yêu cầu “chỉ đáp án/chỉ đưa tác phẩm” vẫn được 
 - Phép tính dùng số hữu tỉ/ký hiệu chính xác. Nghiệm phương trình và hệ phương trình đều được thế ngược trước khi
   trả về `status=verified`.
 - LLM/VLM không được quyền ghi đè đáp án đã kiểm chứng. Câu nằm ngoài miền hỗ trợ sẽ trả lỗi an toàn thay vì đoán.
-- Đề Toán ngoài miền bộ giải xác định được gắn `math_review`: model tạo bản nháp, sau đó một lượt kiểm định độc lập
-  giải lại và kiểm tra điều kiện/nghiệm ngoại lai. Kiểm định lỗi, trả sai giao thức hoặc không đủ căn cứ thì hệ thống
-  bỏ bản nháp và từ chối chốt đáp số. Nhánh này không được dùng nhãn `status=verified`.
+- Đề Toán ngoài miền bộ giải xác định được gắn `math_unverified`: API và worker đều không cho LLM tự chốt đáp số.
+  Hai lượt model đồng thuận không được xem là bằng chứng toán học.
 - Hình minh họa là SVG sinh từ chính dữ liệu nghiệm: trục số, nhóm vật, phân số, cân bằng đại số hoặc đồ thị.
 
 Phạm vi bản hiện tại: biểu thức số học, căn và hàm sơ cấp; phương trình đa thức một ẩn đến bậc 4; hệ tuyến tính 2-3
 phương trình; phương trình mũ đưa chính xác được về cùng cơ số; bất phương trình một ẩn; đạo hàm; giới hạn; tích
 phân xác định; tổ hợp/chỉnh hợp. Cấp lớp 1-12 là nhãn sư phạm; không phải tuyên bố rằng mọi bài toán trên thế giới
 đều đã được bao phủ.
+
+Bản sửa 2026-10-06 cho đề máy xúc: bộ giải cũ bỏ qua tổng 20.000 m³ và 35 ngày, lấy 5000 + 100 = 5100 rồi tự
+gắn nhãn đã kiểm chứng. `work_rate.py` hiện lập `5000/x + 15000/(x+100) = 35`, chọn nghiệm dương x=500,
+và thế lại cả hai khối lượng lẫn tổng thời gian (10 + 25 ngày). SVG `work_timeline` biểu diễn hai độ dốc 500 và
+600 m³/ngày, chuyển động theo thời gian và xuất hiện theo các bước giải. Các mẫu lời văn kiểm tra mọi dữ kiện số
+phải thuộc nhóm dữ kiện được nhận dạng, tránh bỏ qua số nằm giữa hay sau một mẫu regex; quan hệ chưa hỗ trợ bị từ chối.
+Phép tính chat dùng phân số chính xác thay số thực máy; nếu hiển thị làm tròn, ghi rõ làm tròn.
+`tests/test_math_work_rate.py` chứa đề thực tế, biến thể cách gõ, 40 bài dựng từ năng suất/thời gian độc lập và
+các đề có dữ kiện thừa/mâu thuẫn; không được hiểu số ca đạt là cam kết đúng tuyệt đối mọi bài toán.
+Kiểm tra sau bản sửa máy xúc: **479 ca đạt**, cùng Chromium qua link công khai xác nhận lời giải 500 m³/ngày,
+7 bước, hai giai đoạn của đồ thị, chuyển động và từ chối đề chưa mô hình hóa đủ.
 
 ## Tài sản fine-tuning được nhập
 
