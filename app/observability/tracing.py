@@ -173,14 +173,14 @@ class LangfuseTracer(Tracer):
                     session_id=session_id,
                     version=version,
                     tags=tags,
-                    trace_name="messenger-turn",
+                    trace_name="process-chat-turn",
                     metadata={k: str(v) for k, v in metadata.items()},
                 )
             )
             trace_id = self.trace_id_for(turn_id)
             obs = self._client.start_observation(
                 trace_context={"trace_id": trace_id} if trace_id else None,
-                name="messenger-turn",
+                name="process-chat-turn",
                 as_type="chain",
                 input=_mask(data=input_text) if self.capture_content else None,
                 metadata=metadata,

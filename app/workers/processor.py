@@ -158,7 +158,7 @@ async def process_conversation(deps: WorkerDeps, conv_id: uuid.UUID, attempts: i
             await repo.persist_turn_decision(conv_id, turn_id, result, parts)
             outcome = result.get("outcome") or "no_reply"
             if parts:
-                tool = trace.child("messenger-send", as_type="tool", metadata={"parts": len(parts)})
+                tool = trace.child("deliver-response", as_type="tool", metadata={"parts": len(parts)})
                 rep = await send_turn(
                     s,
                     deps.messenger,
