@@ -1,0 +1,25 @@
+version: 1
+description: >-
+  Danh mục URL công khai để kiểm kê độ phủ. Chỉ lưu metadata liên kết; không sao chép
+  toàn bộ đề/lời giải và không mặc định coi đáp án trên nguồn là ground truth.
+sources:
+  - {id: vietjack-grade-1, grade: 1, scope: catalog, url: "https://www.vietjack.com/series/lop-1.jsp"}
+  - {id: vietjack-grade-2, grade: 2, scope: catalog, url: "https://www.vietjack.com/series/lop-2.jsp"}
+  - {id: vietjack-grade-3, grade: 3, scope: catalog, url: "https://www.vietjack.com/series/lop-3.jsp"}
+  - {id: vietjack-grade-4, grade: 4, scope: catalog, url: "https://www.vietjack.com/series/lop-4.jsp"}
+  - {id: vietjack-grade-5, grade: 5, scope: catalog, url: "https://www.vietjack.com/series/lop-5.jsp"}
+  - {id: vietjack-grade-6, grade: 6, scope: catalog, url: "https://www.vietjack.com/series/lop-6.jsp"}
+  - {id: vietjack-grade-7, grade: 7, scope: catalog, url: "https://www.vietjack.com/series/lop-7.jsp"}
+  - {id: vietjack-grade-8, grade: 8, scope: catalog, url: "https://www.vietjack.com/series/lop-8.jsp"}
+  - {id: vietjack-grade-9, grade: 9, scope: catalog, url: "https://www.vietjack.com/series/lop-9.jsp"}
+  - {id: vietjack-grade-10, grade: 10, scope: catalog, url: "https://www.vietjack.com/series/lop-10.jsp"}
+  - {id: vietjack-grade-11, grade: 11, scope: catalog, url: "https://www.vietjack.com/series/lop-11.jsp"}
+  - {id: vietjack-grade-12, grade: 12, scope: catalog, url: "https://www.vietjack.com/series/lop-12.jsp"}
+  - id: school-exam-grade-9-le-quy-don-2026
+    grade: 9
+    scope: school_exam_pdf
+    url: "https://khoahoc.vietjack.com/upload/documents/admission_post/6515428/de-thi-thu-toan-vao-lop-10-nam-2026-2027-truong-thpt-chuyen-le-quy-don-17791176186a0b2e3299c0c.pdf"
+  - id: school-exam-grade-12-nghe-an-2026
+    grade: 12
+    scope: school_exam_pdf
+    url: "https://khoahoc.vietjack.com/upload/documents/admission_post/6515428/de-thi-thu-tot-nghiep-thpt-2026-mon-toan-lien-truong-thpt-nghe-an-177822678769fd966321d14.pdf"

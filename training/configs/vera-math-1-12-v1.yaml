@@ -1,0 +1,31 @@
+# VeRA chuyên cách trình bày Toán 1-12 trên dữ liệu tổng hợp được bộ giải xác định kiểm tra.
+# Không dùng adapter để chốt đáp số ở runtime và không promote nếu chưa qua benchmark tách biệt.
+name: math-1-12-v1
+method: vera
+base_model: Qwen/Qwen3-4B-Instruct-2507
+base_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+dataset: data/processed/math_1_12_sft_v1.yaml
+seed: 20261006
+max_seq_len: 3072
+chunked_lm_loss: true
+loss_chunk_tokens: 192
+vera:
+  r: 256
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  projection_prng_key: 20261006
+  save_projection: true
+  vera_dropout: 0.05
+  d_initial: 0.1
+lr: 0.0015
+weight_decay: 0.0
+# RTX 5060 Ti 16 GB: batch vật lý 2, tích lũy 2 => batch hiệu dụng vẫn là 4.
+micro_batch_size: 2
+grad_accum: 2
+epochs: 1
+max_steps: 324
+warmup_ratio: 0.08
+eval_every_steps: 54
+early_stopping_patience: 3
+validation_max_examples: 144
+max_grad_norm: 1.0
+output_root: artifacts/adapters

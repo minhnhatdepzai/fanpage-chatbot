@@ -20,14 +20,33 @@ window.STUDYSCOPE_SCENES = (() => {
     root.append(g);
   }
   function create(data, steps) {
-    const supported = ["work_timeline", "arithmetic_sequence", "groups", "right_triangle", "cuboid", "bar_chart", "number_journey", "number_comparison", "scale_map", "integral_area", "fraction_sum", "formula"];
+    const supported = ["work_timeline", "arithmetic_sequence", "groups", "right_triangle", "cuboid", "bar_chart", "number_journey", "number_comparison", "scale_map", "integral_area", "fraction_sum", "formula", "mixture", "motion_comparison"];
     if (!supported.includes(data.type)) return null;
     const svg = node("svg", { viewBox: "0 0 860 570", class: "math-visual lesson-scene", role: "img", "aria-label": "Hình minh họa toán học theo từng bước" });
     svg.append(node("rect", { width: 860, height: 570, rx: 18, fill: "#fcfbff" }));
     let rowGroups = [];
     let rowLabel = null;
     let selectedRow = 0;
-    if (data.type === "work_timeline") {
+    if (data.type === "mixture") {
+      caption(svg,36,38,"PHA TRỘN DUNG DỊCH · BẢO TOÀN THỂ TÍCH VÀ LƯỢNG MUỐI",{"font-size":18,"font-weight":800});
+      const beaker=(x,y,w,h,fill,color,label,step)=>{const g=node("g",{"data-step":step,class:"lesson-object"});
+        g.append(node("path",{d:`M${x} ${y} v${h-28} q0 28 28 28 h${w-56} q28 0 28-28 v${-(h-28)}`,fill:"#fff",stroke:"#7566b4","stroke-width":4}));
+        const liquid=Math.max(10,(h-12)*fill);g.append(node("rect",{x:x+5,y:y+h-5-liquid,width:w-10,height:liquid,rx:8,fill:color,opacity:.72,class:"visual-grow"}));
+        caption(g,x+w/2,y+h+28,label,{"text-anchor":"middle","font-size":17,"font-weight":800});svg.append(g);};
+      beaker(65,115,170,235,data.low_volume/data.total_volume,"#9ad8ee",`${data.low_volume} ml · ${data.low_percent}%`,0);
+      beaker(275,115,170,235,data.high_volume/data.total_volume,"#6f62cb",`${data.high_volume} ml · ${data.high_percent}%`,1);
+      const arrows=node("g",{"data-step":2,class:"lesson-object"});
+      arrows.append(node("path",{d:"M185 95 Q430 20 600 115 M395 95 Q520 40 600 115",fill:"none",stroke:colors[1],"stroke-width":5,"stroke-linecap":"round",class:"visual-trace"}));svg.append(arrows);
+      beaker(545,115,235,310,1,"#8274d5",`${data.total_volume} ml · ${data.target_percent}%`,3);
+      const check=node("g",{"data-step":5,class:"lesson-object"});caption(check,430,525,`${data.low_volume} + ${data.high_volume} = ${data.total_volume} ml`,{"text-anchor":"middle","font-size":22,"font-weight":800,fill:colors[2]});svg.append(check);
+    } else if (data.type === "motion_comparison") {
+      caption(svg,36,38,"CÙNG QUÃNG ĐƯỜNG · SO SÁNH THỜI GIAN",{"font-size":19,"font-weight":800});
+      const start=100,end=760;
+      [190,360].forEach(y=>{svg.append(node("line",{x1:start,y1:y,x2:end,y2:y,stroke:"#c8c1d9","stroke-width":7,"stroke-linecap":"round"}));caption(svg,start,y+35,"A",{"font-weight":800});caption(svg,end,y+35,"B",{"font-weight":800});});
+      const bike=node("g",{"data-step":1,class:"lesson-object"});const movingBike=node("g");movingBike.append(node("circle",{cx:start,cy:190,r:15,fill:colors[0],class:"visual-move"}));movingBike.append(node("animateMotion",{path:`M0 0 L${end-start} 0`,dur:`${Math.max(3,data.slower_time*4)}s`,repeatCount:"indefinite"}));bike.append(movingBike);caption(bike,430,155,`Xe máy: ${data.slower_speed} km/h · ${data.slower_time} giờ`,{"text-anchor":"middle","font-size":18,"font-weight":800});svg.append(bike);
+      const car=node("g",{"data-step":2,class:"lesson-object"});const movingCar=node("g");movingCar.append(node("rect",{x:start-20,y:345,width:40,height:28,rx:8,fill:colors[1],class:"visual-move"}));movingCar.append(node("animateMotion",{path:`M0 0 L${end-start} 0`,dur:`${Math.max(3,data.faster_time*4)}s`,repeatCount:"indefinite"}));car.append(movingCar);caption(car,430,325,`Ô tô: ${data.faster_speed} km/h · ${data.faster_time} giờ`,{"text-anchor":"middle","font-size":18,"font-weight":800});svg.append(car);
+      const result=node("g",{"data-step":5,class:"lesson-object"});caption(result,430,500,`Cùng đi ${data.distance} km · Ô tô sớm ${data.saved_minutes} phút`,{"text-anchor":"middle","font-size":23,"font-weight":800,fill:colors[2]});svg.append(result);
+    } else if (data.type === "work_timeline") {
       const left=105,right=755,top=80,bottom=360;
       const mapX=t=>left+t/data.days*(right-left),mapY=v=>bottom-v/data.total*(bottom-top);
       caption(svg,36,32,"KHỐI LƯỢNG THEO THỜI GIAN",{"font-size":20,"font-weight":800});

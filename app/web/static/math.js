@@ -411,7 +411,7 @@ function addSolution(result) {
     range.addEventListener("input", () => svg.updateLessonStep?.(result.steps.length - 1, Number(range.value)));
     controls.append(range); visualCard.append(controls);
   }
-  if (result.visual.points?.length) {
+  if (result.visual.type === "coordinate_segment" && result.visual.points?.length) {
     const pointList = el("div", "visual-points");
     result.visual.points.slice(0, 11).forEach((point) => pointList.append(el("span", "", `(${shortNumber(point.x)}; ${shortNumber(point.y)})`)));
     visualCard.append(pointList);

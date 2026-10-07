@@ -137,6 +137,17 @@ def _normalize(raw: str) -> str:
         raise MathTutorError("Đề toán cần từ 1 đến 1.200 ký tự.")
     text = text.replace("−", "-").replace("–", "-").replace("×", "*").replace("·", "*")
     text = text.replace("÷", "/").replace("^", "**").replace("π", "pi").replace("∞", "oo")
+    # Khi sao chép từ PDF/Word, số mũ thường mất định dạng: ``x²`` thành
+    # ``x2`` và ``(x - 1)²`` thành ``(x - 1)2``. Chuẩn hóa các số mũ
+    # phổ thông trước khi chèn phép nhân ngầm, nếu không x2 sẽ bị hiểu
+    # sai thành x*2.
+    superscripts = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
+    text = re.sub(
+        r"([xyz)])\s*([⁰¹²³⁴⁵⁶⁷⁸⁹]+)",
+        lambda match: f"{match.group(1)}**{match.group(2).translate(superscripts)}",
+        text,
+    )
+    text = re.sub(r"([xyz)])\s*([2-9])\b", r"\1**\2", text)
     # Giữ dấu phẩy phân cách đối số của C(n,k), A(n,k); dấu phẩy giữa hai chữ số khác là thập phân.
     text = re.sub(r"\b([ca])\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)", r"\1(\2;\3)", text)
     text = re.sub(r"\bln\s*\(", "log(", text)
@@ -641,6 +652,12 @@ def looks_like_math(question: str) -> bool:
         "tam giac",
         "ti le",
         "nhiet do",
+        "tron dung dich",
+        "nong do",
+        "dung dich muoi",
+        "van toc",
+        "quang duong",
+        "som hon",
         "solve equation",
         "calculate",
         "simplify",
@@ -1250,11 +1267,29 @@ def _solve_single_equation(parsed: _Parsed, curriculum: str, grade: int | None) 
         values = ", ".join(_pretty(root) for root in roots)
         answer = f"{symbol} = {values}" if len(roots) == 1 else f"{symbol} ∈ {{{values}}}"
         latex_answer = sp.latex(sp.FiniteSet(*roots))
-    steps = [{"title": "Lập phương trình", "detail": str(equation)}]
+    equation_text = f"{_pretty(equation.lhs)} = {_pretty(equation.rhs)}"
+    steps = [{"title": "Viết lại đúng ký hiệu", "detail": equation_text + "."}]
     if polynomial.degree() == 1:
         a, b = polynomial.all_coeffs()
-        steps.append(
-            {"title": "Cô lập ẩn", "detail": f"{a}·{symbol} + ({b}) = 0 nên {symbol} = -({b})/({a})."}
+        solution = roots[0] if roots else None
+        steps.extend(
+            [
+                {
+                    "title": "Thu gọn về dạng bậc nhất",
+                    "detail": f"{_pretty(a * symbol + b)} = 0.",
+                },
+                {
+                    "title": "Chuyển hạng tự do",
+                    "detail": f"{_pretty(a * symbol)} = {_pretty(-b)}.",
+                },
+                {
+                    "title": "Chia hai vế cho hệ số của ẩn",
+                    "detail": (
+                        f"{symbol} = {_pretty(-b)}/{_pretty(a)}"
+                        + (f" = {_pretty(solution)}." if solution is not None else ".")
+                    ),
+                },
+            ]
         )
         visual = {
             "type": "balance",
@@ -1264,16 +1299,90 @@ def _solve_single_equation(parsed: _Parsed, curriculum: str, grade: int | None) 
         }
         topic = "Phương trình bậc nhất"
     else:
+        expanded = sp.expand(residual)
+        factored = sp.factor(expanded)
         steps.append(
             {
-                "title": "Tìm nghiệm",
-                "detail": f"Giải đa thức bậc {polynomial.degree()} bằng biến đổi đại số chính xác.",
+                "title": "Chuyển hết sang một vế",
+                "detail": f"{_pretty(equation.lhs)} − ({_pretty(equation.rhs)}) = 0.",
             }
         )
+        steps.append(
+            {
+                "title": "Khai triển và thu gọn",
+                "detail": f"{_pretty(expanded)} = 0.",
+            }
+        )
+        if factored != expanded:
+            steps.append(
+                {
+                    "title": "Phân tích thành nhân tử",
+                    "detail": f"{_pretty(factored)} = 0.",
+                }
+            )
+            factor_details: list[str] = []
+            _, factors = sp.factor_list(expanded, symbol)
+            for factor, multiplicity in factors:
+                factor_roots = sp.solve(sp.Eq(factor, 0), symbol)
+                left = f"({_pretty(factor)})"
+                if multiplicity > 1:
+                    left += f"^{multiplicity}"
+                values = ", ".join(f"{symbol} = {_pretty(root)}" for root in factor_roots)
+                factor_details.append(f"{left} = 0 ⇒ {values}")
+            steps.append(
+                {
+                    "title": "Cho từng nhân tử bằng 0",
+                    "detail": "; ".join(factor_details) + ".",
+                }
+            )
+        elif polynomial.degree() == 2:
+            a, b, c = polynomial.all_coeffs()
+            delta = sp.simplify(b**2 - 4 * a * c)
+            steps.extend(
+                [
+                    {
+                        "title": "Tính biệt thức",
+                        "detail": (
+                            f"Δ = b² − 4ac = ({_pretty(b)})² − 4×{_pretty(a)}×{_pretty(c)} "
+                            f"= {_pretty(delta)}."
+                        ),
+                    },
+                    {
+                        "title": "Dùng công thức nghiệm",
+                        "detail": (
+                            f"{symbol} = (−b ± √Δ)/(2a) ⇒ "
+                            + ", ".join(f"{symbol} = {_pretty(root)}" for root in roots)
+                            + "."
+                        ),
+                    },
+                ]
+            )
+        else:
+            steps.append(
+                {
+                    "title": "Tính các nghiệm chính xác",
+                    "detail": ", ".join(f"{symbol} = {_pretty(root)}" for root in roots) + ".",
+                }
+            )
         visual = _graph_visual(residual, symbol)
+        visual["markers"] = [
+            {"x": float(root), "y": 0.0, "label": f"{symbol} = {_pretty(root)}"}
+            for root in roots
+            if root.is_real and root.is_finite
+        ]
         topic = f"Phương trình đa thức bậc {polynomial.degree()}"
     steps.append(
-        {"title": "Thế ngược", "detail": "Mỗi nghiệm đã được thay vào hai vế; mọi sai số rút gọn đều bằng 0."}
+        {
+            "title": "Thế ngược từng nghiệm",
+            "detail": (
+                "; ".join(
+                    f"với {symbol} = {_pretty(root)}, vế trái − vế phải = "
+                    f"{_pretty(sp.simplify(residual.subs(symbol, root)))}"
+                    for root in roots
+                )
+                + ("." if roots else "Không có nghiệm để thế ngược.")
+            ),
+        }
     )
     return {
         "status": "verified",
@@ -1357,6 +1466,11 @@ def solve_math(
     grade: int | None = None,
 ) -> dict[str, Any]:
     """Giải các họ bài đã kiểm chứng từ số học đến giải tích THPT và trả kế hoạch SVG."""
+    from app.math_tutor.validation import validate_verified_solution
+
+    def verified(result: dict[str, Any]) -> dict[str, Any]:
+        return validate_verified_solution(result)
+
     if curriculum not in {"vi", "world"}:
         raise MathTutorError("Chương trình phải là 'vi' hoặc 'world'.")
     if grade is not None and not 1 <= grade <= 12:
@@ -1366,31 +1480,36 @@ def solve_math(
 
     work_result = solve_two_stage_work(question, curriculum, grade)
     if work_result is not None:
-        return work_result
+        return verified(work_result)
     from app.math_tutor.school import solve_school_problem
 
     school_result = solve_school_problem(question, curriculum, grade)
     if school_result is not None:
-        return school_result
+        return verified(school_result)
     if _fold_text(question).startswith("rut gon"):
         body = re.sub(r"^rút\s+gọn\s+(?:biểu\s+thức\s+)?", "", _normalize(question))
         expr = _parse_expr(body.strip().rstrip("?."))
         simplified = sp.expand(expr)
-        return _verified_high_school_result(
-            question=question,
-            answer=_pretty(simplified),
-            answer_latex=sp.latex(simplified),
-            topic="Rút gọn biểu thức",
-            steps=[
-                {"title": "Đọc biểu thức", "detail": body},
-                {"title": "Khai triển", "detail": _pretty(sp.expand(expr))},
-                {"title": "Gom hạng đồng dạng", "detail": _pretty(simplified)},
-                {"title": "Kiểm tra đại số", "detail": "Hiệu biểu thức ban đầu và kết quả rút gọn bằng 0."},
-            ],
-            visual=_graph_visual(simplified, _ALLOWED_NAMES["x"]),
-            method="symbolic_identity",
-            curriculum=curriculum,
-            grade=grade or 8,
+        return verified(
+            _verified_high_school_result(
+                question=question,
+                answer=_pretty(simplified),
+                answer_latex=sp.latex(simplified),
+                topic="Rút gọn biểu thức",
+                steps=[
+                    {"title": "Đọc biểu thức", "detail": body},
+                    {"title": "Khai triển", "detail": _pretty(sp.expand(expr))},
+                    {"title": "Gom hạng đồng dạng", "detail": _pretty(simplified)},
+                    {
+                        "title": "Kiểm tra đại số",
+                        "detail": "Hiệu biểu thức ban đầu và kết quả rút gọn bằng 0.",
+                    },
+                ],
+                visual=_graph_visual(simplified, _ALLOWED_NAMES["x"]),
+                method="symbolic_identity",
+                curriculum=curriculum,
+                grade=grade or 8,
+            )
         )
     coordinate_result = _solve_coordinate_geometry(question, curriculum, grade)
     if coordinate_result is not None:
@@ -1405,13 +1524,13 @@ def solve_math(
     ):
         result = high_school_solver(question, curriculum, grade)
         if result is not None:
-            return result
+            return verified(result)
     word_result = _solve_word_problem(question, curriculum, grade)
     if word_result is not None:
-        return word_result
+        return verified(word_result)
     parsed = _parse(question)
     if parsed.expressions:
-        return _solve_expression(parsed, curriculum, grade)
+        return verified(_solve_expression(parsed, curriculum, grade))
     if len(parsed.equations) == 1:
-        return _solve_single_equation(parsed, curriculum, grade)
-    return _solve_system(parsed, curriculum, grade)
+        return verified(_solve_single_equation(parsed, curriculum, grade))
+    return verified(_solve_system(parsed, curriculum, grade))

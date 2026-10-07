@@ -1,0 +1,18 @@
+version: 0
+status: draft_needs_teacher_review
+description: >-
+  Bản nháp nhỏ để xác nhận schema và cổng đánh giá. Đây là bài tương đương theo chủ đề,
+  không phải bản sao kho VietJack và chưa được coi là bộ chuẩn đầy đủ.
+cases:
+  - {id: g01-addition, grade: 1, question: "11 + 8", expected_answer: "19", expected_visual_type: number_line, minimum_steps: 3, source_url: "https://www.vietjack.com/toan-1-ket-noi/bai-29-phep-cong-so-co-hai-chu-so-voi-so-co-mot-chu-so.jsp"}
+  - {id: g02-subtraction, grade: 2, question: "Lan có 12 cái kẹo rồi cho đi 5 cái. Lan còn lại bao nhiêu?", expected_answer: "7", expected_visual_type: number_line, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-2.jsp"}
+  - {id: g03-two-changes, grade: 3, question: "Thư viện lớp có 40 truyện, cho mượn 7 truyện rồi nhận thêm 5 truyện. Thư viện còn bao nhiêu truyện?", expected_answer: "38", expected_visual_type: number_journey, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-3.jsp"}
+  - {id: g04-groups, grade: 4, question: "Có 48 chiếc bút chia đều vào 6 hộp. Mỗi hộp có bao nhiêu bút? Nếu thêm 2 hộp như vậy thì cần thêm bao nhiêu bút?", expected_answer: "Mỗi hộp: 8; cần thêm: 16", expected_visual_type: groups, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-4.jsp"}
+  - {id: g05-fraction, grade: 5, question: "Một chiếc bánh chia 8 phần bằng nhau, đã ăn 3 phần. Hỏi đã ăn và còn lại bao nhiêu phần chiếc bánh?", expected_answer: "Đã ăn: 3/8; còn lại: 5/8", expected_visual_type: fraction, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-5.jsp"}
+  - {id: g06-integers, grade: 6, question: "Nhiệt độ buổi sáng là -3 độ C, trưa tăng 7 độ rồi tối giảm 2 độ. Nhiệt độ buổi tối là bao nhiêu?", expected_answer: "2", expected_visual_type: number_journey, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-6.jsp"}
+  - {id: g07-proportion, grade: 7, question: "Mua 4 quyển vở hết 28 nghìn đồng. Với cùng đơn giá, 7 quyển vở giá bao nhiêu nghìn đồng?", expected_answer: "49 nghìn đồng", expected_visual_type: bar_chart, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-7.jsp"}
+  - {id: g08-identity, grade: 8, question: "Rút gọn (x + 2)^2 - 4*x", expected_answer: "x^2 + 4", expected_visual_type: graph, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-8.jsp"}
+  - {id: g09-system, grade: 9, question: "Giải hệ phương trình: 2x + y = 7 và x - y = 2", expected_answer: "x = 3, y = 1", expected_visual_type: coordinate_system, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-9.jsp"}
+  - {id: g10-probability, grade: 10, question: "Một hộp có 5 bi đỏ, 4 bi xanh, 3 bi vàng. Lấy ngẫu nhiên 2 viên không hoàn lại. Tính xác suất hai viên khác màu.", expected_answer: "47/66", expected_visual_type: urn_probability, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-10.jsp"}
+  - {id: g11-sequence, grade: 11, question: "Hàng đầu có 18 ghế, mỗi hàng sau hơn hàng trước 2 ghế. Tính số ghế hàng 15 và tổng số ghế của 15 hàng.", expected_answer: "Hàng 15: 46 ghế; tổng 15 hàng: 480 ghế", expected_visual_type: arithmetic_sequence, minimum_steps: 5, source_url: "https://www.vietjack.com/series/lop-11.jsp"}
+  - {id: g12-integral, grade: 12, question: "Tích phân từ 0 đến 1 của x^2 dx", expected_answer: "1/3", expected_visual_type: integral_area, minimum_steps: 4, source_url: "https://www.vietjack.com/series/lop-12.jsp"}

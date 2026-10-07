@@ -54,6 +54,167 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
             "warnings": [],
         }
 
+    mixture = re.search(
+        rf"nong do\s*{number}\s*%.*?nong do\s*{number}\s*%.*?"
+        rf"(?:duoc|thu duoc)\s*{number}\s*ml.*?nong do\s*{number}\s*%",
+        text,
+    )
+    if mixture and "dung dich" in text and "tron" in text:
+        _require_number_coverage(text, [mixture])
+        first_percent, second_percent, total_volume, target_percent = map(
+            rational, mixture.groups()
+        )
+        if total_volume <= 0:
+            raise MathTutorError("Thể tích dung dịch sau khi trộn phải dương.")
+        if not all(0 <= value <= 100 for value in (first_percent, second_percent, target_percent)):
+            raise MathTutorError("Nồng độ phải nằm trong khoảng từ 0% đến 100%.")
+        if first_percent == second_percent:
+            raise MathTutorError("Hai dung dịch ban đầu cần có nồng độ khác nhau.")
+        low_percent, high_percent = sorted((first_percent, second_percent))
+        if not low_percent <= target_percent <= high_percent:
+            raise MathTutorError("Nồng độ cần pha phải nằm giữa hai nồng độ ban đầu.")
+        low_volume = sp.simplify(
+            total_volume * (high_percent - target_percent) / (high_percent - low_percent)
+        )
+        high_volume = sp.simplify(total_volume - low_volume)
+        salt_total = sp.simplify(target_percent * total_volume / 100)
+        checked_salt = sp.simplify(
+            low_percent * low_volume / 100 + high_percent * high_volume / 100
+        )
+        if checked_salt != salt_total or min(low_volume, high_volume) < 0:
+            raise MathTutorError("Không thể kiểm tra lại cân bằng lượng muối.")
+        return result(
+            (
+                f"Dung dịch {_pretty(low_percent)}%: {_pretty(low_volume)} ml; "
+                f"dung dịch {_pretty(high_percent)}%: {_pretty(high_volume)} ml"
+            ),
+            "Bài toán pha trộn dung dịch",
+            [
+                (
+                    "Đặt ẩn",
+                    f"Gọi x (ml) là lượng dung dịch {_pretty(low_percent)}% và y (ml) "
+                    f"là lượng dung dịch {_pretty(high_percent)}%.",
+                ),
+                (
+                    "Lập phương trình thể tích",
+                    f"x + y = {_pretty(total_volume)}.",
+                ),
+                (
+                    "Lập phương trình lượng muối",
+                    f"{_pretty(low_percent / 100)}x + {_pretty(high_percent / 100)}y "
+                    f"= {_pretty(target_percent / 100)}×{_pretty(total_volume)} = {_pretty(salt_total)}.",
+                ),
+                (
+                    "Thế và giải",
+                    f"x = {_pretty(total_volume)} − y. Thay vào phương trình muối suy ra "
+                    f"y = {_pretty(high_volume)} ml, nên x = {_pretty(low_volume)} ml.",
+                ),
+                (
+                    "Kiểm tra thể tích",
+                    f"{_pretty(low_volume)} + {_pretty(high_volume)} = {_pretty(total_volume)} ml.",
+                ),
+                (
+                    "Kiểm tra nồng độ",
+                    f"{_pretty(low_percent)}%×{_pretty(low_volume)} + "
+                    f"{_pretty(high_percent)}%×{_pretty(high_volume)} = "
+                    f"{_pretty(target_percent)}%×{_pretty(total_volume)}; hai vế đều chứa "
+                    f"{_pretty(salt_total)} ml muối.",
+                ),
+            ],
+            {
+                "type": "mixture",
+                "low_percent": float(low_percent),
+                "high_percent": float(high_percent),
+                "target_percent": float(target_percent),
+                "low_volume": float(low_volume),
+                "high_volume": float(high_volume),
+                "total_volume": float(total_volume),
+            },
+            {"low_volume": low_volume, "high_volume": high_volume},
+            8,
+            "volume_and_solute_conservation",
+        )
+
+    vehicle = re.search(
+        rf"van toc cua o to lon hon van toc cua xe may la\s*{number}\s*km/h.*?"
+        rf"som hon xe may\s*{number}\s*phut.*?quang duong.*?dai\s*{number}\s*km",
+        text,
+    )
+    if vehicle:
+        _require_number_coverage(text, [vehicle])
+        speed_difference, minutes_saved, distance = map(rational, vehicle.groups())
+        if min(speed_difference, minutes_saved, distance) <= 0:
+            raise MathTutorError("Hiệu vận tốc, thời gian chênh lệch và quãng đường phải dương.")
+        saved_hours = sp.simplify(minutes_saved / 60)
+        speed = sp.Symbol("v", positive=True)
+        equation = sp.Eq(distance / speed - distance / (speed + speed_difference), saved_hours)
+        candidates = sp.solve(equation, speed)
+        valid = [value for value in candidates if value.is_real and value > 0]
+        if len(valid) != 1:
+            raise MathTutorError("Không tìm được duy nhất một vận tốc dương để kiểm chứng.")
+        motorcycle_speed = sp.simplify(valid[0])
+        car_speed = sp.simplify(motorcycle_speed + speed_difference)
+        motorcycle_time = sp.simplify(distance / motorcycle_speed)
+        car_time = sp.simplify(distance / car_speed)
+        if sp.simplify(motorcycle_time - car_time - saved_hours) != 0:
+            raise MathTutorError("Thời gian tính lại không khớp dữ kiện đến sớm.")
+        cleared = sp.expand(speed * (speed + speed_difference) * (equation.lhs - equation.rhs))
+        return result(
+            (
+                f"Xe máy: {_pretty(motorcycle_speed)} km/h; "
+                f"ô tô: {_pretty(car_speed)} km/h"
+            ),
+            "Bài toán chuyển động cùng quãng đường",
+            [
+                (
+                    "Đặt ẩn và điều kiện",
+                    f"Gọi v > 0 (km/h) là vận tốc xe máy; vận tốc ô tô là "
+                    f"v + {_pretty(speed_difference)}.",
+                ),
+                (
+                    "Biểu diễn thời gian",
+                    f"Xe máy đi hết {_pretty(distance)}/v giờ; ô tô đi hết "
+                    f"{_pretty(distance)}/(v + {_pretty(speed_difference)}) giờ.",
+                ),
+                (
+                    "Đổi đơn vị và lập phương trình",
+                    f"{_pretty(minutes_saved)} phút = {_pretty(saved_hours)} giờ, nên "
+                    f"{_pretty(distance)}/v − {_pretty(distance)}/(v + {_pretty(speed_difference)}) "
+                    f"= {_pretty(saved_hours)}.",
+                ),
+                (
+                    "Khử mẫu và thu gọn",
+                    f"Nhân hai vế với v(v + {_pretty(speed_difference)}), thu được "
+                    f"{_pretty(cleared)} = 0.",
+                ),
+                (
+                    "Giải và chọn nghiệm dương",
+                    f"Các nghiệm đại số là {', '.join(_pretty(value) for value in candidates)}; "
+                    f"chọn v = {_pretty(motorcycle_speed)} km/h do v > 0. Suy ra ô tô chạy "
+                    f"{_pretty(car_speed)} km/h.",
+                ),
+                (
+                    "Kiểm tra bằng thời gian thực",
+                    f"Xe máy: {_pretty(distance)}/{_pretty(motorcycle_speed)} = "
+                    f"{_pretty(motorcycle_time)} giờ; ô tô: {_pretty(distance)}/{_pretty(car_speed)} = "
+                    f"{_pretty(car_time)} giờ; chênh {_pretty(motorcycle_time - car_time)} giờ "
+                    f"= {_pretty(minutes_saved)} phút, khớp đề.",
+                ),
+            ],
+            {
+                "type": "motion_comparison",
+                "distance": float(distance),
+                "slower_speed": float(motorcycle_speed),
+                "faster_speed": float(car_speed),
+                "slower_time": float(motorcycle_time),
+                "faster_time": float(car_time),
+                "saved_minutes": float(minutes_saved),
+            },
+            {"motorcycle_speed": motorcycle_speed, "car_speed": car_speed},
+            9,
+            "distance_time_equation_and_substitution",
+        )
+
     comparisons = list(re.finditer(r"([\d\s+*/().,-]+)\s*__\s*([\d\s+*/().,-]+)", text))
     if comparisons:
         _require_number_coverage(text, comparisons)
@@ -131,7 +292,11 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
         answer = f"Mỗi hộp: {_pretty(per_group)}"
         values = {"per_group": per_group}
         steps = [
-            ("Chia đều", f"{_pretty(total)} ÷ {_pretty(groups)} = {_pretty(per_group)} phần tử mỗi nhóm.")
+            (
+                "Tóm tắt dữ kiện",
+                f"Chia {_pretty(total)} phần tử vào {_pretty(groups)} nhóm bằng nhau.",
+            ),
+            ("Chia đều", f"{_pretty(total)} ÷ {_pretty(groups)} = {_pretty(per_group)} phần tử mỗi nhóm."),
         ]
         if extra:
             additional_groups = rational(extra.group(1))
@@ -211,6 +376,53 @@ def solve_school_problem(question: str, curriculum: str, grade: int | None) -> d
             {"average": mean},
             4,
             "mean_times_count",
+        )
+
+    proportional_price = re.search(
+        rf"mua\s+{number}\s+quyen vo\s+(?:het|gia)\s+{number}\s+nghin.*?"
+        rf"{number}\s+quyen vo\s+gia\s+(?:bao nhieu|may)",
+        text,
+    )
+    if proportional_price and "cung don gia" in text:
+        _require_number_coverage(text, [proportional_price])
+        base_count, base_total, target_count = map(rational, proportional_price.groups())
+        if base_count <= 0 or target_count <= 0 or base_total < 0:
+            raise MathTutorError("Số quyển phải dương và số tiền không được âm.")
+        unit_price = sp.simplify(base_total / base_count)
+        target_total = sp.simplify(target_count * unit_price)
+        if sp.simplify(target_total * base_count - target_count * base_total) != 0:
+            raise MathTutorError("Không thể kiểm tra lại quan hệ tỉ lệ thuận của bài toán.")
+        return result(
+            f"{_pretty(target_total)} nghìn đồng",
+            "Đại lượng tỉ lệ thuận",
+            [
+                (
+                    "Tóm tắt dữ kiện",
+                    f"{_pretty(base_count)} quyển giá {_pretty(base_total)} nghìn đồng; cần giá {_pretty(target_count)} quyển.",
+                ),
+                (
+                    "Tìm đơn giá",
+                    f"{_pretty(base_total)} ÷ {_pretty(base_count)} = {_pretty(unit_price)} nghìn đồng/quyển.",
+                ),
+                (
+                    "Tính số tiền cần trả",
+                    f"{_pretty(target_count)} × {_pretty(unit_price)} = {_pretty(target_total)} nghìn đồng.",
+                ),
+                (
+                    "Kiểm tra tỉ lệ",
+                    f"{_pretty(target_total)} × {_pretty(base_count)} = {_pretty(target_count)} × {_pretty(base_total)}.",
+                ),
+            ],
+            {
+                "type": "bar_chart",
+                "bars": [
+                    {"label": f"{_pretty(base_count)} quyển", "value": float(base_total)},
+                    {"label": f"{_pretty(target_count)} quyển", "value": float(target_total)},
+                ],
+            },
+            {"unit_price": unit_price, "target_total": target_total},
+            7,
+            "unit_rate_and_cross_product",
         )
 
     prices = re.search(
