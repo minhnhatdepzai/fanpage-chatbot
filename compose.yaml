@@ -87,7 +87,11 @@ services:
     <<: *app
     command: ["botctl", "worker"]
     healthcheck:
-      disable: true
+      test: ["CMD", "python", "-m", "app.workers.healthcheck"]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 4
     depends_on:
       migrate:
         condition: service_completed_successfully
