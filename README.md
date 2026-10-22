@@ -21,8 +21,36 @@ Nó **không có AI thử đồ**: không nhận ảnh người cùng ảnh qu�
 hay endpoint sinh ảnh người mặc đồ. Computer vision trong dự án dùng để **đọc chữ, nhận diện đồ vật và hiểu nội dung ảnh**;
 trực quan hóa Toán là **SVG dựng bằng mã từ lời giải**, không phải ảnh do mô hình sinh ra. Đây là hai luồng khác nhau.
 
+## Đọc README theo vai trò
+
+README đi từ bức tranh sản phẩm đến phần triển khai sâu. Người mới không cần hiểu toàn bộ AI ngay từ đầu.
+
+| Bạn là ai? | Nên đọc theo thứ tự | Sau khi đọc cần trả lời được |
+|---|---|---|
+| Người mới học full-stack | Ứng dụng hoạt động → Chatbot → Database → Docker | request đi đâu, dữ liệu lưu ở đâu, vì sao cần worker |
+| Frontend developer | StudyScope → Widget → API web → SVG | browser tạo session, gửi dữ liệu và nhận kết quả thế nào |
+| Backend developer | Webhook → Queue → LangGraph → Outbox | transaction, retry, idempotency và handoff hoạt động ra sao |
+| AI/ML engineer | RAG → Model → Fine-tuning → Evaluation | khi nào dùng RAG, khi nào train, adapter nào được phép chạy |
+| DevOps/reviewer | Cài đặt → Docker → CI/CD → Vận hành | artifact được build, kiểm thử, phát hành và rollback thế nào |
+
+> **Mô hình tư duy cho người mới:** hãy xem hệ thống như một nhà hàng. API là nhân viên nhận món; PostgreSQL là
+> sổ gọi món không bị mất khi nhân viên đổi ca; worker là bếp; LangGraph là quy trình chế biến; model AI là một
+> đầu bếp chuyên môn; guardrail là bước kiểm món; outbox là khay món đã đánh số trước khi giao. Cách ví này giúp
+> hiểu luồng chính, nhưng database lock, timeout và API bên ngoài vẫn phải được xử lý bằng code cụ thể.
+
+### Quy ước thuật ngữ trong tài liệu
+
+- Thuật ngữ tiếng Anh được giữ lại vì xuất hiện trực tiếp trong code và tài liệu kỹ thuật.
+- Lần đầu xuất hiện, thuật ngữ quan trọng có phần giải nghĩa tiếng Việt hoặc nằm trong bảng
+  [Thuật ngữ](#15-thuật-ngữ-phải-định-nghĩa-được).
+- **Đã triển khai** nghĩa là có code trong repository. **Đã kiểm thử** nghĩa là có test hoặc lần chạy được ghi rõ.
+  **Đề xuất** chưa phải tính năng đang chạy. **Chưa đo** không được trình bày như chỉ số production.
+- Tên model, adapter và dataset là ba khái niệm khác nhau: model là mạng nền; adapter là phần trọng số bổ sung;
+  dataset là dữ liệu dùng để huấn luyện hoặc đánh giá.
+
 ## Mục lục
 
+- [Đọc README theo vai trò](#đọc-readme-theo-vai-trò)
 - [Ứng dụng hoạt động như thế nào?](#ứng-dụng-hoạt-động-như-thế-nào)
 - [Chatbot: từ tin nhắn đến câu trả lời](#chatbot-từ-tin-nhắn-đến-câu-trả-lời)
 - [RAG được dùng ở đâu và hoạt động ra sao?](#rag-được-dùng-ở-đâu-và-hoạt-động-ra-sao)
@@ -45,7 +73,7 @@ trực quan hóa Toán là **SVG dựng bằng mã từ lời giải**, không p
 - [Vận hành, sao lưu và xử lý lỗi](#vận-hành-sao-lưu-và-xử-lý-lỗi)
 - [Đóng góp và CI/CD](#đóng-góp-và-cicd)
 - [Cấu trúc mã nguồn](#cấu-trúc-mã-nguồn)
-- [Cẩm nang phỏng vấn full-stack](#cẩm-nang-phỏng-vấn-full-stack)
+- [Kiến trúc full-stack chuyên sâu](#kiến-trúc-full-stack-chuyên-sâu)
 
 ## Ứng dụng hoạt động như thế nào?
 
@@ -857,13 +885,13 @@ scripts/           Start/stop, tải model, benchmark/replay
 docs/              Tiến độ, môi trường, hiệu năng, riêng tư
 ```
 
-## Cẩm nang phỏng vấn full-stack
+## Kiến trúc full-stack chuyên sâu
 
-Phần này dùng để trình bày dự án trong phỏng vấn. Mọi mô tả bên dưới bám theo mã nguồn hiện tại. Các mục ghi
+Phần này giải thích hệ thống từ mô hình tư duy dành cho người mới đến các quyết định kỹ thuật chuyên sâu. Mọi mô tả bên dưới bám theo mã nguồn hiện tại. Các mục ghi
 <strong>đã triển khai</strong> có đường dẫn hoặc bài test trong repository; mục <strong>đề xuất</strong> là hướng mở rộng;
 chỉ số ghi <strong>chưa đo</strong> không được dùng như kết quả production.
 
-### 1. Bài toán và cách giới thiệu trong 60 giây
+### 1. Bài toán và bản tóm tắt kiến trúc
 
 <blockquote>
 Fanpage Chatbot là hệ thống hội thoại đa kênh cho Messenger và website, đồng thời có phòng học Toán, Văn và
@@ -885,7 +913,7 @@ multi-stage, kiểm thử trên GitHub Actions và phát hành image có provena
 
 #### Yêu cầu phi chức năng và cách đáp ứng
 
-| Yêu cầu | Cách triển khai hiện tại | Bằng chứng cần nói khi phỏng vấn |
+| Yêu cầu | Cách triển khai hiện tại | Bằng chứng có thể kiểm tra |
 |---|---|---|
 | Bền vững | PostgreSQL queue, transaction, lease, LangGraph checkpoint | API chết sau ACK không làm mất tin đã commit |
 | Không gửi trùng | unique <code>mid</code>, idempotency key từng chunk, trạng thái outbox | retry không tạo thêm outbound cùng turn/chunk |
@@ -894,7 +922,121 @@ multi-stage, kiểm thử trên GitHub Actions và phát hành image có provena
 | Quan sát được | structured log, turn metadata, latency/token, heartbeat, Langfuse tùy chọn | truy từ turn tới model, adapter, flags và outcome |
 | Triển khai lặp lại | <code>uv.lock</code>, npm lockfile, migration, Docker image | CI dựng lại môi trường từ lockfile |
 
-### 2. Kiến trúc tổng thể từ người dùng đến model
+### 2. Bản đồ chức năng và luồng từng tính năng
+
+| Chức năng | Đầu vào | Luồng xử lý | Dữ liệu được lưu | Đầu ra |
+|---|---|---|---|---|
+| Messenger | text, postback, ảnh, echo | Meta → webhook → queue → worker → graph | conversation, message, turn, trạng thái gửi | Meta Send API |
+| Widget web | text hoặc ảnh base64 | signed session → API → cùng queue/graph | cùng schema với Messenger, page là <code>web</code> | browser polling lấy message |
+| Handoff người thật | yêu cầu người dùng hoặc admin | graph bật cờ handoff → sender kiểm lại trước gửi | lý do, người bật, thời điểm, audit | bot dừng hoặc resume có kiểm soát |
+| RAG tài liệu | PDF/DOCX và câu hỏi | parse/OCR → chunk → embedding → hybrid search | document, chunk, vector, source, visibility | context đánh số và citation |
+| Tra cứu web | câu hỏi cần dữ liệu mới | policy → Brave/DDGS/MediaWiki → lọc nguồn | metadata trong turn/trace, không thành knowledge cố định | context có URL |
+| Hiểu ảnh | URL Messenger hoặc ảnh web | validate/fetch → OCR + YOLO + VLM tùy chọn | kết quả phân tích đã che PII; không giữ ảnh gốc | image context cho graph |
+| Toán | đề chữ hoặc đề từ ảnh | route → parser/solver/SymPy → verification | kết quả turn khi đi qua chat; direct solve trả ngay | answer, steps, visual payload, SVG |
+| Ngữ văn/Tiếng Anh | đề bài, bài làm, yêu cầu sửa | intent chuyên môn → prompt/rubric → LLM → output checks | history, turn và feedback | bài giải thích/chấm sửa; audio tùy chọn |
+| TTS | text, voice, rate | session check → edge-tts; browser có fallback | không phải pipeline voice training | audio trả về browser |
+| Feedback và training | rating, correction đã duyệt | candidate → xác nhận quyền → export → train/eval | feedback, candidate, export manifest, adapter registry | adapter candidate hoặc active |
+
+#### 2.1 Router chức năng nhìn từ một request
+
+Sơ đồ sau là bản rút gọn để hiểu quyết định. Một request có thể dùng nhiều nhánh, ví dụ ảnh chứa đề Toán cần
+vision để chép đề rồi mới đi vào solver.
+
+```mermaid
+flowchart TD
+    IN["Tin nhắn đã xác thực và lưu DB"] --> HAND{"Handoff đang bật hoặc được yêu cầu?"}
+    HAND -->|Có| HUMAN["Dừng bot hoặc gửi acknowledgement"]
+    HAND -->|Không| TYPE{"Loại nội dung / ý định"}
+
+    TYPE -->|Sticker / quá cũ| NONE["Không trả lời"]
+    TYPE -->|Template / phép tính / ngày| CODE["Trả lời bằng code"]
+    TYPE -->|Ảnh| VISION["OCR + YOLO + VLM tùy chọn"]
+    TYPE -->|Toán đã hỗ trợ| MATH["Solver + verification"]
+    TYPE -->|Văn / Anh| TUTOR["Prompt và rubric chuyên môn"]
+    TYPE -->|Kiến thức| RAG["YAML + tài liệu + web theo policy"]
+    TYPE -->|Hội thoại chung| LLM["Qwen qua provider"]
+
+    VISION --> DECIDE["Bổ sung context rồi route tiếp"]
+    RAG --> LLM
+    TUTOR --> LLM
+    LLM --> CHECK["Output checks + citation"]
+    MATH --> RESULT["Chuẩn hóa kết quả"]
+    CODE --> RESULT
+    CHECK --> RESULT
+    HUMAN --> RESULT
+    NONE --> RESULT
+    RESULT --> OUTBOX["Persist decision / outbox"]
+    OUTBOX --> DELIVER["Widget hoặc Meta"]
+```
+
+> **Chú thích:** router là bộ phận chọn đường xử lý. Intent là ý định của người dùng. Guardrail là lớp quy tắc
+> kiểm tra đầu vào/đầu ra. Không phải mọi nhánh trong sơ đồ đều là một model AI.
+
+#### 2.2 Messenger và webhook
+
+1. Meta gọi <code>GET /webhook</code> một lần để xác minh callback bằng verify token.
+2. Với event thật, Meta gọi <code>POST /webhook</code>; API giới hạn kích thước body và xác minh chữ ký HMAC.
+3. Parser loại event không cần xử lý, nhận user message/postback, và nhận echo để đối soát outbound.
+4. Repository ghi message cùng <code>next_run_at</code> trong một transaction rồi mới trả HTTP 200.
+5. Worker xử lý bất đồng bộ. Ngay trước khi gửi, sender đọc lại handoff, cửa sổ nhắn tin, tuổi message và rate limit.
+6. Send API nhận metadata idempotency; message echo quay lại giúp xác nhận trường hợp delivery chưa chắc chắn.
+
+**Vì sao phức tạp như vậy?** Webhook và Send API là hai hệ thống độc lập. Network timeout không cho biết request
+đã tới Meta hay chưa, nên retry mù có thể gửi hai lần.
+
+#### 2.3 Widget website
+
+1. Browser xin <code>session_id</code> ngẫu nhiên và token HMAC từ <code>POST /web/session</code>.
+2. Widget lưu session, cursor và tối đa 50 message hiển thị trong <code>localStorage</code>.
+3. Khi gửi, server xác minh token, origin, rate limit và độ dài; ảnh còn được kiểm MIME/kích thước.
+4. API trả <code>202 Accepted</code> cùng vị trí queue; widget poll bằng cursor <code>after</code>.
+5. Worker đánh outbound web là <code>sent</code> trong DB mà không gọi một API giao tin bên ngoài.
+6. Reload trang vẫn đọc tiếp được message mới vì cursor và session còn ở browser.
+
+#### 2.4 RAG tài liệu và web search
+
+- Ingest PDF/DOCX là luồng quản trị, không xảy ra ở mỗi câu hỏi. File được parse, OCR trang scan nếu cần, chia chunk,
+  tạo embedding và lưu cùng source/page/visibility.
+- Khi hỏi, vector search tìm đoạn gần nghĩa; keyword rank bổ sung tín hiệu cho tên và thuật ngữ chính xác.
+- Kênh công khai chỉ truy vấn document <code>public</code>. Trợ lý admin có thể yêu cầu cả <code>internal</code>.
+- Web search chỉ bật theo policy khi cần dữ liệu mới hoặc nguồn local chưa đủ.
+- Context được đánh số. Model chỉ sinh draft; code sau model kiểm citation và loại link không thuộc tập nguồn.
+
+> **Chú thích:** embedding là dãy số biểu diễn ý nghĩa gần đúng của văn bản. Chunk là một đoạn tài liệu nhỏ.
+> Citation là chỉ dẫn tới nguồn. RAG là lấy dữ liệu lúc trả lời, không phải huấn luyện lại model.
+
+#### 2.5 Ảnh và computer vision
+
+- Ảnh Messenger đi qua lớp fetch có giới hạn; ảnh widget được browser resize trước và server kiểm lại.
+- EasyOCR đọc chữ; YOLO tìm vật thể/hộp bao; Qwen3-VL tùy chọn mô tả quan hệ, màu sắc và số lượng.
+- Kết quả được chuyển thành text context có giới hạn. URL CDN tạm thời được thay bằng phân tích đã che PII trong
+  lịch sử; ứng dụng không cố lưu ảnh gốc làm bộ dữ liệu.
+- Nếu không nhận diện đủ, graph hỏi người dùng gửi ảnh rõ hơn thay vì buộc LLM đoán.
+
+#### 2.6 Toán và SVG
+
+- <code>/web/math/solve</code> dành cho bài thuộc miền solver và trả kết quả đồng bộ.
+- <code>/web/math/route</code> phân biệt đề Toán với câu hỏi chat; câu chat đi qua queue.
+- Parser chỉ cho phép toán tử, tên và hàm đã định nghĩa. Solver dùng số chính xác/SymPy và thế ngược nghiệm.
+- Validator kiểm schema và số hữu hạn trước khi đặt <code>verified</code>.
+- Browser dựng SVG bằng DOM API từ <code>visual.type</code> và tham số số học; model không gửi raw SVG để render.
+
+#### 2.7 Ngữ văn, Tiếng Anh và TTS
+
+Các gia sư Văn/Anh là intent, prompt, validation và dataset chuyên môn chạy trên model nền dùng chung; chúng không
+phải hai model server riêng. Router chỉ bật mode chuyên môn khi câu hỏi có dấu hiệu đủ rõ để tránh biến mọi câu
+“phân tích” thành bài Văn. TTS là text-to-speech, tức chuyển chữ thành tiếng nói; nó đọc nội dung đã tạo và không
+chứng minh nội dung đúng. Repo hiện dùng edge-tts/Web Speech, không train giọng riêng.
+
+#### 2.8 Handoff, admin và vòng phản hồi
+
+- Người dùng có thể yêu cầu người thật; admin có thể bật/tắt handoff qua API/CLI.
+- Rating tốt/xấu và correction tạo feedback. Mẫu training là đối tượng riêng, luôn qua trạng thái review.
+- PII được che trước; quyền sử dụng phải được xác nhận khi export.
+- Export ghi danh sách candidate, version và SHA-256. Export không tự train, không tự promote.
+- Audit log ghi hành động quản trị quan trọng để có thể truy lại ai làm gì.
+
+### 3. Kiến trúc tổng thể từ người dùng đến model
 
 ```mermaid
 flowchart LR
@@ -964,9 +1106,9 @@ Các ranh giới quan trọng:
   phải model và không phải hai lựa chọn thay thế nhau.
 - SymPy, parser, validator và SVG renderer là pipeline xác định; chúng không gọi image generator.
 
-### 3. Luồng request đầy đủ
+### 4. Luồng request đầy đủ
 
-#### 3.1 Messenger: nhận, xếp hàng, suy luận và gửi
+#### 4.1 Messenger: nhận, xếp hàng, suy luận và gửi
 
 ```mermaid
 sequenceDiagram
@@ -1015,7 +1157,7 @@ sequenceDiagram
 5. Outbox được persist trước side effect. Trạng thái <code>sending</code>/<code>uncertain</code> ngăn retry mù khi
    không biết Meta đã nhận hay chưa; echo webhook có thể xác nhận lại.
 
-#### 3.2 Widget website
+#### 4.2 Widget website
 
 ```mermaid
 sequenceDiagram
@@ -1044,7 +1186,7 @@ Widget dùng Shadow DOM để CSS của trang chủ không làm hỏng UI. Polli
 <code>after=last_id</code> và không cần hạ tầng giữ kết nối. Nếu lượng client lớn, đề xuất đổi sang SSE cho luồng
 một chiều server → browser; WebSocket chỉ cần khi có tương tác hai chiều thời gian thực thực sự.
 
-#### 3.3 State machine của LangGraph
+#### 4.3 State machine của LangGraph
 
 ```mermaid
 flowchart TD
@@ -1071,7 +1213,7 @@ flowchart TD
 Graph tránh gọi Send API trong node. Side effect được thực hiện sau khi graph hoàn tất và decision đã lưu, nhờ đó
 resume checkpoint không tự gửi lại tin.
 
-### 4. Thiết kế frontend
+### 5. Thiết kế frontend
 
 | Phần | Công nghệ và trách nhiệm | Quyết định đáng nói |
 |---|---|---|
@@ -1097,7 +1239,7 @@ flowchart LR
     SVG --> UI["Phát từng bước / tải SVG"]
 ```
 
-### 5. API backend và nguyên tắc HTTP
+### 6. API backend và nguyên tắc HTTP
 
 | Nhóm endpoint | Mục đích | Kiểm soát |
 |---|---|---|
@@ -1112,7 +1254,7 @@ flowchart LR
 POST chat trả <code>202 Accepted</code> vì công việc đã nhận nhưng xử lý bất đồng bộ. <code>GET /web/messages</code>
 dùng cursor <code>after</code> để client không tải lại toàn bộ lịch sử.
 
-### 6. Database: lưu gì và vì sao
+### 7. Database: lưu gì và vì sao
 
 ```mermaid
 erDiagram
@@ -1222,7 +1364,7 @@ PostgreSQL được chọn vì dự án cần transaction giữa message và que
 checkpoint. Redis/Kafka có thể tăng throughput ở quy mô lớn nhưng làm tăng số hệ thống cần vận hành và bài toán
 đồng bộ với nguồn dữ liệu chính.
 
-### 7. RAG: ingest và query
+### 8. RAG: ingest và query
 
 ```mermaid
 flowchart TD
@@ -1253,7 +1395,7 @@ RRF cho những ứng viên trùng khớp. Đây chưa phải phép hợp đầy
 lời có thể dẫn lại. RAG cập nhật sự kiện bằng dữ liệu, còn fine-tuning điều chỉnh hành vi/định dạng; hai kỹ thuật
 giải quyết hai vấn đề.
 
-### 8. Model và thành phần AI
+### 9. Model và thành phần AI
 
 | Thành phần | Vai trò | Chạy ở đâu | Train bởi dự án? |
 |---|---|---|---|
@@ -1270,7 +1412,199 @@ giải quyết hai vấn đề.
 LoRA học hai ma trận hạng thấp tạo phần bù cho trọng số gốc. VeRA cố định các projection ngẫu nhiên và học vector
 scale, nên số tham số train có thể nhỏ hơn. Fine-tuning không cập nhật kiến thức mới đáng tin cậy và không thay RAG.
 
-### 9. Docker: từ source thành container
+### 10. Training chuyên sâu: dữ liệu → adapter → đánh giá → triển khai
+
+> **Ghi chú quan trọng:** train chạy hết step hoặc loss giảm chỉ chứng minh optimizer đã cập nhật trọng số.
+> Nó chưa chứng minh model tốt hơn, không chứng minh an toàn, và không tự đưa adapter vào runtime. Một adapter chỉ
+> nên chạy khi có artifact đầy đủ, nạp lại thành công, vượt baseline trên tập tách biệt, được đăng ký, promote có
+> lý do và reload model server thành công.
+
+#### 10.1 Toàn bộ vòng đời model
+
+```mermaid
+flowchart LR
+    RAW["Nguồn mẫu / feedback"] --> REVIEW["Che PII + review + quyền sử dụng"]
+    REVIEW --> DATA["Dataset có train/val và ID duy nhất"]
+    DATA --> HASH["Manifest + SHA-256 + seed"]
+    HASH --> CONFIG["Config khóa base revision và hyperparameters"]
+    CONFIG --> SMOKE["Smoke train 2 bước + reload"]
+    SMOKE --> TRAIN["Train LoRA/VeRA"]
+    TRAIN --> ART["Adapter + tokenizer + training_meta"]
+    ART --> RELOAD["Nạp lại trên base sạch"]
+    RELOAD --> EVAL["Eval holdout: base vs candidate"]
+    EVAL --> GATE{"Gate đạt?"}
+    GATE -->|Không| REJECT["Giữ candidate / sửa dữ liệu"]
+    GATE -->|Có| REG["Register + attach report"]
+    REG --> PROMOTE["Promote có actor + reason"]
+    PROMOTE --> SERVE["Reload model server"]
+    SERVE --> MONITOR["Theo dõi lỗi, latency, feedback"]
+    MONITOR -->|Regression| ROLLBACK["Rollback adapter trước"]
+```
+
+Các trạng thái phải phân biệt:
+
+| Trạng thái | Có ý nghĩa gì | Chưa được phép kết luận |
+|---|---|---|
+| Config tồn tại | có kế hoạch train và hyperparameter | đã chạy train |
+| Log có step/loss | optimizer đã chạy ở lần đó | artifact hiện còn và nạp được |
+| Adapter directory tồn tại | có file output | chất lượng tốt hơn base |
+| Reload finite | PEFT adapter nạp lại và tính loss hữu hạn | câu trả lời đúng hơn |
+| Eval report | đã chạy trên một suite cụ thể | tốt ở mọi miền |
+| <code>gate.passed=true</code> | đạt quy tắc so với baseline của suite | production không có regression khác |
+| Registry <code>active</code> | runtime sẽ chọn adapter sau reload | model server đã reload thành công |
+| Runtime smoke đạt | endpoint sinh được output | chất lượng dài hạn đạt SLO |
+
+#### 10.2 Thuật ngữ training dành cho người mới
+
+| Thuật ngữ | Giải thích dễ hiểu | Liên hệ trong repo |
+|---|---|---|
+| Base model | model nền trước khi tùy biến | Qwen3-4B-Instruct-2507 khóa theo revision |
+| Adapter | phần trọng số nhỏ gắn lên base | thư mục trong <code>artifacts/adapters/</code> |
+| PEFT | chỉ train ít tham số để giảm VRAM/chi phí | LoRA hoặc VeRA |
+| Epoch | một lượt đi qua toàn bộ train set | config đặt số epoch tối đa |
+| Step | một lần optimizer cập nhật trọng số | log và <code>training_meta.json</code> ghi số step |
+| Micro-batch | số mẫu thật sự đưa qua GPU một lượt | có thể giảm khi OOM |
+| Gradient accumulation | cộng gradient nhiều micro-batch rồi mới update | batch hiệu dụng = micro-batch × grad_accum |
+| Learning rate | độ lớn mỗi bước cập nhật | LoRA và VeRA dùng mức khác nhau |
+| Loss | sai số tối ưu hóa trên token mục tiêu | chỉ token assistant được tính |
+| Validation | đo trong quá trình train trên dữ liệu không update gradient | dùng early stopping/chọn checkpoint |
+| Holdout eval | bộ đánh giá tách khỏi train/validation | dùng so candidate với base |
+| Overfitting | học thuộc train nhưng kém trên dữ liệu mới | val/eval xấu dù train loss giảm |
+| Checkpoint | trạng thái có thể tiếp tục hoặc khôi phục | adapter + optimizer/scheduler/RNG trong <code>last_checkpoint</code> |
+| Seed | số khởi tạo để tăng khả năng tái lập | lưu trong config và manifest |
+| Baseline | mốc so sánh trước thay đổi | base model hoặc adapter active hiện tại |
+| Gate | luật tự động quyết định candidate có đủ điều kiện | report yêu cầu tốt hơn và không giảm chỉ số an toàn |
+
+#### 10.3 Dữ liệu: phần quyết định chất lượng nhiều hơn số epoch
+
+Mỗi mẫu SFT cần ID duy nhất, split rõ ràng và message đúng vai trò. Pipeline render mẫu bằng system prompt/profile/
+khối nguồn gần runtime thật. <code>build_splits</code> từ chối ID trùng giữa các file và lưu SHA-256 của từng
+dataset, checksum kết hợp, checksum sau render, số mẫu và category vào manifest.
+
+Checklist trước khi train:
+
+- [ ] Có quyền dùng và tạo bản phái sinh từ dữ liệu; ghi rõ license/provenance.
+- [ ] Đã loại secret, access token, password, số thẻ và PII không cần thiết.
+- [ ] Không để cùng một câu hoặc paraphrase quá gần xuất hiện ở train và holdout eval.
+- [ ] Split được gán trước; không chọn lại validation sau khi nhìn kết quả.
+- [ ] Câu trả lời mục tiêu đúng nguồn, đúng vai trò và không chứa citation giả.
+- [ ] Các category đủ cân bằng; dữ liệu mới không làm mất hành vi cũ.
+- [ ] Có mẫu negative/edge case: thiếu nguồn, ảnh không rõ, yêu cầu ngoài phạm vi, prompt injection.
+- [ ] Dataset và config được review trong Git; dữ liệu private được lưu ngoài repository public.
+- [ ] Base model ID và revision được khóa; seed và library version được lưu.
+
+> **Không train dữ kiện thay đổi theo ngày** như giá, lịch, người giữ chức vụ hoặc tin mới vào adapter. Dữ kiện đó
+> thuộc RAG/web search. Adapter phù hợp hơn cho giọng điệu, cấu trúc trả lời, quy tắc từ chối và cách dùng nguồn.
+
+#### 10.4 Script SFT thực sự làm gì?
+
+1. Đọc một hoặc nhiều YAML dataset, render bằng profile và knowledge hiện tại.
+2. Tải tokenizer/base model đúng revision, đặt random seed và chạy ở <code>bfloat16</code> trên CUDA.
+3. Token hóa toàn hội thoại nhưng đặt label <code>-100</code> cho system/user; loss chỉ tính token assistant.
+4. Bỏ toàn bộ mẫu dài hơn <code>max_seq_len</code> thay vì cắt mất câu trả lời mục tiêu; danh sách bị bỏ được ghi meta.
+5. Gắn LoRA hoặc VeRA vào các projection đã cấu hình; base weights không bị update.
+6. Bật gradient checkpointing, gradient clipping, scheduler, accumulation và early stopping theo validation loss.
+7. Lưu best adapter và <code>last_checkpoint</code>; resume chỉ chấp nhận config giống checkpoint và khôi phục cả
+   optimizer, scheduler, vị trí, history và RNG state.
+8. Lưu tokenizer, adapter và <code>training_meta.json</code>: dataset manifest, tham số train, loss, số tham số học,
+   peak VRAM, thời gian và phiên bản thư viện.
+9. Giải phóng model, tải lại base sạch, gắn adapter đã lưu và kiểm loss hữu hạn trên validation sample.
+
+Smoke test pipeline trước lần train dài:
+
+```bash
+./scripts/run_local.sh stop
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+  uv run --no-sync python -m training.scripts.train_sft \
+  --config training/configs/vera-edu-ent-v2-rich.yaml \
+  --smoke
+```
+
+Train đầy đủ:
+
+```bash
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+  uv run --no-sync python -m training.scripts.train_sft \
+  --config training/configs/vera-edu-ent-v2-rich.yaml
+```
+
+Tiếp tục đúng checkpoint sau khi gián đoạn:
+
+```bash
+uv run --no-sync python -m training.scripts.train_sft \
+  --config training/configs/vera-edu-ent-v2-rich.yaml \
+  --resume-from artifacts/adapters/<adapter-id>/last_checkpoint
+```
+
+Runtime Docker không cài extra <code>ml</code>/<code>data</code>. Training phải chạy trên host/GPU đã cài
+<code>uv sync --frozen --extra ml --extra data</code>, hoặc cần một training image riêng nếu tự động hóa về sau.
+
+#### 10.5 Đọc đường cong loss đúng cách
+
+- Train loss giảm, validation loss cùng giảm: tín hiệu học có ích, vẫn cần holdout eval.
+- Train loss giảm, validation loss tăng: dấu hiệu overfitting; dừng sớm, giảm step/LR hoặc sửa dữ liệu.
+- Loss không giảm: kiểm masking, learning rate, dữ liệu mục tiêu, target modules và gradient.
+- Loss thành NaN/Inf: dừng ngay; kiểm precision, LR, sample bất thường và gradient norm.
+- Validation quá nhỏ hoặc quá giống train: con số đẹp nhưng độ tin cậy thấp.
+- Loss giữa hai model/tokenizer/dataset khác nhau không nên so trực tiếp như cùng một thước đo chất lượng sản phẩm.
+
+#### 10.6 Evaluation gate và promote
+
+Suite hiện chấm từng scenario qua graph thật với seed ổn định. Report theo category, tín hiệu bịa, citation rate,
+pass rate, độ dài và latency. Gate mặc định chỉ PASS khi candidate đạt nhiều hơn baseline ít nhất 2 scenario,
+không tăng hallucination signal và không giảm sourced citation rate.
+
+```bash
+uv run --no-sync python -m evaluation.scripts.compare \
+  --adapter artifacts/adapters/<adapter-id> \
+  --scenarios evaluation/datasets/edu_ent_eval_v2_rich.yaml
+
+uv run --no-sync botctl model register artifacts/adapters/<adapter-id>
+uv run --no-sync botctl model attach-eval <adapter-id> evaluation/results/<run>/report-<adapter-id>.json
+uv run --no-sync botctl model promote <adapter-id> --reason "vượt gate và đã review mẫu lỗi"
+```
+
+Sau promote phải reload model server, gọi health, sinh thử nhiều prompt đại diện và xác nhận fingerprint/adapter
+trong metadata. Nếu regression, dùng <code>botctl model rollback --reason "..."</code>, reload lại rồi kiểm chứng.
+Tùy chọn <code>--force</code> bỏ qua gate chỉ dành cho tình huống có lý do và người chịu trách nhiệm rõ ràng.
+
+#### 10.7 Artifact tối thiểu phải sao lưu
+
+| File/thư mục | Tác dụng |
+|---|---|
+| <code>adapter_model.safetensors</code> | trọng số PEFT thực tế |
+| <code>adapter_config.json</code> | cách gắn adapter vào base |
+| tokenizer files | tái lập tokenize nếu output có lưu |
+| <code>training_meta.json</code> | lineage, dataset checksum, config, loss, VRAM, version |
+| eval report + outputs | bằng chứng gate và ca lỗi |
+| registry history | active/previous, actor, reason, rollback |
+| dataset/config đúng checksum | tái lập lần train; giữ private nếu chứa dữ liệu hạn chế |
+
+Log hoặc ảnh chụp loss một mình không đủ để khôi phục model. Adapter không có đúng base revision cũng không phải
+artifact triển khai hoàn chỉnh.
+
+#### 10.8 GPU/OOM và tối ưu training
+
+Xử lý theo thứ tự:
+
+1. Dừng model server và tiến trình GPU khác; kiểm tra <code>nvidia-smi</code>.
+2. Chạy smoke trước; theo dõi peak VRAM được ghi trong metadata.
+3. Giảm <code>micro_batch_size</code>, tăng <code>grad_accum</code> để giữ batch hiệu dụng.
+4. Giảm <code>max_seq_len</code> sau khi xem phân bố độ dài; không cắt mù câu trả lời.
+5. Dùng gradient checkpointing/chunked loss đã có cho sequence dài.
+6. Chỉ cân nhắc quantization/QLoRA sau khi thêm code và eval riêng; config hiện tại là bf16 LoRA/VeRA, không nên
+   gọi nhầm là QLoRA.
+7. Không tăng epoch chỉ vì còn thời gian GPU; quyết định bằng validation/holdout và category regression.
+
+#### 10.9 Training vision khác training LLM
+
+YOLO học bounding box/class từ ảnh có nhãn; Qwen SFT học token trả lời. Metric YOLO là precision/recall/mAP trên
+test split, không phải language loss. Pipeline vision chuẩn bị/oversample dữ liệu, train từ COCO weights, chọn
+<code>best.pt</code>, chạy test và lưu <code>meta.json</code>. Cần kiểm license của dataset và Ultralytics; code
+ghi chú AGPL-3.0 và yêu cầu xem xét Enterprise license cho dịch vụ thương mại. Không dùng ảnh người dùng làm
+training data nếu chưa có consent, retention policy và quyền sử dụng rõ ràng.
+
+### 11. Docker: từ source thành container
 
 ```mermaid
 flowchart TD
@@ -1308,7 +1642,7 @@ flowchart LR
 - Log driver có rotation; <code>init: true</code> xử lý signal/zombie; grace period cho shutdown.
 - Worker healthcheck đọc heartbeat mới của đúng hostname container.
 
-### 10. CI/CD và cách một thay đổi đi tới bản phát hành
+### 12. CI/CD và cách một thay đổi đi tới bản phát hành
 
 ```mermaid
 flowchart LR
@@ -1339,7 +1673,7 @@ Quy trình rollback:
 3. Migration phải backward compatible trong giai đoạn rolling; thay đổi phá vỡ schema cần kế hoạch expand/migrate/
    contract và backup đã kiểm thử restore.
 
-### 11. Reliability, security và observability
+### 13. Reliability, security và observability
 
 | Rủi ro | Phòng vệ hiện tại | Còn cần làm khi lên production lớn |
 |---|---|---|
@@ -1358,7 +1692,7 @@ uncertain delivery, handoff rate, RAG hit/citation rate, guardrail flags, error 
 DB pool saturation. Repo có trường/log/tracing cho nhiều tín hiệu này; dashboard/SLO production hoàn chỉnh hiện
 <strong>chưa được đo và công bố</strong>.
 
-### 12. Tối ưu hiệu năng và khả năng mở rộng
+### 14. Tối ưu hiệu năng và khả năng mở rộng
 
 #### Đã có trong code
 
@@ -1384,14 +1718,37 @@ DB pool saturation. Repo có trường/log/tracing cho nhiều tín hiệu này;
 8. Với model: continuous batching/vLLM, quantization đã eval chất lượng, prompt prefix caching và route câu đơn giản
    sang template/code trước LLM.
 
-Không nêu con số RPS hay p95 production khi chưa có load test. Câu trả lời tốt trong phỏng vấn là mô tả metric,
+Không nêu con số RPS hay p95 production khi chưa có load test. Mỗi đề xuất tối ưu cần nêu metric,
 bottleneck dự kiến, thí nghiệm và tiêu chí quyết định.
 
-### 13. Thuật ngữ phải định nghĩa được
+### 15. Thuật ngữ phải định nghĩa được
 
 | Thuật ngữ | Định nghĩa ngắn gọn trong dự án |
 |---|---|
 | REST/HTTP API | API dùng HTTP/JSON; có route theo resource và route action/RPC; chat async trả 202 rồi client đọc kết quả |
+| API | giao diện để phần mềm gọi phần mềm; ở đây chủ yếu là HTTP/JSON |
+| Endpoint | một địa chỉ và method API cụ thể, ví dụ <code>POST /web/messages</code> |
+| Webhook | endpoint để dịch vụ ngoài chủ động gọi khi có sự kiện |
+| Queue | hàng đợi công việc chưa xử lý; dự án lưu lịch chạy trong PostgreSQL |
+| Worker | tiến trình lấy việc từ queue và xử lý ngoài request API |
+| Cursor | mốc đọc tiếp; widget dùng <code>after=last_id</code> |
+| HMAC | chữ ký dùng secret chung để kiểm dữ liệu không bị giả mạo |
+| PII | dữ liệu nhận dạng cá nhân như email, số điện thoại hoặc ID |
+| Artifact | file đầu ra có thể lưu, kiểm hash và triển khai, như adapter/image |
+| PEFT | parameter-efficient fine-tuning: chỉ học một phần tham số nhỏ |
+| LLM | large language model: model ngôn ngữ sinh text, ở đây là Qwen |
+| VLM | vision-language model: model nhận cả ảnh và text |
+| OCR | optical character recognition: đọc chữ từ ảnh |
+| TTS | text-to-speech: chuyển văn bản thành âm thanh |
+| SVG | đồ họa vector do browser dựng từ phần tử/toạ độ |
+| SHA-256 | hàm băm dùng nhận diện nội dung/artifact; không phải mã hóa |
+| SLO | mục tiêu đo được cho dịch vụ, ví dụ latency hoặc error rate |
+| RPS/p95 | request mỗi giây / mức mà 95% mẫu không vượt quá |
+| PITR | point-in-time recovery: phục hồi database về một thời điểm |
+| OOM | out of memory: GPU/RAM không đủ cho batch hoặc sequence |
+| CI/CD | kiểm tra liên tục và đóng gói/phát hành liên tục; deploy hiện là bước riêng |
+| Baseline | phiên bản làm mốc để biết candidate thật sự tốt hơn hay không |
+| Regression | hành vi từng đúng nhưng xấu đi sau thay đổi |
 | Idempotency | gọi lại cùng logical operation không tạo thêm hiệu ứng; key outbound là turn/chunk |
 | At-least-once | việc có thể chạy lại sau lỗi; handler phải chịu được duplicate |
 | Exactly-once | cam kết rất khó qua ranh giới API ngoài; dự án không tuyên bố tuyệt đối |
@@ -1413,7 +1770,10 @@ bottleneck dự kiến, thí nghiệm và tiêu chí quyết định.
 | Provenance | bằng chứng image được build từ workflow/source nào |
 | CORS | chính sách browser cho request khác origin; không thay authentication |
 
-### 14. Bộ câu hỏi phỏng vấn và câu trả lời mẫu
+<details>
+<summary><strong>16. Phụ lục tự học (thu gọn): 33 câu hỏi kỹ thuật và câu trả lời mẫu</strong></summary>
+
+Phụ lục nằm bên trong README và được thu gọn để phần giới thiệu dự án vẫn tập trung vào sản phẩm và kiến trúc.
 
 <details>
 <summary><strong>A. System design và backend</strong></summary>
@@ -1605,7 +1965,9 @@ cao; worker ngang nếu queue chờ; pool/index nếu DB bão hòa; SSE nếu po
 
 </details>
 
-### 15. Cách trình bày dự án trong buổi phỏng vấn
+</details>
+
+### 17. Hướng dẫn thuyết trình kiến trúc
 
 1. Mở bằng bài toán và ràng buộc, không liệt kê framework.
 2. Vẽ ranh giới client → API → durable queue/DB → worker/graph → model → outbox.
@@ -1616,7 +1978,7 @@ cao; worker ngang nếu queue chờ; pool/index nếu DB bão hòa; SSE nếu po
    production chưa đo.
 7. Kết thúc bằng lộ trình đo lường và scale, gắn mỗi thay đổi với metric quyết định.
 
-Đường đọc code đề xuất trước phỏng vấn:
+Đường đọc code đề xuất trước khi trình bày hoặc review hệ thống:
 
 1. <code>app/main.py</code> và <code>app/api/{webhook,web,math_tutor}.py</code>.
 2. <code>app/storage/{models,repository}.py</code>.
