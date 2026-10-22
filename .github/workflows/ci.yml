@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python lint and tests
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.6-pg17-bookworm
+        env:
+          POSTGRES_DB: chatbot
+          POSTGRES_USER: chatbot
+          POSTGRES_PASSWORD: chatbot
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U chatbot -d chatbot"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://chatbot:chatbot@127.0.0.1:5432/chatbot_test
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.18"
+          enable-cache: true
+      - name: Install locked dependencies
+        run: uv sync --frozen
+      - name: Lint and compile
+        run: |
+          uv run ruff check .
+          uv run python -m compileall -q app serving training evaluation
+      - name: Test with PostgreSQL and pgvector
+        run: uv run pytest -q
+
+  widget:
+    name: Widget test and build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/widget/package-lock.json
+      - name: Install, test and build
+        working-directory: web/widget
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Verify generated bundle is committed
+        run: git diff --exit-code -- app/web/static/widget.js
+
+  container:
+    name: Container build and smoke
+    needs: [python, widget]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate Compose
+        env:
+          POSTGRES_PASSWORD: compose-ci-password
+        run: docker compose config -q
+      - uses: docker/setup-buildx-action@v4
+      - name: Build runtime image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          target: runtime
+          load: true
+          tags: fanpage-chatbot:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ignore-error=true
+      - name: Smoke image and full Compose stack
+        run: |
+          ./scripts/smoke_container.sh fanpage-chatbot:ci
+          ./scripts/smoke_compose.sh fanpage-chatbot:ci

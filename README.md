@@ -1,4 +1,8 @@
-# fanpage-chatbot
+# fanpage-chatbot · chatbot có nguồn và StudyScope
+
+[![CI](https://github.com/minhnhatdepzai/fanpage-chatbot/actions/workflows/ci.yml/badge.svg)](https://github.com/minhnhatdepzai/fanpage-chatbot/actions/workflows/ci.yml)
+[![Container](https://img.shields.io/badge/container-GHCR-blue?logo=docker)](https://github.com/minhnhatdepzai/fanpage-chatbot/pkgs/container/fanpage-chatbot)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Chatbot AI tiếng Việt cho Facebook Fanpage Messenger và khung chat website: FastAPI (webhook/API) → PostgreSQL
 (hàng đợi bền vững + pgvector) → worker → LangGraph → Qwen3-4B-Instruct-2507 + adapter VeRA chạy local trên GPU
@@ -12,8 +16,20 @@ câu hỏi kiến thức không có nguồn thì bị gắn ghi chú "chưa có 
 
 Tiến độ chi tiết và việc còn dở: [docs/progress.md](docs/progress.md). Môi trường máy: [docs/environment-report.md](docs/environment-report.md).
 
+**Phạm vi sản phẩm:** repository này phục vụ chatbot Messenger/website và các trang học Toán, Ngữ văn, Tiếng Anh.
+Nó **không có AI thử đồ**: không nhận ảnh người cùng ảnh quần áo để ghép trang phục, không có mô hình virtual try-on
+hay endpoint sinh ảnh người mặc đồ. Computer vision trong dự án dùng để **đọc chữ, nhận diện đồ vật và hiểu nội dung ảnh**;
+trực quan hóa Toán là **SVG dựng bằng mã từ lời giải**, không phải ảnh do mô hình sinh ra. Đây là hai luồng khác nhau.
+
 ## Mục lục
 
+- [Ứng dụng hoạt động như thế nào?](#ứng-dụng-hoạt-động-như-thế-nào)
+- [Chatbot: từ tin nhắn đến câu trả lời](#chatbot-từ-tin-nhắn-đến-câu-trả-lời)
+- [RAG được dùng ở đâu và hoạt động ra sao?](#rag-được-dùng-ở-đâu-và-hoạt-động-ra-sao)
+- [Computer vision và ảnh người dùng](#computer-vision-và-ảnh-người-dùng)
+- [Vì sao app vẽ được lời giải Toán?](#vì-sao-app-vẽ-được-lời-giải-toán)
+- [Fine-tuning: đã train gì, dùng ở đâu?](#fine-tuning-đã-train-gì-dùng-ở-đâu)
+- [Lý do chọn các kỹ thuật này](#lý-do-chọn-các-kỹ-thuật-này)
 - [Cài đặt từ máy mới](#cài-đặt-từ-máy-mới)
 - [Chạy bot](#chạy-bot)
 - [Độ chính xác và nguồn](#độ-chính-xác-và-nguồn)
@@ -27,7 +43,186 @@ Tiến độ chi tiết và việc còn dở: [docs/progress.md](docs/progress.m
 - [Docker cho API/worker](#docker-cho-apiworker)
 - [Dataset Kaggle](#dataset-kaggle)
 - [Vận hành, sao lưu và xử lý lỗi](#vận-hành-sao-lưu-và-xử-lý-lỗi)
+- [Đóng góp và CI/CD](#đóng-góp-và-cicd)
 - [Cấu trúc mã nguồn](#cấu-trúc-mã-nguồn)
+
+## Ứng dụng hoạt động như thế nào?
+
+| Bề mặt | Người dùng làm gì | Thành phần xử lý chính | Kết quả |
+|---|---|---|---|
+| Facebook Messenger | Nhắn chữ, gửi ảnh, hỏi tiếp hoặc xin gặp người thật | Meta webhook → FastAPI → PostgreSQL → worker → LangGraph | Tin trả lời qua Meta Send API; luồng handoff có thể ngừng bot |
+| Widget và `/web/chat` | Trò chuyện trên website | API và cùng worker/graph với Messenger | Câu trả lời, lịch sử, nguồn trích dẫn, vị trí hàng đợi |
+| `/web/math` | Chọn đề hoặc nhập/gửi ảnh đề Toán | Router → bộ giải xác định/SymPy → kiểm chứng → renderer SVG | Đáp số, bước giải, hình tương tác; bài chưa kiểm chứng không được chốt đáp án |
+| `/web/literature`, `/web/english` | Hỏi Văn/Anh, nộp bài viết | Router môn học → prompt chuyên biệt → LLM, nguồn và kiểm tra đầu ra | Giải thích, nhận xét, bài tham khảo; audio tùy tính năng |
+| Quản trị tài liệu | Nạp PDF/DOCX public hoặc internal | Parser/OCR → embedding → PostgreSQL/pgvector | Các đoạn có thể tra cứu cho RAG, có phạm vi truy cập |
+
+```text
+Messenger / widget ──> FastAPI ──> PostgreSQL: tin đến + hàng đợi bền vững
+                                      │
+                                      ▼
+                            worker / LangGraph
+                          ┌───────────┼───────────┐
+                       lịch sử      RAG/ảnh       Qwen local
+                          └───────────┼───────────┘
+                                      ▼
+                         kiểm tra đầu ra + nguồn
+                                      ▼
+                           Send API / widget
+
+Trang Toán ──> /web/math/route|solve|read-image ──> bộ giải và kiểm chứng
+                                                  └──> JSON `steps` + `visual` ──> SVG trong trình duyệt
+```
+
+Mã chỉ dẫn: [webhook](app/api/webhook.py), [API web](app/api/web.py), [worker](app/workers/processor.py),
+[graph](app/conversation/graph.py), [API Toán](app/api/math_tutor.py). API nhận sự kiện và ghi hàng đợi; worker
+xử lý sau, nhờ vậy việc gửi tin không phụ thuộc vào một request HTTP phải chờ LLM. Graph lưu tiến trình bằng
+PostgreSQL checkpointer theo `turn_id`; worker gửi kết quả với idempotency key để giảm rủi ro gửi trùng khi retry.
+`/health` và `/ready` chỉ kiểm tra một phần hạ tầng; muốn xác nhận chatbot chạy thực sự phải gửi một lượt chat và
+quan sát worker/model trả về.
+
+## Chatbot: từ tin nhắn đến câu trả lời
+
+1. Webhook Messenger kiểm tra sự kiện; web chat dùng phiên ký HMAC. Tin đến được ghi vào PostgreSQL. Worker lấy việc
+   bằng cơ chế khóa hàng, giữ thứ tự trong một cuộc hội thoại và cho phép các cuộc khác chạy song song.
+2. [LangGraph](app/conversation/graph.py) chạy các nút `load_state → check_handoff → prepare_history →
+   choose_response → call_model → check_output → prepare_result`. Nó đọc lịch sử, kiểm tra yêu cầu chuyển cho người
+   thật, nhận diện ảnh/môn học và chọn câu trả lời mẫu hoặc LLM. LangGraph là **bộ điều phối**, không phải một model
+   được fine-tune.
+3. Một số việc có đáp án xác định đi thẳng vào mã: phép tính đơn giản ở
+   [mathcalc.py](app/conversation/mathcalc.py), ngày/thứ ở [datecalc.py](app/conversation/datecalc.py). Trong graph,
+   đề Toán chưa có đường kiểm chứng phù hợp được đánh dấu `math_unverified`; trang `/web/math` có bộ giải riêng để
+   xuất lời giải có cấu trúc.
+4. Với câu cần kiến thức, graph lấy các đoạn từ kho YAML, tài liệu và có thể từ web. Prompt gồm hồ sơ Fanpage,
+   lịch sử được giới hạn/summarize, câu hỏi và các đoạn nguồn đánh số. [Qwen3-4B-Instruct-2507](serving/runtime.py)
+   sinh bản nháp qua model server local; nếu cấu hình, Ollama Q4 là dự phòng khi model server gặp lỗi. Adapter
+   LoRA/VeRA chỉ được nạp nếu registry và file trọng số tại máy chạy có sẵn.
+5. [output_check.py](app/conversation/output_check.py) loại token định dạng thừa, bí mật, URL và số trích dẫn
+   không thuộc danh sách nguồn; hệ thống tự gắn link nguồn hợp lệ. Với câu hỏi thiếu nguồn, chế độ `strict` mặc định
+   không để LLM đoán. Lớp này giảm lỗi có thể phát hiện bằng luật, **không chứng minh mọi câu có nguồn đều đúng**.
+
+Các prompt và chính sách câu trả lời nằm trong [prompts.py](app/conversation/prompts.py), cấu hình trong
+[settings.py](app/config/settings.py), hồ sơ Page trong [fanpage_profile.yaml](config/fanpage_profile.yaml).
+Handoff, chặn trả lời quá hạn, chống lặp câu và fallback là một phần của graph/worker, không phải khả năng tự phát
+của LLM.
+
+## RAG được dùng ở đâu và hoạt động ra sao?
+
+**RAG (Retrieval-Augmented Generation)** ở đây nghĩa là tìm thông tin tại thời điểm hỏi, đưa đoạn tìm được vào
+prompt cùng nguồn, rồi mới sinh câu trả lời. Nó không sửa trọng số Qwen. `graph._retrieve()` gộp ba nguồn sau;
+trợ lý nội bộ `botctl ask` cũng dùng kho tài liệu nhưng có quyền đọc `internal`:
+
+| Nguồn | Nạp/chỉ mục | Cách tìm khi hỏi | Khi nào phù hợp |
+|---|---|---|---|
+| YAML có nguồn ở `config/knowledge/*.yaml` | Mỗi entry cần `id`, `title`, `source`, `content`; `keywords` định tuyến | Chuẩn hóa tiếng Việt không dấu; chỉ xét entry có cụm keyword khớp nguyên vẹn rồi xếp BM25 theo từ đơn/cặp từ | Kiến thức đã biên tập, quy tắc/hồ sơ Page, chủ đề hẹp cần kiểm soát nguồn |
+| PDF/DOCX trong PostgreSQL | PDF/DOCX → đọc/OCR trang scan → làm sạch → đoạn 900 ký tự, chồng 150 ký tự → embedding 1024 chiều → pgvector | Vector cosine qua HNSW, lọc `visibility` trong SQL; lấy thêm thứ hạng từ khóa PostgreSQL và cộng điểm RRF cho các ứng viên vector; ngưỡng similarity mặc định 0,40 | Tài liệu dài, câu hỏi diễn đạt khác chữ trong văn bản |
+| Web có URL | Không lập chỉ mục lâu dài; tìm theo yêu cầu/cấu hình | Brave LLM Context hoặc DDGS + MediaWiki, lọc URL và đưa đoạn kết quả vào cùng khối nguồn | Sự kiện mới hoặc kho cục bộ không có câu trả lời |
+
+Chi tiết nhánh tài liệu: [parsing.py](app/rag/parsing.py), [ingest.py](app/rag/ingest.py),
+[embedding.py](serving/embedding.py), [store.py](app/rag/store.py), [retriever.py](app/rag/retriever.py).
+Embedding `AITeamVN/Vietnamese_Embedding` là model bên ngoài đã được tác giả của nó fine-tune từ BGE-M3;
+**dự án này không fine-tune embedding**. Server lấy vector từ CLS, chuẩn hóa L2; CSDL lưu model ID để tránh so
+vector từ hai không gian khác nhau. Cách ghép RRF hiện tại chỉ tăng điểm cho **ứng viên đã xuất hiện trong kết quả
+vector**; một đoạn chỉ trúng tìm kiếm từ khóa sẽ không tự đi vào kết quả cuối. Không nên gọi đây là hybrid retrieval
+bao phủ cả hai tập ứng viên.
+
+Tài liệu `public` mới được tìm trong Messenger/widget; `internal` dành cho lệnh hoặc API quản trị. Tài liệu public
+có dấu hiệu chứa dữ liệu cá nhân bị chặn khi nạp. Mỗi hit mang tiêu đề/URL hoặc tên tài liệu/số trang để hệ thống
+gắn nguồn. [knowledge.py](app/conversation/knowledge.py) chọn tối đa `knowledge_top_k`,
+[DocSearch](app/rag/retriever.py) chọn tối đa `doc_top_k`; web chỉ chạy khi chính sách cho phép và cần nguồn mới hoặc
+thiếu nguồn cục bộ. Nội dung nguồn là dữ liệu không tin cậy: prompt và kiểm tra đầu ra cố hạn chế lệnh chèn trong
+tài liệu/web, song trích nguồn **không đồng nghĩa** xác thực được mọi mệnh đề của bản nháp.
+
+**Vì sao có cả keyword và embedding?** YAML nhỏ và có chủ đề rõ nên cụm keyword giúp tránh lấy nhầm bài có một từ
+chung; BM25 xếp hạng nhanh và giải thích được. Tài liệu dài có nhiều cách hỏi nên embedding tăng khả năng tìm đoạn
+cùng nghĩa; tìm từ khóa bổ sung tín hiệu cho tên, số hiệu và thuật ngữ. Web giải quyết độ mới mà một checkpoint
+LLM hay file YAML cố định không có. RAG giúp cập nhật thông tin bằng cách đổi nguồn, không phải train lại model mỗi
+khi dữ kiện đổi. Ngưỡng 0,40 được hiệu chỉnh trên tập nhỏ của dự án, không phải ngưỡng đúng cho mọi tài liệu.
+
+## Computer vision và ảnh người dùng
+
+Luồng ảnh thật trong repo: ảnh Messenger/widget → kiểm tra nguồn, định dạng/kích thước →
+[EasyOCR](serving/vision.py) đọc chữ Việt/Anh → YOLO phát hiện các lớp đồ vật và độ tin cậy → VLM tùy chọn mô tả
+cảnh → [context.py](app/vision/context.py) biến kết quả thành ngữ cảnh chữ có giới hạn → chatbot trả lời. Ảnh được
+xử lý trong bộ nhớ; kết quả đã che thông tin cá nhân có thể được giữ trong lịch sử để người dùng hỏi tiếp. OCR là
+**nhận dạng ký tự**, YOLO là **phát hiện vật thể bằng hộp bao**; cả hai không tự hiểu toàn bộ cảnh hay tự sinh ảnh.
+
+Model COCO mặc định nhận 80 lớp phổ thông. Máy có trọng số YOLO26n riêng có thể nạp thêm 91 lớp học tập/giải trí
+qua `VISION_CUSTOM_WEIGHTS`; trọng số đó ở `artifacts/vision/`, bị `.gitignore` loại khỏi Git. File train là
+[train_yolo.py](training/vision/train_yolo.py); dữ liệu được chuẩn bị bởi
+[prepare_yolo_v2.py](training/vision/prepare_yolo_v2.py). Kết quả test lịch sử cho trọng số v3 nằm ở
+[phần ảnh](#ảnh-ocr--yolo--vlm); clone GitHub mới **không tự có checkpoint custom**. `VISION_VLM_ENABLED=false`
+mặc định. Khi bật VLM Qwen3-VL qua endpoint tương thích OpenAI, nó trả mô tả màu sắc, vị trí, quan hệ và số lượng;
+OCR/YOLO vẫn là tín hiệu đối chiếu và fallback. Dùng OCR/VLM đọc đề trong ảnh Toán chỉ là bước **nhập đề**;
+bộ giải xác định vẫn phải tính và kiểm tra lại.
+
+Ảnh mờ, vật bị che, lớp ngoài tập YOLO hoặc OCR sai dấu có thể cho kết quả sai. Khi không đọc được chữ/vật thể đủ
+chắc và VLM không có nội dung dùng được, graph trả lời rằng chưa nhận diện đủ thay vì để Qwen suy đoán. Dự án
+**không có phân đoạn cơ thể, ước lượng tư thế người, warping quần áo, diffusion/inpainting hay sinh ảnh thử đồ**.
+
+## Vì sao app vẽ được lời giải Toán?
+
+Đây là pipeline **tính toán và đồ họa vector**, không phải AI tạo ảnh. `POST /web/math/route` nhận biết đề Toán;
+`POST /web/math/solve` gọi [solver.py](app/math_tutor/solver.py) và các bộ giải bài toán có lời văn ở
+[school.py](app/math_tutor/school.py). Đầu vào biểu thức dùng parser AST với tên, phép toán và hàm được cho phép;
+không chạy `eval`/`sympify` trực tiếp trên chữ người dùng. Số học chính xác và đại số ký hiệu dùng SymPy; nghiệm
+được thế ngược hoặc kiểm tra bằng phép tính độc lập theo từng họ bài.
+
+Kết quả gồm `answer`, danh sách `steps`, thông tin `verification` và payload `visual` có `type` cùng tham số số học.
+[validation.py](app/math_tutor/validation.py) kiểm tra trường bắt buộc và số hữu hạn trước khi gắn trạng thái
+`verified`. Trình duyệt đọc payload đó tại [math.js](app/web/static/math.js) và
+[math-scenes.js](app/web/static/math-scenes.js), tạo SVG bằng `createElementNS`: trục số, phân số, đồ thị, nhóm đồ
+vật, biểu đồ, hình học, dòng thời gian... Các phần tử có `data-step` để hiện theo bước giải, tạm dừng/phát lại và
+phóng lớn. Ví dụ, với `visual.type = "arithmetic_sequence"`, số ghế/hàng và số hàng từ bộ giải quyết định số hình
+ghế được vẽ; nếu quá nhiều, SVG chỉ vẽ một phần và ghi rõ số lượng thật.
+
+Vì vậy hình đổi đúng theo dữ kiện bài toán mà không phải “LLM tự vẽ”. Lợi ích là đáp án và hình dùng chung dữ liệu,
+có thể kiểm thử hợp đồng và tải SVG. Giới hạn: chỉ những dạng mà solver/renderer đã hỗ trợ mới có hình tương ứng;
+ảnh đề có thể OCR/VLM chép sai, và bước kiểm chứng không bảo đảm đúng mọi đề Toán lớp 1–12. Bài chưa đủ dữ kiện
+hoặc ngoài phạm vi trả lỗi/`math_unverified`, không dùng một lời giải LLM nghe hợp lý để chốt đáp số.
+
+## Fine-tuning: đã train gì, dùng ở đâu?
+
+**Có fine-tuning thật**, nhưng cần tách rõ ba loại trọng số và trạng thái phát hành:
+
+| Thành phần | Dữ liệu và file huấn luyện | Kỹ thuật | Trạng thái/ý nghĩa |
+|---|---|---|---|
+| Chatbot Qwen3-4B | `training/datasets/edu_ent_sft_v1.yaml` → `training/configs/{lora,vera}-edu-ent-v1.yaml` → `training/scripts/train_sft.py` | SFT bằng PEFT: LoRA r=16 hoặc VeRA r=256, bf16 và gradient checkpointing; loss chỉ trên token assistant | Báo cáo lịch sử: LoRA và VeRA cùng 46/50 trên 50 ca tổng hợp; chọn VeRA v1 sau khi xem ca mâu thuẫn nguồn của LoRA. Registry ở **máy này** ghi VeRA v1 là active; clone GitHub không chứa adapter/registry. |
+| Ứng viên Qwen Toán 1–12 | `training/scripts/build_math_sft.py` → `data/processed/math_1_12_sft_v1.yaml` → `training/configs/vera-math-1-12-v1.yaml` → `training/scripts/train_sft.py` | VeRA r=256; 1.296 train/144 validation tổng hợp từ bộ giải đã kiểm chứng; 324 bước; lưu adapter và kiểm tra nạp lại | Log `runs/training/math-1-12-v1.log` trên máy này ghi validation loss 3,543 → 0,0854 và reload finite. Registry ghi `candidate`, chưa có eval report/promote; runtime Toán vẫn chốt đáp án bằng solver, không nhờ adapter này. |
+| YOLO học tập/giải trí | `training/vision/prepare_yolo_v2.py`, `oversample.py`, `train_yolo.py` | Fine-tune YOLO26n trên tập gộp có nhãn hộp bao | File `.pt` custom ở máy train, không nằm trong Git; chỉ được nạp nếu đường dẫn cấu hình tồn tại. |
+| Embedding và VLM | Model tải từ bên ngoài | Suy luận | Dự án không fine-tune `AITeamVN/Vietnamese_Embedding` hay Qwen3-VL. |
+
+Trong [train_sft.py](training/scripts/train_sft.py), dữ liệu YAML được dựng cùng system prompt và khối nguồn như
+lúc chạy thật; nhãn của user/system bị mask bằng `-100`, optimizer chỉ cập nhật adapter. Manifest lưu checksum,
+split train/validation và cấu hình; script lưu checkpoint, nạp lại để kiểm tra. Các file trọng số cần cho suy luận
+là `adapter_model.safetensors` kèm `adapter_config.json`, tokenizer/metadata; file `training_meta.json` và log
+giúp kiểm tra nguồn gốc, nhưng **log hoặc config một mình không phải trọng số**. Repo public loại `artifacts/`,
+`runs/`, `data/processed/` và `evaluation/results/`; clone mới chỉ có config/script/dataset YAML nhỏ đã commit,
+không tự có adapter VeRA, YOLO riêng hay dữ liệu Toán đã sinh.
+
+Fine-tuning ở đây dạy **cách trình bày, bám nguồn, phản hồi theo vai trò và định dạng**, không phải cách cập nhật
+tin tức hoặc bảo đảm phép tính. Kết quả 46/50 và validation loss là bằng chứng trong phạm vi tập kiểm tra tương ứng,
+không phải độ chính xác trên mọi hội thoại. Các adapter Văn/Anh/THPT khác có trong báo cáo
+[progress.md](docs/progress.md); nhiều ứng viên không vượt gate và không được promote.
+
+**LoRA khác VeRA ở đâu?** Với LoRA, một lớp tuyến tính giữ trọng số gốc `W` và học hai ma trận hạng thấp
+`A`, `B` để tạo phần bù `ΔW = B × A`. Với VeRA trong PEFT, các ma trận chiếu hạng thấp được cố định theo seed;
+optimizer học những vector tỉ lệ nhỏ hơn. Ở phép thử v1 trong [progress.md](docs/progress.md), LoRA học khoảng
+33,0 triệu tham số, VeRA khoảng 1,17 triệu. Cả hai dùng cùng dữ liệu SFT và so với Qwen base trên 50 ca riêng:
+base 43/50, LoRA 46/50, VeRA 46/50. VeRA được chọn vì ít tham số và sau khi xem ca LoRA trả lời trái nguồn;
+chênh lệch trên bộ nhỏ này chưa đủ chứng minh VeRA tốt hơn trên mọi câu hỏi. Adapter Toán cũng dùng VeRA để thử dạy
+cách diễn đạt, nhưng loss thấp trên dữ liệu tổng hợp gần mẫu train **không thay thế** đánh giá độc lập với đề mới.
+
+## Lý do chọn các kỹ thuật này
+
+| Quyết định | Vì sao chọn | Vì sao không dùng cách kia cho bài toán hiện tại |
+|---|---|---|
+| RAG cho kiến thức thay đổi | Sửa tài liệu/URL rồi truy xuất ở lượt hỏi, có thể hiển thị nguồn và quyền `public`/`internal` | Nhồi sự kiện mới vào fine-tuning làm checkpoint nhanh cũ, khó biết nguồn của từng câu |
+| YAML keyword + BM25, PDF/DOCX embedding + pgvector | Kho biên tập nhỏ cần khớp chủ đề chính xác; tài liệu dài cần bắt câu diễn đạt khác; PostgreSQL đã có cho hàng đợi | Chỉ dùng vector cho YAML có thể lấy mục gần nghĩa nhưng sai chủ đề; chỉ dùng keyword cho văn bản dài bỏ lỡ paraphrase |
+| LoRA/VeRA thay vì full fine-tuning Qwen | Cập nhật ít tham số, phù hợp GPU 16 GB, lưu và rollback adapter riêng; VeRA v1 được chọn sau đánh giá ca lỗi | Full fine-tuning tốn bộ nhớ/chi phí hơn cho tập SFT nhỏ và không giải quyết việc thiếu nguồn; VeRA không mặc nhiên tốt hơn LoRA ở mọi dữ liệu |
+| SymPy/luật + SVG cho Toán | Có thể thế ngược đáp án, dùng số chính xác, truyền tham số hình có kiểm tra | LLM hoặc image generator có thể tạo hình đẹp nhưng sai số lượng/tỉ lệ; chúng không cung cấp bảo đảm toán học cho miền đã hỗ trợ |
+| OCR + YOLO, VLM tùy chọn | OCR đọc đề/chữ, YOLO cho lớp và độ tin cậy, VLM thêm ngữ cảnh cảnh khi cần | Chỉ YOLO không đọc văn bản/quan hệ; chỉ VLM khó đối chiếu phát hiện và tốn tài nguyên hơn trên GPU nhỏ |
+
+Đây là lựa chọn theo phạm vi repo và kết quả thử hiện có, không phải tuyên bố rằng kỹ thuật khác luôn kém hơn.
 
 ## Cài đặt từ máy mới
 
@@ -430,9 +625,9 @@ Nếu Ollama đã chạy bằng systemd thì để dịch vụ đó quản lý. 
 
 ## Docker cho API/worker
 
-Luồng mặc định đã kiểm thử là PostgreSQL trong Docker, còn model/API/worker trên host.
-Profile `app` cung cấp API và worker trong container; **model GPU vẫn chạy trên host**.
-Profile này chưa được xác nhận end-to-end trong lần xuất bản đầu tiên.
+Dockerfile có target `runtime` cho API/worker/migration và target `test` cho kiểm thử.
+Image chạy bằng user không phải root, có healthcheck và không chứa `.env`, model weights, Torch/CUDA hay dữ liệu riêng.
+Luồng mặc định giữ model GPU trên host; profile `app` chạy PostgreSQL, migration, API và worker trong container.
 
 Dừng API/worker đang chiếm cổng trước khi chuyển. Model server cần nghe ở địa chỉ container truy cập được:
 
@@ -453,6 +648,21 @@ EMBEDDING_BASE_URL=http://host.docker.internal:8100/v1
 docker compose --profile app up -d --build
 docker compose --profile app ps
 docker compose --profile app logs --tail=100 api worker migrate
+```
+
+Kiểm tra image độc lập bằng health endpoint, trang StudyScope và một phép toán đã kiểm chứng:
+
+```bash
+make container-smoke
+```
+
+Workflow `Publish container` phát hành image Linux/amd64 lên GHCR khi đẩy tag dạng `v1.2.3` hoặc chạy thủ công.
+Sau khi package đã được đặt quyền truy cập phù hợp, có thể dùng image phát hành mà không build lại:
+
+```bash
+export FANPAGE_CHATBOT_IMAGE=ghcr.io/minhnhatdepzai/fanpage-chatbot:latest
+docker compose --profile app pull
+docker compose --profile app up -d --no-build --wait
 ```
 
 Compose thay `DATABASE_URL` bằng hostname `postgres`; localhost trong container không phải host.
@@ -603,8 +813,24 @@ docker compose exec -T postgres pg_restore -U chatbot -d chatbot_restore --no-ow
 
 `.gitignore` loại `.env`, credential, log, DB dump trong `runs/`, model weights, dữ liệu thô/xử lý/tài liệu và kết quả
 đánh giá chứa hội thoại. Repo chứa mã nguồn, mẫu cấu hình, widget bundle, dữ liệu tổng hợp và metadata nguồn dataset.
-Không có giấy phép riêng được tự gán cho mã nguồn dự án; kiểm tra điều khoản phụ thuộc/model/dataset trước khi phân phối.
-Báo cáo môi trường là ghi nhận lịch sử, không phải trạng thái hiện tại của token hay dịch vụ.
+Mã nguồn dùng giấy phép [MIT](LICENSE); model, dataset, tài liệu và artifact bên ngoài vẫn có giấy phép/quyền sử dụng
+riêng cần kiểm tra trước khi phân phối. Báo cáo môi trường là ghi nhận lịch sử, không phải trạng thái hiện tại của
+token hay dịch vụ.
+
+## Đóng góp và CI/CD
+
+Đọc [CONTRIBUTING.md](CONTRIBUTING.md) để thiết lập môi trường, chạy test và gửi pull request;
+[SECURITY.md](SECURITY.md) hướng dẫn báo cáo lỗ hổng riêng tư. Các lệnh kiểm tra chung:
+
+```bash
+make check
+make container-smoke
+```
+
+GitHub Actions chạy toàn bộ test Python với PostgreSQL/pgvector, Ruff, test/build widget,
+kiểm tra Compose, build image và smoke test container. Dependabot mở pull request cập nhật dependency Python,
+widget và Actions hằng tuần. CD tạo tag semver, SHA và provenance attestation cho image GHCR; repository không cần
+secret registry riêng vì workflow dùng `GITHUB_TOKEN` với quyền `packages: write`.
 
 ## Cấu trúc mã nguồn
 

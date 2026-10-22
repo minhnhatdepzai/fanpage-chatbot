@@ -2,6 +2,7 @@
 .env.*
 !.env.example
 .git
+.github
 .venv
 __pycache__
 *.pyc
@@ -14,8 +15,6 @@ hf_cache
 outputs
 runs
 evaluation/results
-docs
-tests
 *.safetensors
 *.bin
 kaggle.json
@@ -24,3 +23,9 @@ node_modules
 *.pt
 *.gguf
 *.ckpt
+
+.coverage
+htmlcov
+.idea
+.vscode
+*.log

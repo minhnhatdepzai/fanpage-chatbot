@@ -1,31 +1,49 @@
-# Dịch vụ phụ thuộc + (tùy chọn) API/worker trong Docker.
-#   Dev (khuyến nghị): docker compose up -d postgres   # API, worker, model server chạy trên host bằng uv
-#   Toàn bộ trong Docker: docker compose --profile app up -d --build
-# Model server (GPU) chạy trên host vì máy chưa cài NVIDIA Container Toolkit.
+# Development: docker compose up -d --wait postgres
+# Full app:    docker compose --profile app up -d --build --wait
+# Published:   FANPAGE_CHATBOT_IMAGE=ghcr.io/minhnhatdepzai/fanpage-chatbot:latest \
+#              docker compose --profile app up -d --no-build --wait
 name: fanpage-chatbot
 
 x-app: &app
-  build: .
-  env_file: .env
+  image: ${FANPAGE_CHATBOT_IMAGE:-fanpage-chatbot:local}
+  build:
+    context: .
+    target: runtime
+    args:
+      VERSION: ${IMAGE_VERSION:-dev}
+      VCS_REF: ${VCS_REF:-local}
+      SOURCE_URL: ${SOURCE_URL:-https://github.com/minhnhatdepzai/fanpage-chatbot}
+  env_file:
+    - path: ${APP_ENV_FILE:-.env}
+      required: false
   environment:
-    DATABASE_URL: postgresql+psycopg://chatbot:${POSTGRES_PASSWORD:?Đặt POSTGRES_PASSWORD trong .env}@postgres:5432/chatbot
+    # Container configuration comes from env_file/environment, never a file baked into the image.
+    BOT_ENV_FILE: ""
+    DATABASE_URL: postgresql+psycopg://chatbot:${POSTGRES_PASSWORD:-change-me-local-only}@postgres:5432/chatbot
     LLM_BASE_URL: ${LLM_BASE_URL_FOR_DOCKER:-http://host.docker.internal:8100/v1}
+    EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL_FOR_DOCKER:-http://host.docker.internal:8100/v1}
   extra_hosts:
     - "host.docker.internal:host-gateway"
+  init: true
   restart: unless-stopped
+  stop_grace_period: 30s
   profiles: ["app"]
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
 
 services:
   postgres:
-    # pgvector (vector DB cho embedding) trên PostgreSQL 17 (Debian/glibc). Chuyển từ postgres:17-alpine bằng
-    # dump/restore sang volume MỚI (collation musl -> glibc khác nhau, không dùng lại thư mục dữ liệu cũ).
+    # PostgreSQL 17 with pgvector. Move Alpine data through dump/restore instead of reusing its data directory.
     image: pgvector/pgvector:0.8.6-pg17-bookworm
     environment:
       POSTGRES_DB: chatbot
       POSTGRES_USER: chatbot
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Đặt POSTGRES_PASSWORD trong .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-local-only}
     ports:
-      - "127.0.0.1:55432:5432"   # chỉ mở trên localhost
+      - "127.0.0.1:${POSTGRES_BIND_PORT:-55432}:5432"
     volumes:
       - pgdata_pg17vec:/var/lib/postgresql/data
     healthcheck:
@@ -34,10 +52,17 @@ services:
       timeout: 3s
       retries: 30
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   migrate:
     <<: *app
     command: ["botctl", "db", "migrate"]
+    healthcheck:
+      disable: true
     restart: "no"
     depends_on:
       postgres:
@@ -47,7 +72,7 @@ services:
     <<: *app
     command: ["botctl", "api", "--host", "0.0.0.0", "--port", "8000"]
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${API_BIND_PORT:-8000}:8000"
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -55,16 +80,19 @@ services:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
       interval: 15s
       timeout: 5s
+      start_period: 15s
       retries: 5
 
   worker:
     <<: *app
     command: ["botctl", "worker"]
+    healthcheck:
+      disable: true
     depends_on:
       migrate:
         condition: service_completed_successfully
 
 volumes:
   pgdata_pg17vec:
-  # volume cũ (postgres:17-alpine) giữ lại để rollback; xóa bằng `docker volume rm fanpage-chatbot_pgdata` khi chắc chắn
+  # Kept for rollback from the historical postgres:17-alpine deployment.
   pgdata:
