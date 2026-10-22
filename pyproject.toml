@@ -39,7 +39,7 @@ ml = [
     "safetensors>=0.8",
     "huggingface-hub>=1.32",
     "easyocr==1.7.2",
-    "ultralytics==8.4.160",
+    "ultralytics==8.4.182",
 ]
 # Tìm và tải dataset Kaggle.
 data = [
