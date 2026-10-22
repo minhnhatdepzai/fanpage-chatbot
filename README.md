@@ -45,6 +45,7 @@ trực quan hóa Toán là **SVG dựng bằng mã từ lời giải**, không p
 - [Vận hành, sao lưu và xử lý lỗi](#vận-hành-sao-lưu-và-xử-lý-lỗi)
 - [Đóng góp và CI/CD](#đóng-góp-và-cicd)
 - [Cấu trúc mã nguồn](#cấu-trúc-mã-nguồn)
+- [Cẩm nang phỏng vấn full-stack](#cẩm-nang-phỏng-vấn-full-stack)
 
 ## Ứng dụng hoạt động như thế nào?
 
@@ -855,3 +856,771 @@ migrations/        Alembic, pgvector
 scripts/           Start/stop, tải model, benchmark/replay
 docs/              Tiến độ, môi trường, hiệu năng, riêng tư
 ```
+
+## Cẩm nang phỏng vấn full-stack
+
+Phần này dùng để trình bày dự án trong phỏng vấn. Mọi mô tả bên dưới bám theo mã nguồn hiện tại. Các mục ghi
+<strong>đã triển khai</strong> có đường dẫn hoặc bài test trong repository; mục <strong>đề xuất</strong> là hướng mở rộng;
+chỉ số ghi <strong>chưa đo</strong> không được dùng như kết quả production.
+
+### 1. Bài toán và cách giới thiệu trong 60 giây
+
+<blockquote>
+Fanpage Chatbot là hệ thống hội thoại đa kênh cho Messenger và website, đồng thời có phòng học Toán, Văn và
+Tiếng Anh. FastAPI nhận request nhưng không giữ kết nối chờ model. Tin nhắn được ghi cùng lịch xử lý vào
+PostgreSQL trong một transaction, worker lấy việc bằng lease và <code>FOR UPDATE SKIP LOCKED</code>, sau đó chạy
+LangGraph. Graph chọn template, bộ giải xác định hoặc LLM; có thể bổ sung RAG từ YAML, PDF/DOCX, web và phân tích
+ảnh. Kết quả qua guardrail, được ghi vào outbox có idempotency key rồi mới gửi cho Meta hoặc để widget lấy về.
+PostgreSQL cũng lưu lịch sử, feedback, vector 1024 chiều và checkpoint. Ứng dụng được đóng gói bằng Docker
+multi-stage, kiểm thử trên GitHub Actions và phát hành image có provenance lên GHCR.
+</blockquote>
+
+#### Yêu cầu chức năng
+
+- Nhận và trả lời tin nhắn Messenger, web, chữ và ảnh; cho phép chuyển sang người thật.
+- Giữ lịch sử, tóm tắt hội thoại dài và tiếp tục được sau khi worker khởi động lại.
+- Trả lời dựa trên nguồn; phân biệt dữ liệu <code>public</code> và <code>internal</code>.
+- Giải các dạng Toán đã hỗ trợ bằng code, kiểm chứng nghiệm và dựng SVG từ cùng payload.
+- Thu feedback, duyệt mẫu, xuất dataset có checksum để phục vụ vòng lặp huấn luyện.
+
+#### Yêu cầu phi chức năng và cách đáp ứng
+
+| Yêu cầu | Cách triển khai hiện tại | Bằng chứng cần nói khi phỏng vấn |
+|---|---|---|
+| Bền vững | PostgreSQL queue, transaction, lease, LangGraph checkpoint | API chết sau ACK không làm mất tin đã commit |
+| Không gửi trùng | unique <code>mid</code>, idempotency key từng chunk, trạng thái outbox | retry không tạo thêm outbound cùng turn/chunk |
+| Mở rộng ngang | nhiều worker claim hội thoại bằng <code>SKIP LOCKED</code> | một hội thoại xử lý tuần tự, hội thoại khác chạy song song |
+| Bảo mật | HMAC webhook, session ký HMAC, admin key, SecretStr, PII redaction | secret không bake vào image hoặc log |
+| Quan sát được | structured log, turn metadata, latency/token, heartbeat, Langfuse tùy chọn | truy từ turn tới model, adapter, flags và outcome |
+| Triển khai lặp lại | <code>uv.lock</code>, npm lockfile, migration, Docker image | CI dựng lại môi trường từ lockfile |
+
+### 2. Kiến trúc tổng thể từ người dùng đến model
+
+```mermaid
+flowchart LR
+    subgraph Clients["Kênh người dùng"]
+        META["Facebook Messenger"]
+        WEB["Widget TypeScript"]
+        STUDY["Trang Toán, Văn, Anh"]
+        ADMIN["CLI / Admin API"]
+    end
+
+    subgraph API["FastAPI"]
+        WH["Webhook + HMAC"]
+        WA["Web session + rate limit"]
+        MA["Math / TTS / static UI"]
+        AA["Admin auth"]
+    end
+
+    subgraph DATA["PostgreSQL 17 + pgvector"]
+        MSG["Conversation / message / turn"]
+        QUEUE["Schedule + lease + outbox"]
+        CP["LangGraph checkpoints"]
+        KB["Documents + chunks + HNSW"]
+    end
+
+    subgraph WORK["Worker"]
+        CLAIM["Claim conversation"]
+        GRAPH["LangGraph"]
+        GUARD["Output checks"]
+        SEND["Delivery gate + sender"]
+    end
+
+    subgraph AI["Dịch vụ AI"]
+        LLM["Qwen3-4B + VeRA tùy artifact"]
+        FALLBACK["Ollama Q4 dự phòng"]
+        EMB["Vietnamese embedding 1024d"]
+        VISION["EasyOCR + YOLO + Qwen3-VL tùy chọn"]
+        SEARCH["YAML / web search"]
+    end
+
+    META --> WH
+    WEB --> WA
+    STUDY --> MA
+    ADMIN --> AA
+    WH --> MSG
+    WA --> MSG
+    AA --> KB
+    MSG --> QUEUE
+    QUEUE --> CLAIM
+    CLAIM --> GRAPH
+    GRAPH <--> CP
+    GRAPH --> KB
+    GRAPH --> SEARCH
+    GRAPH --> VISION
+    GRAPH --> LLM
+    LLM -. timeout hoặc unavailable .-> FALLBACK
+    KB <--> EMB
+    GRAPH --> GUARD --> SEND
+    SEND --> META
+    SEND --> WEB
+```
+
+Các ranh giới quan trọng:
+
+- Trạng thái nghiệp vụ cần bền vững của API/worker nằm trong PostgreSQL; bộ đếm rate limit cục bộ chỉ là trạng thái tạm của process.
+- Model server/GPU tách khỏi image API/worker. Nhờ đó deploy web không cần đóng gói Torch, CUDA và hàng GB weights.
+- LangChain cung cấp message/provider abstraction; LangGraph điều phối state machine và checkpoint. Chúng không
+  phải model và không phải hai lựa chọn thay thế nhau.
+- SymPy, parser, validator và SVG renderer là pipeline xác định; chúng không gọi image generator.
+
+### 3. Luồng request đầy đủ
+
+#### 3.1 Messenger: nhận, xếp hàng, suy luận và gửi
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor U as Người dùng
+    participant M as Meta
+    participant A as FastAPI webhook
+    participant D as PostgreSQL
+    participant W as Worker
+    participant G as LangGraph
+    participant L as LLM/RAG/Vision
+
+    U->>M: Gửi chữ hoặc ảnh
+    M->>A: POST /webhook + X-Hub-Signature-256
+    A->>A: Giới hạn body, kiểm chữ ký, parse event
+    A->>D: BEGIN
+    A->>D: UPSERT conversation
+    A->>D: INSERT message, bỏ qua mid trùng
+    A->>D: UPDATE next_run_at theo debounce
+    A->>D: COMMIT
+    A-->>M: 200 nhanh
+
+    loop Poll queue
+        W->>D: Claim bằng SKIP LOCKED + lease
+    end
+    W->>D: Tạo/resume turn, consume message pending
+    W->>G: ainvoke với thread_id của turn
+    G->>D: Đọc lịch sử, summary, handoff, checkpoint
+    G->>L: Truy xuất nguồn / phân tích ảnh / gọi model khi cần
+    L-->>G: Draft + metadata
+    G->>G: Kiểm nguồn, link, claim, style, chia chunk
+    G->>D: Ghi decision + outbox, key turn_id:chunk_index
+    W->>D: Kiểm lại handoff, thời hạn, rate limit và lease
+    W->>M: Send API kèm idempotency metadata
+    M-->>W: message_id hoặc lỗi phân loại
+    W->>D: sent / uncertain / failed, hoàn tất turn
+    M-->>U: Hiển thị câu trả lời
+```
+
+Điểm thiết kế cần giải thích:
+
+1. Webhook chỉ ACK sau khi transaction chứa cả tin nhắn và lịch chạy đã commit.
+2. Meta có thể giao lại event; unique index trên <code>mid</code> biến lần giao sau thành no-op.
+3. Debounce gom nhiều tin người dùng gửi liên tiếp thành một turn nhưng có <code>max_wait</code> để không chờ vô hạn.
+4. Lease được gia hạn trong lúc graph chạy. Worker mất lease không được tiếp tục gửi.
+5. Outbox được persist trước side effect. Trạng thái <code>sending</code>/<code>uncertain</code> ngăn retry mù khi
+   không biết Meta đã nhận hay chưa; echo webhook có thể xác nhận lại.
+
+#### 3.2 Widget website
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant B as Browser
+    participant A as FastAPI
+    participant D as PostgreSQL
+    participant W as Worker
+
+    B->>A: POST /web/session
+    A-->>B: session_id + HMAC token
+    B->>B: Lưu session và tối đa 50 tin trong localStorage
+    B->>A: POST /web/messages hoặc /web/images
+    A->>A: Verify token, origin/rate limit, validate kích thước
+    A->>D: Ingest vào cùng queue
+    A-->>B: 202 + trạng thái hàng đợi
+    W->>D: Xử lý bằng cùng graph với Messenger
+    loop tối đa 90 giây, mỗi 1.5 giây
+        B->>A: GET /web/messages?after=last_id
+        A->>D: Đọc outbound mới và queue position
+        A-->>B: messages + pending + queue
+    end
+```
+
+Widget dùng Shadow DOM để CSS của trang chủ không làm hỏng UI. Polling được chọn vì đơn giản, phục hồi dễ qua
+<code>after=last_id</code> và không cần hạ tầng giữ kết nối. Nếu lượng client lớn, đề xuất đổi sang SSE cho luồng
+một chiều server → browser; WebSocket chỉ cần khi có tương tác hai chiều thời gian thực thực sự.
+
+#### 3.3 State machine của LangGraph
+
+```mermaid
+flowchart TD
+    START --> LOAD["load_state"]
+    LOAD --> HAND["check_handoff"]
+    HAND -->|handoff hoặc template| RESULT["prepare_result"]
+    HAND -->|tiếp tục| HISTORY["prepare_history"]
+    HISTORY --> CHOOSE["choose_response"]
+    CHOOSE -->|template / code / stop| RESULT
+    CHOOSE -->|cần LLM| MODEL["call_model"]
+    MODEL --> CHECK["check_output"]
+    CHECK --> RESULT
+    RESULT --> END
+```
+
+- <code>load_state</code>: lấy inbound, history, summary, trạng thái handoff.
+- <code>check_handoff</code>: dừng bot hoặc trả acknowledgement khi người dùng muốn gặp người thật.
+- <code>prepare_history</code>: giới hạn token; tóm tắt phần cũ và che PII nếu vượt ngưỡng.
+- <code>choose_response</code>: chọn template, calculator, Toán/Văn/Anh, ảnh, RAG hoặc LLM.
+- <code>call_model</code>: gọi provider với timeout/retry có deadline; fallback chỉ cho timeout/unavailable.
+- <code>check_output</code>: kiểm citation/link, claim không có bằng chứng, định dạng và chế độ grounding.
+- <code>prepare_result</code>: disclosure, chia tin, trả action/outcome thuần dữ liệu.
+
+Graph tránh gọi Send API trong node. Side effect được thực hiện sau khi graph hoàn tất và decision đã lưu, nhờ đó
+resume checkpoint không tự gửi lại tin.
+
+### 4. Thiết kế frontend
+
+| Phần | Công nghệ và trách nhiệm | Quyết định đáng nói |
+|---|---|---|
+| Widget | TypeScript → bundle JavaScript, Shadow DOM, Fetch API | nhúng được vào website bất kỳ, không cần framework runtime |
+| Math UI | HTML/CSS/JS, SVG DOM API | renderer nhận payload số đã kiểm tra, không chèn SVG/HTML tùy ý từ model |
+| Study pages | route tĩnh từ FastAPI | cùng origin với API nên cấu hình triển khai đơn giản |
+| State client | <code>localStorage</code> cho session, 50 tin gần nhất, <code>lastId</code> | reload vẫn tiếp tục poll; server mới là nguồn dữ liệu bền vững |
+| Accessibility | dialog label, live log, keyboard Enter/Shift+Enter | widget dùng được với bàn phím và screen reader cơ bản |
+
+Ảnh web được decode bằng browser, resize cạnh dài tối đa 1600 px, chuyển JPEG rồi mới gửi base64. Server vẫn kiểm
+MIME, kích thước và giới hạn request vì kiểm tra client không phải ranh giới bảo mật.
+
+Luồng Toán:
+
+```mermaid
+flowchart LR
+    INPUT["Nhập chữ / chọn đề / gửi ảnh"] --> ROUTE["POST /web/math/route"]
+    ROUTE -->|dạng đã hỗ trợ| SOLVER["Parser an toàn + solver/SymPy"]
+    ROUTE -->|câu hỏi thường| CHAT["Queue chatbot"]
+    SOLVER --> VERIFY["Thế ngược / validation"]
+    VERIFY --> JSON["answer + steps + visual payload"]
+    JSON --> SVG["math.js + math-scenes.js dựng SVG"]
+    SVG --> UI["Phát từng bước / tải SVG"]
+```
+
+### 5. API backend và nguyên tắc HTTP
+
+| Nhóm endpoint | Mục đích | Kiểm soát |
+|---|---|---|
+| <code>GET/POST /webhook</code> | Meta verify và nhận event | verify token, HMAC SHA-256, body limit, dedupe |
+| <code>/web/session</code>, <code>/web/messages</code>, <code>/web/images</code> | phiên và chat web | HMAC token, rate limit IP, validation |
+| <code>/web/math/*</code> | route, solve, đọc ảnh đề | parser an toàn, giới hạn input, verification |
+| <code>/web/tts/*</code> | danh sách voice và tổng hợp speech | session ký, giới hạn text |
+| <code>/admin/*</code> | feedback, handoff, tài liệu, internal ask | <code>X-Admin-Key</code>; tắt nếu key rỗng |
+| <code>/health</code> | liveness của process | không phụ thuộc DB/model |
+| <code>/ready</code> | DB, migration và cấu hình bắt buộc | không được coi là test inference |
+
+POST chat trả <code>202 Accepted</code> vì công việc đã nhận nhưng xử lý bất đồng bộ. <code>GET /web/messages</code>
+dùng cursor <code>after</code> để client không tải lại toàn bộ lịch sử.
+
+### 6. Database: lưu gì và vì sao
+
+```mermaid
+erDiagram
+    CONVERSATIONS ||--o{ MESSAGES : contains
+    CONVERSATIONS ||--o{ TURNS : processes
+    TURNS ||--o{ MESSAGES : groups
+    TURNS ||--o{ FEEDBACK : receives
+    TURNS o|--o{ TRAINING_CANDIDATES : produces
+    DATASET_EXPORTS }o--o{ TRAINING_CANDIDATES : stores_candidate_ids
+    KB_DOCUMENTS ||--o{ KB_CHUNKS : splits
+
+    CONVERSATIONS {
+        uuid id PK
+        string page_id
+        string psid
+        string user_ref
+        bool handoff_active
+        text summary
+        bigint summary_upto_seq
+        timestamptz next_run_at
+        string lease_owner
+        timestamptz lease_expires_at
+    }
+    MESSAGES {
+        bigint id PK
+        uuid conversation_id FK
+        uuid turn_id FK
+        string role
+        string status
+        string mid UK
+        string idempotency_key UK
+        jsonb payload
+        text text
+    }
+    TURNS {
+        uuid id PK
+        uuid conversation_id FK
+        string status
+        string model_name
+        string adapter_version
+        int model_latency_ms
+        int total_latency_ms
+        jsonb check_flags
+        string trace_id
+    }
+    FEEDBACK {
+        bigint id PK
+        uuid turn_id FK
+        string rating
+        text corrected_reply
+    }
+    TRAINING_CANDIDATES {
+        bigint id PK
+        uuid turn_id FK
+        string status
+        jsonb sample
+        bool pii_redacted
+        bool usage_rights_confirmed
+    }
+    DATASET_EXPORTS {
+        bigint id PK
+        string version UK
+        string sha256
+        jsonb candidate_ids
+    }
+    KB_DOCUMENTS {
+        uuid id PK
+        string visibility
+        string sha256
+        string embedding_model
+    }
+    KB_CHUNKS {
+        bigint id PK
+        uuid document_id FK
+        vector embedding
+        text content
+        int page_from
+        int page_to
+    }
+```
+
+Các bảng phụ:
+
+- <code>worker_heartbeats</code>: thời điểm sống và thông tin từng worker, dùng cho vận hành/healthcheck.
+- <code>audit_log</code>: hành động quản trị, handoff notification và xóa dữ liệu.
+- Các bảng checkpoint do LangGraph Postgres saver quản lý: lưu state/step để resume turn.
+- Quan hệ dataset/candidate trong hình là quan hệ logic qua mảng <code>candidate_ids</code>; schema hiện không có join table hay foreign key cho mảng này.
+
+#### Transaction và consistency
+
+- Ingest: upsert conversation, insert message và schedule nằm trong cùng transaction.
+- Claim: update lease dựa trên một subquery <code>FOR UPDATE SKIP LOCKED</code>.
+- Persist decision: outbox, summary, handoff và metadata turn được ghi trước khi delivery.
+- Delivery: <code>pending → sending</code> là update nguyên tử và yêu cầu lease còn hiệu lực.
+- Mục tiêu là xử lý công việc ít nhất một lần, còn side effect gửi tin tiến gần exactly-once bằng dedupe,
+  idempotency và trạng thái <code>uncertain</code>. Không nên tuyên bố exactly-once tuyệt đối qua API bên ngoài.
+
+#### Index và truy vấn
+
+- Unique <code>(page_id, psid)</code> cho một hội thoại theo Page/người dùng.
+- Partial unique index cho <code>messages.mid</code> và <code>idempotency_key</code> khi khác null.
+- Index <code>conversations.next_run_at</code> chỉ trên hàng khác null để quét queue nhỏ hơn.
+- Index lịch sử theo <code>(conversation_id, id)</code> và trạng thái theo conversation/role/status.
+- HNSW với cosine cho vector; GIN full-text cho nội dung chuẩn hóa; index document FK để xóa/đọc chunk.
+
+PostgreSQL được chọn vì dự án cần transaction giữa message và queue, dữ liệu quan hệ, JSONB, full-text, vector và
+checkpoint. Redis/Kafka có thể tăng throughput ở quy mô lớn nhưng làm tăng số hệ thống cần vận hành và bài toán
+đồng bộ với nguồn dữ liệu chính.
+
+### 7. RAG: ingest và query
+
+```mermaid
+flowchart TD
+    FILE["PDF / DOCX"] --> PARSE["Parse text; OCR trang scan khi cần"]
+    PARSE --> CLEAN["Chuẩn hóa + kiểm PII cho public"]
+    CLEAN --> CHUNK["Chia đoạn, giữ page/source"]
+    CHUNK --> EMBED["Vietnamese embedding 1024d"]
+    EMBED --> STORE["kb_documents + kb_chunks"]
+    STORE --> HNSW["HNSW cosine"]
+    STORE --> FTS["Full-text keyword"]
+
+    Q["Câu hỏi"] --> QE["Embedding query"]
+    Q --> QK["Keyword query"]
+    QE --> HNSW
+    QK --> FTS
+    HNSW --> FILTER["Vector candidates qua similarity + visibility"]
+    FTS --> KWRANK["Keyword rank"]
+    FILTER --> RRF["RRF: cộng keyword rank nếu cùng candidate"]
+    KWRANK --> RRF
+    RRF --> PROMPT["Context có title/source/page"]
+    PROMPT --> ANSWER["LLM"]
+    ANSWER --> CHECK["Citation/output check"]
+```
+
+Kho YAML nhỏ dùng keyword và BM25; tài liệu dài lấy ứng viên bằng embedding rồi dùng keyword rank để cộng điểm
+RRF cho những ứng viên trùng khớp. Đây chưa phải phép hợp đầy đủ hai tập ứng viên. <code>public</code>/
+<code>internal</code> được lọc ở truy vấn, không đợi đến prompt. Hệ thống lưu nguồn và trang cùng chunk để câu trả
+lời có thể dẫn lại. RAG cập nhật sự kiện bằng dữ liệu, còn fine-tuning điều chỉnh hành vi/định dạng; hai kỹ thuật
+giải quyết hai vấn đề.
+
+### 8. Model và thành phần AI
+
+| Thành phần | Vai trò | Chạy ở đâu | Train bởi dự án? |
+|---|---|---|---|
+| Qwen3-4B-Instruct-2507 | sinh câu trả lời chính | model server GPU, OpenAI-compatible API | có pipeline SFT LoRA/VeRA; weight private không nằm trong Git |
+| VeRA/LoRA adapter | điều chỉnh phong cách, grounding và format | gắn vào Qwen local | có script/config; chỉ adapter đã qua gate mới nên promote |
+| Ollama Q4 | fallback khi model chính timeout/unavailable | host hoặc endpoint riêng | không |
+| AITeamVN/Vietnamese_Embedding | vector 1024 chiều cho tài liệu | embedding endpoint/model server | không |
+| EasyOCR | đọc chữ Việt/Anh từ ảnh | vision service | không |
+| YOLO COCO/custom | phát hiện vật thể và bounding box | vision service | có pipeline train custom; weight không nằm trong Git |
+| Qwen3-VL | mô tả cảnh tùy chọn | endpoint OpenAI-compatible | không |
+| SymPy + solver | tính/kiểm chứng Toán | trong API | không phải ML model |
+| edge-tts/Web Speech | audio bài học | dịch vụ web/browser | không phải voice model được train trong repo |
+
+LoRA học hai ma trận hạng thấp tạo phần bù cho trọng số gốc. VeRA cố định các projection ngẫu nhiên và học vector
+scale, nên số tham số train có thể nhỏ hơn. Fine-tuning không cập nhật kiến thức mới đáng tin cậy và không thay RAG.
+
+### 9. Docker: từ source thành container
+
+```mermaid
+flowchart TD
+    SRC["Source + pyproject + uv.lock"] --> B["builder: python:3.12-slim"]
+    UV["uv 0.12.18 image"] --> B
+    B --> CACHE["Cài dependency trước để tận dụng layer cache"]
+    CACHE --> APP["Copy source và migration/config"]
+    APP --> SYNC["uv sync --frozen --no-dev"]
+    SYNC --> TEST["test target: thêm dev deps + tests"]
+    SYNC --> RUN["runtime: chỉ .venv + source cần chạy"]
+    RUN --> USER["USER 10001, healthcheck, OCI labels"]
+    USER --> IMAGE["GHCR linux/amd64 image"]
+```
+
+Multi-stage build giữ <code>uv</code> và build tools ở builder. Runtime chạy user không phải root, nhận secret bằng
+environment lúc chạy, có liveness healthcheck và không chứa <code>.env</code>, model weights hoặc CUDA. Việc copy
+lockfile trước source giúp thay code ứng dụng không bắt buộc cài lại toàn bộ dependency.
+
+#### Compose runtime
+
+```mermaid
+flowchart LR
+    PG["postgres + pgvector volume"] -->|healthy| MIG["migrate one-shot"]
+    MIG -->|completed successfully| API["api :8000"]
+    MIG -->|completed successfully| WORKER["worker"]
+    API --> MODEL["host.docker.internal:8100"]
+    WORKER --> MODEL
+    API --> PG
+    WORKER --> PG
+```
+
+- PostgreSQL bind vào loopback host; API cũng bind loopback mặc định.
+- Named volume giữ dữ liệu khi recreate container. <code>down -v</code> sẽ xóa volume.
+- Migration là job một lần; API/worker chỉ bắt đầu khi migration thành công.
+- Log driver có rotation; <code>init: true</code> xử lý signal/zombie; grace period cho shutdown.
+- Worker healthcheck đọc heartbeat mới của đúng hostname container.
+
+### 10. CI/CD và cách một thay đổi đi tới bản phát hành
+
+```mermaid
+flowchart LR
+    DEV["Branch + commit"] --> PR["Pull request"]
+    PR --> PY["Python 3.12: lock, Ruff, compile, 490 tests + pgvector"]
+    PR --> JS["Node 24: npm ci, 3 tests, build bundle"]
+    PY --> CT["Compose config + build runtime image"]
+    JS --> CT
+    CT --> SMOKE["Standalone + full-stack smoke"]
+    SMOKE --> REVIEW["Review và merge main"]
+    REVIEW --> TAG["Tag vX.Y.Z hoặc manual publish"]
+    TAG --> GHCR["Build linux/amd64 + semver/SHA tags"]
+    GHCR --> ATT["GitHub provenance attestation"]
+    ATT -. thao tác deploy riêng .-> DEPLOY["Compose pull + migrate + up --wait"]
+```
+
+CI chạy khi push <code>main</code>, pull request hoặc manual. CD chỉ chạy với tag semver hoặc manual để tránh mỗi
+commit tự phát hành production. Workflow dùng quyền tối thiểu: CI chỉ đọc source; publish được
+<code>packages: write</code>, <code>attestations: write</code> và OIDC. GHCR dùng <code>GITHUB_TOKEN</code>, không
+cần lưu registry password riêng. Workflow hiện dừng ở bước publish image; lệnh deploy Compose là thao tác riêng,
+chưa có workflow tự SSH hoặc tự thay production.
+
+Quy trình rollback:
+
+1. Không deploy chỉ bằng tag thay đổi liên tục nếu cần rollback chắc chắn; ghi lại tag SHA hoặc digest.
+2. Đặt <code>FANPAGE_CHATBOT_IMAGE</code> về tag/digest cũ rồi chạy <code>docker compose pull</code> và
+   <code>up -d --no-build --wait</code>.
+3. Migration phải backward compatible trong giai đoạn rolling; thay đổi phá vỡ schema cần kế hoạch expand/migrate/
+   contract và backup đã kiểm thử restore.
+
+### 11. Reliability, security và observability
+
+| Rủi ro | Phòng vệ hiện tại | Còn cần làm khi lên production lớn |
+|---|---|---|
+| Webhook giả | HMAC app secret, verify token | WAF/rate limit dùng shared store |
+| Event trùng | unique <code>mid</code> | theo dõi duplicate rate |
+| Worker chết | lease hết hạn, resume turn/checkpoint | autoscaling và alert stale heartbeat |
+| Gửi không rõ kết quả | <code>uncertain</code>, dừng chunk sau, echo reconcile | dashboard và thao tác reconcile thủ công |
+| Prompt injection từ nguồn | nguồn được coi là untrusted, guardrail/link allowlist | eval adversarial định kỳ |
+| Rò PII/secret | pseudonym HMAC, redaction, SecretStr, content capture tắt được | retention policy, KMS/secret manager |
+| Model bịa | RAG, strict mode, deterministic math, citation check | human review cho miền rủi ro cao |
+| DB mất dữ liệu | volume + lệnh dump/restore | backup tự động, PITR, restore drill |
+| Supply chain | lockfile, pinned action commit cho uv, provenance | image scanning, SBOM/signing policy |
+
+Các tín hiệu nên theo dõi: queue wait p50/p95/p99, model latency, total turn latency, token, retry, fallback rate,
+uncertain delivery, handoff rate, RAG hit/citation rate, guardrail flags, error theo provider, worker heartbeat và
+DB pool saturation. Repo có trường/log/tracing cho nhiều tín hiệu này; dashboard/SLO production hoàn chỉnh hiện
+<strong>chưa được đo và công bố</strong>.
+
+### 12. Tối ưu hiệu năng và khả năng mở rộng
+
+#### Đã có trong code
+
+- Async FastAPI, async SQLAlchemy/psycopg và HTTP client để không chặn event loop khi chờ I/O.
+- API ACK webhook sớm; suy luận tách sang worker để latency model không giữ request Meta.
+- Debounce giảm nhiều lượt model khi người dùng gửi tin thành từng dòng.
+- <code>SKIP LOCKED</code> cho nhiều worker; lease bảo vệ thứ tự theo conversation.
+- History budget + summary tránh prompt tăng vô hạn.
+- HNSW vector index, full-text index và top-k/ngưỡng similarity giảm context.
+- Model server tách riêng để nâng cấp web và AI độc lập.
+- Docker layer cache và GitHub Actions cache giảm thời gian build.
+
+#### Lộ trình tối ưu có thứ tự
+
+1. Đo trước: thêm dashboard p95/p99, queue depth, GPU utilization và quality eval theo phiên bản.
+2. Scale worker ngang đến khi model/GPU hoặc DB trở thành nút thắt; giữ concurrency GPU có giới hạn.
+3. Batch embedding lúc ingest; cache embedding query theo normalized text có TTL.
+4. Dùng SSE thay polling nếu số request rỗng từ widget chiếm đáng kể.
+5. Thêm PgBouncer khi connection churn/pool saturation đã được đo.
+6. Tách read replica cho admin/analytics; không dùng replica trễ cho send gate hoặc queue claim.
+7. Nếu queue PostgreSQL thật sự chạm giới hạn, đánh giá Redis Streams/Kafka cùng transactional outbox; chỉ chuyển
+   sau benchmark vì kiến trúc mới tăng độ phức tạp và failure mode.
+8. Với model: continuous batching/vLLM, quantization đã eval chất lượng, prompt prefix caching và route câu đơn giản
+   sang template/code trước LLM.
+
+Không nêu con số RPS hay p95 production khi chưa có load test. Câu trả lời tốt trong phỏng vấn là mô tả metric,
+bottleneck dự kiến, thí nghiệm và tiêu chí quyết định.
+
+### 13. Thuật ngữ phải định nghĩa được
+
+| Thuật ngữ | Định nghĩa ngắn gọn trong dự án |
+|---|---|
+| REST/HTTP API | API dùng HTTP/JSON; có route theo resource và route action/RPC; chat async trả 202 rồi client đọc kết quả |
+| Idempotency | gọi lại cùng logical operation không tạo thêm hiệu ứng; key outbound là turn/chunk |
+| At-least-once | việc có thể chạy lại sau lỗi; handler phải chịu được duplicate |
+| Exactly-once | cam kết rất khó qua ranh giới API ngoài; dự án không tuyên bố tuyệt đối |
+| Transaction | nhóm thao tác DB cùng commit hoặc rollback |
+| Lease | quyền xử lý có thời hạn, phải renew; tránh worker chết giữ lock vô hạn |
+| Outbox | bản ghi outbound nằm trong DB trước khi gọi API ngoài |
+| Optimistic/pessimistic locking | dự án dùng row lock khi claim; unique/index xử lý cạnh tranh insert |
+| HNSW | graph index tìm approximate nearest neighbors nhanh cho vector |
+| Cosine similarity | đo hướng giữa embedding; gần nghĩa thường có cosine cao hơn |
+| BM25 | xếp hạng từ khóa dựa trên tần suất và độ hiếm, có chuẩn hóa độ dài |
+| RRF | gộp thứ hạng từ nhiều retriever bằng vị trí thay vì ép điểm cùng thang |
+| RAG | truy xuất dữ liệu lúc hỏi rồi đưa vào context của model |
+| SFT | supervised fine-tuning trên cặp prompt/answer đã chuẩn bị |
+| LoRA/VeRA | PEFT: chỉ học phần tham số nhỏ thay vì cập nhật toàn bộ model |
+| Grounding | ràng buộc câu trả lời vào context/nguồn có thể kiểm tra |
+| Checkpoint | snapshot state của graph để resume sau lỗi |
+| Liveness/readiness | process còn sống / đủ dependency để nhận việc; không tự chứng minh inference đúng |
+| Migration | thay đổi schema có version, chạy theo thứ tự bằng Alembic |
+| Provenance | bằng chứng image được build từ workflow/source nào |
+| CORS | chính sách browser cho request khác origin; không thay authentication |
+
+### 14. Bộ câu hỏi phỏng vấn và câu trả lời mẫu
+
+<details>
+<summary><strong>A. System design và backend</strong></summary>
+
+**1. Vì sao không gọi model ngay trong webhook?**
+
+Webhook cần ACK nhanh và model có latency/timeout lớn. Ghi queue bền vững rồi xử lý ở worker giúp chống mất tin,
+retry có kiểm soát và tách scale API khỏi GPU.
+
+**2. Vì sao dùng PostgreSQL làm queue?**
+
+Tin nhắn, trạng thái conversation và lịch chạy cần commit nguyên tử. PostgreSQL đã có row lock, partial index,
+<code>SKIP LOCKED</code>, JSONB và pgvector, phù hợp quy mô hiện tại. Nếu benchmark cho thấy queue là nút thắt mới
+thêm broker chuyên dụng.
+
+**3. Hai worker có trả lời cùng một người không?**
+
+Claim đặt lease trên conversation trong một câu update có row lock. Chỉ một worker sở hữu conversation; worker
+khác bỏ qua row bị khóa. Unique turn/outbox và lease check trước gửi là lớp bảo vệ tiếp theo.
+
+**4. Worker chết sau khi gọi Meta nhưng trước khi lưu sent thì sao?**
+
+Message đã ở trạng thái <code>sending</code>. Worker sau chuyển thành <code>uncertain</code> và không retry mù vì
+có thể gửi trùng. Echo kèm metadata idempotency có thể xác nhận Meta đã nhận.
+
+**5. Vì sao cần LangGraph khi có thể viết một hàm lớn?**
+
+Graph làm rõ node, nhánh, state serializable và điểm checkpoint/resume. Provider/tool logic vẫn là code thường;
+không nên biến mọi hàm thành agent.
+
+**6. Khi nào hệ thống không gọi LLM?**
+
+Welcome/handoff/template, phép tính/ngày, bài Toán thuộc miền solver, dữ liệu ảnh không đủ, strict grounding thiếu
+nguồn, sticker không cần trả lời hoặc tin đã quá cũ.
+
+**7. API trả 202 có ý nghĩa gì?**
+
+Server đã chấp nhận và persist công việc nhưng kết quả chưa sẵn sàng. Client dùng session/cursor để lấy kết quả.
+
+**8. Làm sao bảo toàn thứ tự tin nhắn?**
+
+Serialize theo conversation lease, message ID tăng dần, gom pending vào một turn và chunk outbound theo index.
+Giữa các conversation không cần thứ tự toàn cục.
+
+</details>
+
+<details>
+<summary><strong>B. Database và dữ liệu</strong></summary>
+
+**9. Vì sao vừa SQLAlchemy model vừa Alembic migration?**
+
+Model mô tả schema ứng dụng mong đợi; migration là lịch sử thao tác nâng schema đang tồn tại. Production không nên
+dùng <code>create_all</code> thay migration vì không quản lý được thay đổi/rollback.
+
+**10. JSONB dùng ở đâu và có lạm dụng không?**
+
+Payload event, flags, sample và metadata có cấu trúc linh hoạt dùng JSONB. Khóa dùng để join/filter thường xuyên
+vẫn là column có kiểu và index.
+
+**11. Vì sao embedding nằm trong PostgreSQL?**
+
+Có thể filter visibility/document trong cùng query và backup cùng metadata. Tách vector DB chỉ hợp lý khi quy mô,
+latency hoặc feature đã đo vượt khả năng pgvector.
+
+**12. HNSW đánh đổi gì?**
+
+Query gần đúng nhanh và recall tốt nhưng index tốn RAM/disk, build/update đắt hơn exact scan. Cần benchmark recall,
+latency và tham số theo kích thước thật.
+
+**13. Xóa conversation cần xóa gì?**
+
+Messages/turns/feedback liên quan, summary, training linkage phù hợp chính sách, LangGraph checkpoint và trace.
+Foreign key cascade hỗ trợ DB; external observability cần xóa riêng và ghi audit.
+
+**14. Backup volume có đủ không?**
+
+Không. Cần logical dump/PITR, secret và artifact riêng, retention, mã hóa, và kiểm thử restore định kỳ. Một backup
+chưa restore thử chưa phải kế hoạch phục hồi đã chứng minh.
+
+</details>
+
+<details>
+<summary><strong>C. Frontend và API</strong></summary>
+
+**15. Vì sao widget dùng Shadow DOM?**
+
+Style và DOM được cô lập khỏi website nhúng, giảm xung đột CSS. Đổi lại cần chú ý accessibility, theming và test
+trên nhiều trình duyệt.
+
+**16. Polling, SSE hay WebSocket?**
+
+Polling hiện đơn giản và chịu reconnect tốt. SSE phù hợp nếu server chủ yếu đẩy kết quả một chiều. WebSocket phù
+hợp cho hai chiều realtime nhưng cần connection lifecycle, load balancer và backpressure phức tạp hơn.
+
+**17. localStorage có an toàn cho session không?**
+
+Token chỉ ký session web giới hạn, không phải admin credential, nhưng JavaScript cùng origin vẫn đọc được nếu có
+XSS. Vì vậy cần CSP/XSS hygiene, TTL/rotation và không lưu secret đặc quyền ở localStorage.
+
+**18. Làm sao tránh XSS trong câu trả lời model?**
+
+Widget dựng node và đặt <code>textContent</code>; link được parse/allow và gắn <code>noopener noreferrer
+nofollow</code>. Không render raw model HTML.
+
+**19. CORS có bảo vệ API không?**
+
+Không. CORS là chính sách browser. API vẫn cần signed session/admin key, rate limit, validation và authorization
+ở server.
+
+</details>
+
+<details>
+<summary><strong>D. AI, RAG và chất lượng</strong></summary>
+
+**20. RAG khác fine-tuning thế nào?**
+
+RAG đưa kiến thức có nguồn vào request và cập nhật không cần train. Fine-tuning thay hành vi/trình bày của model.
+Dữ kiện thay đổi dùng RAG; format/phong cách ổn định mới cân nhắc SFT.
+
+**21. Vì sao hybrid retrieval?**
+
+Embedding bắt paraphrase; keyword/BM25 mạnh với mã, tên và cụm chính xác. Hiện code lấy ứng viên vector rồi cộng
+keyword rank cho phần giao bằng RRF; bước nâng cấp hợp lý là thử hợp hai tập và đo Recall@k trước khi đổi.
+
+**22. Làm sao đánh giá RAG?**
+
+Tách retrieval và generation: Recall@k/MRR/NDCG trên query có gold chunks; citation precision/recall, groundedness
+và answer correctness trên tập holdout. Sau đó theo dõi feedback/A-B test với guardrail.
+
+**23. Loss train thấp có chứng minh model tốt không?**
+
+Không. Có thể overfit hoặc validation gần train. Cần holdout độc lập, baseline base model, rubric theo lỗi, reload
+artifact và test end-to-end.
+
+**24. Tại sao Toán không giao hết cho LLM?**
+
+Miền solver hỗ trợ có thể parse, tính chính xác và thế ngược. LLM giúp diễn đạt/route nhưng không được thay bằng
+một đáp án nghe hợp lý khi verification thất bại.
+
+**25. Fallback model chạy lúc nào?**
+
+Chỉ khi primary timeout/unavailable. Auth, rate limit hoặc bad response không tự fallback để tránh che lỗi cấu hình
+và tạo hành vi khó đoán.
+
+**26. Prompt injection từ PDF/web xử lý thế nào?**
+
+Nguồn là dữ liệu không tin cậy, được đặt trong context với instruction hierarchy; output/link/citation được kiểm
+tra. Vẫn cần adversarial eval vì prompt guard không tạo bảo đảm tuyệt đối.
+
+</details>
+
+<details>
+<summary><strong>E. Docker, DevOps và vận hành</strong></summary>
+
+**27. Vì sao Dockerfile nhiều stage?**
+
+Builder cần uv/build tools; test cần dev dependency; runtime chỉ cần venv/source. Điều này giảm image và bề mặt
+tấn công, đồng thời dùng chung build graph.
+
+**28. Vì sao model không nằm trong image?**
+
+Weights/CUDA rất lớn, thay đổi khác nhịp với API, có yêu cầu GPU khác và có thể có giấy phép riêng. Endpoint riêng
+cho phép scale/rollback web và model độc lập.
+
+**29. Healthcheck xanh đã đủ chưa?**
+
+Không. Liveness chỉ chứng minh process; readiness kiểm DB/config; smoke chat thật mới chứng minh queue, worker,
+model và output. CI container hiện smoke luồng deterministic; model GPU cần gate/eval riêng ở môi trường có artifact.
+
+**30. Secret đi vào container bằng cách nào?**
+
+Runtime environment/env file ở máy deploy; không COPY vào image và không commit Git. Production nên dùng secret
+manager và rotation thay file dài hạn.
+
+**31. CI khác CD thế nào?**
+
+CI xác minh source mỗi PR/push: lint, test, build, smoke. CD đóng gói/phát hành artifact đã kiểm soát, gắn tag,
+digest và provenance. Workflow hiện publish image; môi trường deploy pull đúng artifact bằng bước riêng.
+
+**32. Làm sao deploy không downtime?**
+
+Hiện Compose một host phù hợp pilot. Quy mô lớn dùng ít nhất hai replica API sau load balancer, worker drain theo
+lease, migration backward compatible, readiness gate và rolling update. Model cần warmup trước nhận traffic.
+
+**33. Bạn tối ưu gì đầu tiên?**
+
+Đặt SLO và đo queue wait/model/total latency. Tối ưu nút thắt có dữ liệu: batching/caching/model serving nếu GPU
+cao; worker ngang nếu queue chờ; pool/index nếu DB bão hòa; SSE nếu polling traffic đáng kể.
+
+</details>
+
+### 15. Cách trình bày dự án trong buổi phỏng vấn
+
+1. Mở bằng bài toán và ràng buộc, không liệt kê framework.
+2. Vẽ ranh giới client → API → durable queue/DB → worker/graph → model → outbox.
+3. Đi sâu một failure case: duplicate webhook hoặc worker chết giữa lúc gửi.
+4. Giải thích một trade-off: PostgreSQL queue trước broker, polling trước SSE, model server tách image.
+5. Nêu bằng chứng: test DB/flow, smoke Compose, CI/CD, provenance, model eval có phạm vi.
+6. Nêu giới hạn trung thực: image public không có private weights; health không chứng minh chất lượng; p95/RPS
+   production chưa đo.
+7. Kết thúc bằng lộ trình đo lường và scale, gắn mỗi thay đổi với metric quyết định.
+
+Đường đọc code đề xuất trước phỏng vấn:
+
+1. <code>app/main.py</code> và <code>app/api/{webhook,web,math_tutor}.py</code>.
+2. <code>app/storage/{models,repository}.py</code>.
+3. <code>app/workers/{main,processor,sender}.py</code>.
+4. <code>app/conversation/{graph,state,output_check}.py</code>.
+5. <code>app/rag/</code>, <code>app/vision/</code> và <code>app/math_tutor/</code>.
+6. <code>Dockerfile</code>, <code>compose.yaml</code>, <code>.github/workflows/</code>.
