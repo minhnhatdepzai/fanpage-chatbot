@@ -656,11 +656,11 @@ Kiểm tra image độc lập bằng health endpoint, trang StudyScope và một
 make container-smoke
 ```
 
-Workflow `Publish container` phát hành image Linux/amd64 lên GHCR khi đẩy tag dạng `v1.2.3` hoặc chạy thủ công.
-Sau khi package đã được đặt quyền truy cập phù hợp, có thể dùng image phát hành mà không build lại:
+Workflow `Publish container` phát hành image Linux/amd64 lên GHCR. Chạy thủ công tạo tag `main` và `sha-*`;
+đẩy Git tag dạng `v1.2.3` tạo thêm tag semver và `latest`. Có thể dùng image public mà không build lại:
 
 ```bash
-export FANPAGE_CHATBOT_IMAGE=ghcr.io/minhnhatdepzai/fanpage-chatbot:latest
+export FANPAGE_CHATBOT_IMAGE=ghcr.io/minhnhatdepzai/fanpage-chatbot:main
 docker compose --profile app pull
 docker compose --profile app up -d --no-build --wait
 ```
@@ -723,7 +723,8 @@ npm --prefix web/widget test
 npm --prefix web/widget run build
 ```
 
-Kết quả kiểm tra ngày 24/09/2026: **246 test Python passed**, lint sạch, **3 test widget passed**, typecheck/build thành công.
+Kết quả kiểm tra ngày 22/10/2026: **490 test Python passed** với PostgreSQL/pgvector, lint sạch,
+**3 test widget passed**, typecheck/build và full Compose smoke test thành công.
 Test DB dùng `chatbot_test` riêng và làm sạch dữ liệu trong DB đó; không trỏ `TEST_DATABASE_URL` tới DB thật.
 Nếu PostgreSQL không truy cập được, test DB có thể skip; số test passed khi đó không chứng minh luồng DB đã chạy.
 Các HTTP request bên ngoài trong test được mock; kết quả này không thay thế test Messenger với tài khoản thật.
